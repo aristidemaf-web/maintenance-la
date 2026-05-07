@@ -81,7 +81,7 @@
         .page { display: none; animation: fadeIn 0.5s ease; }
         .page.active { display: block; }
 
-        /* HERO AVEC hero.jpg */
+        /* HERO */
         .hero-sima {
             height: 250px; border-radius: 20px;
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.5)), 
@@ -117,7 +117,21 @@
             border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s;
             display: inline-flex; align-items: center; gap: 10px; width: 100%; justify-content: center;
         }
-        .btn-pdf { background: #dc2626; } 
+        .btn-pdf-download { background: #dc2626; } 
+
+        .pdf-link {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+        }
+        .pdf-link:hover { background: #f8fafc; border-color: var(--secondary-blue); }
 
         @media (max-width: 768px) {
             .sidebar { width: 70px; padding: 15px 10px; }
@@ -163,6 +177,7 @@
                     <li class="active" id="menu-accueil"><a href="#" onclick="showPage('accueil')"><i class="fas fa-tachometer-alt"></i> <span>Accueil</span></a></li>
                     <li id="menu-bt"><a href="#" onclick="showPage('bt')"><i class="fas fa-file-invoice"></i> <span>Bons</span></a></li>
                     <li id="menu-plan"><a href="#" onclick="showPage('plan')"><i class="fas fa-calendar-check"></i> <span>Planning</span></a></li>
+                    <li id="menu-support"><a href="#" onclick="showPage('support')"><i class="fas fa-headset"></i> <span>Support</span></a></li>
                     <li><a href="#" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> <span>Quitter</span></a></li>
                 </ul>
             </nav>
@@ -195,10 +210,9 @@
                             <textarea rows="3" placeholder="Détails de l'intervention..."></textarea>
                         </div>
                     </form>
-                    
                     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;" class="no-pdf">
                         <button class="btn-save" onclick="alert('BT Enregistré !')">Enregistrer</button>
-                        <button class="btn-save btn-pdf" onclick="genererPDF()">
+                        <button class="btn-save btn-pdf-download" onclick="genererPDF()">
                             <i class="fas fa-file-pdf"></i> Télécharger PDF
                         </button>
                     </div>
@@ -210,36 +224,49 @@
                     <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')">Calendrier</button>
                     <button id="btn-sub-equipements" onclick="showSubPage('equipements')">Équipements</button>
                 </div>
-
                 <div id="sub-calendrier" class="sub-content active">
                     <div class="card">
                         <h2>Planning Préventif</h2>
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr><th>Date</th><th>Machine</th><th>Action</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td></tr>
-                                </tbody>
+                                <thead><tr><th>Date</th><th>Machine</th><th>Action</th></tr></thead>
+                                <tbody><tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td></tr></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
                 <div id="sub-equipements" class="sub-content">
                     <div class="card">
                         <h2>Inventaire</h2>
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr><th>Code</th><th>Nom</th><th>Zone</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>SIMA-01</td><td>Sertisseuse</td><td>Ligne A</td></tr>
-                                </tbody>
+                                <thead><tr><th>Code</th><th>Nom</th><th>Zone</th></tr></thead>
+                                <tbody><tr><td>SIMA-01</td><td>Sertisseuse</td><td>Ligne A</td></tr></tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="support" class="page">
+                <div class="card">
+                    <h2>Centre de Ressources</h2>
+                    <p style="margin-bottom: 20px; color: var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
+                    
+                    <h3><i class="fas fa-file-pdf"></i> Documents PDF</h3>
+                    <div style="margin-top: 15px;">
+                        <a href="manuel_sima.pdf" target="_blank" class="pdf-link">
+                            <i class="fas fa-file-pdf" style="color:red"></i> Manuel Technique SIMA
+                        </a>
+                        <a href="schema_electrique.pdf" target="_blank" class="pdf-link">
+                            <i class="fas fa-file-pdf" style="color:red"></i> Schémas Électriques Ligne C
+                        </a>
+                    </div>
+
+                    <h3 style="margin-top: 25px;"><i class="fas fa-phone-alt"></i> Contact Maintenance</h3>
+                    <div style="background: var(--light-bg); padding: 15px; border-radius: 10px; margin-top: 10px;">
+                        <p><strong>Poste interne :</strong> 405</p>
+                        <p><strong>Responsable :</strong> M. Ahmed</p>
                     </div>
                 </div>
             </section>
@@ -287,7 +314,7 @@
                 pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
                 pdf.save("BT_AICHA_MAINTENANCE.pdf");
             } catch (err) {
-                alert("Erreur PDF.");
+                alert("Erreur lors de la génération du PDF.");
             } finally {
                 actionButtons.style.display = "flex";
             }
