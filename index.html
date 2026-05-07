@@ -107,8 +107,9 @@
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.5); z-index: 149;
             opacity: 0; transition: opacity 0.3s;
+            pointer-events: none;
         }
-        #sidebar-overlay.visible { opacity: 1; }
+        #sidebar-overlay.visible { opacity: 1; pointer-events: all; }
 
         /* --- Sidebar --- */
         .sidebar {
@@ -306,31 +307,57 @@
            RESPONSIVE MOBILE
         ===================== */
         @media (max-width: 768px) {
-            /* Cacher la sidebar par défaut, la faire glisser depuis la gauche */
+            /* Sidebar cachée par défaut, glisse depuis la gauche */
             .sidebar {
                 transform: translateX(-100%);
                 width: var(--sidebar-width);
                 padding: 20px;
                 box-shadow: 4px 0 20px rgba(0,0,0,0.25);
             }
-            /* Sidebar ouverte */
             .sidebar.open { transform: translateX(0); }
 
-            /* Afficher le bouton X dans la sidebar sur mobile */
+            /* Bouton X visible dans la sidebar */
             .sidebar-close { display: flex; }
 
-            /* Afficher overlay et hamburger */
-            #sidebar-overlay { display: block; }
+            /* Overlay et hamburger visibles */
             #hamburger { display: flex; }
 
-            /* Le contenu prend toute la largeur */
-            .main-content { margin-left: 0; padding: 15px; padding-top: 68px; }
+            /* Contenu pleine largeur, petit padding-top pour le hamburger */
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+                padding-top: 65px;
+            }
 
-            .hero-sima { height: 160px; padding: 15px; }
-            .hero-sima h2 { font-size: 1.2rem; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
+            /* Sub-nav scrollable horizontalement, pas cachée sous le hamburger */
+            .sub-nav {
+                margin-top: 0;
+                padding-bottom: 10px;
+            }
+
+            /* Formulaires et boutons */
             .btn-row { flex-direction: column; }
-            .btn-row .btn-save { flex: unset; width: 100%; }
+            .btn-row .btn-save { flex: unset; width: 100%; margin-top: 0; }
+            .btn-save { width: 100%; justify-content: center; }
+
+            /* Hero */
+            .hero-sima { height: 150px; padding: 15px; padding-top: 30px; }
+            .hero-sima h2 { font-size: 1.15rem; }
+
+            /* Stats */
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+
+            /* Inputs et selects plus grands pour le touch */
+            input[type="text"], input[type="password"], input[type="date"],
+            select, textarea {
+                font-size: 16px; /* empêche le zoom auto sur iOS */
+                min-height: 46px;
+            }
+            textarea { min-height: 100px; }
+
+            /* Boutons plus grands pour le touch */
+            .sub-nav button { padding: 10px 14px; font-size: 0.85rem; }
+            .btn-danger-sm { padding: 8px 12px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -790,13 +817,17 @@ function chargerDonnees() {
 // SIDEBAR RÉTRACTABLE (mobile)
 // =====================================================================
 function toggleSidebar() {
-    const sidebar  = document.getElementById('sidebar');
-    const overlay  = document.getElementById('sidebar-overlay');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('sidebar-overlay');
     const hamburger = document.getElementById('hamburger');
-    const isOpen   = sidebar.classList.contains('open');
-    if (isOpen) { closeSidebar(); }
-    else {
+    const isOpen    = sidebar.classList.contains('open');
+    if (isOpen) {
+        closeSidebar();
+    } else {
         sidebar.classList.add('open');
+        overlay.style.display = 'block';
+        // forcer le reflow pour que la transition opacity fonctionne
+        overlay.offsetHeight;
         overlay.classList.add('visible');
         hamburger.setAttribute('aria-expanded', 'true');
         hamburger.querySelector('i').className = 'fas fa-times';
@@ -804,13 +835,19 @@ function toggleSidebar() {
 }
 
 function closeSidebar() {
-    const sidebar  = document.getElementById('sidebar');
-    const overlay  = document.getElementById('sidebar-overlay');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('sidebar-overlay');
     const hamburger = document.getElementById('hamburger');
     sidebar.classList.remove('open');
     overlay.classList.remove('visible');
     hamburger.setAttribute('aria-expanded', 'false');
     hamburger.querySelector('i').className = 'fas fa-bars';
+    // Masquer complètement l'overlay après la transition pour libérer les clics
+    setTimeout(() => {
+        if (!overlay.classList.contains('visible')) {
+            overlay.style.display = 'none';
+        }
+    }, 320);
 }
 
 // =====================================================================
@@ -1136,3 +1173,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+
