@@ -3,385 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aïcha Maintenance - Système Intégré</title>
+    <title>Aïcha Maintenance</title>
     
-    <!-- Bibliothèques Externes -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#1e3a8a">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        :root {
-            --primary-blue: #1e3a8a;
-            --secondary-blue: #3b82f6;
-            --white: #ffffff;
-            --light-bg: #f1f5f9;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --sidebar-width: 260px;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
-
+        :root { --primary-blue: #1e3a8a; --secondary-blue: #3b82f6; --white: #ffffff; --light-bg: #f1f5f9; --sidebar-width: 260px; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--light-bg); height: 100vh; overflow: hidden; }
 
-        body { background-color: var(--light-bg); min-height: 100vh; overflow: hidden; }
+        /* CONNEXION */
+        #login-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); display: flex; align-items: center; justify-content: center; z-index: 1000; transition: 0.6s; }
+        .login-container { background: var(--white); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
 
-        /* --- ÉCRAN DE CONNEXION --- */
-        #login-page {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 1000; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .login-container {
-            background: var(--white); padding: 40px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 100%; max-width: 400px; text-align: center;
-        }
-
-        .logo-aicha { max-width: 180px; margin-bottom: 10px; }
-
-        .input-group { margin-bottom: 20px; position: relative; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem; }
-        .input-group i { position: absolute; left: 15px; top: 38px; color: #94a3b8; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none; 
-        }
-        input { padding-left: 45px; }
-
-        .btn-login {
-            width: 100%; padding: 14px; background-color: var(--primary-blue); color: white;
-            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-
-        /* --- INTERFACE PRINCIPALE --- */
-        #main-dashboard { display: none; flex-direction: row; height: 100vh; }
-
+        /* DASHBOARD */
+        #main-dashboard { display: none; height: 100vh; }
         .sidebar { width: var(--sidebar-width); background: var(--primary-blue); color: white; height: 100vh; position: fixed; padding: 20px; }
-        .sidebar-logo { background: white; padding: 10px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
-        .sidebar-logo img { max-width: 120px; }
-        .sidebar ul { list-style: none; }
-        .sidebar ul li a {
-            color: white; text-decoration: none; display: flex; align-items: center;
-            padding: 12px; border-radius: 8px; transition: 0.3s; margin-bottom: 5px;
-        }
-        .sidebar ul li a:hover, .sidebar ul li.active a { background: var(--secondary-blue); }
-        .sidebar i { margin-right: 15px; width: 20px; }
+        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 20px; height: 100vh; overflow-y: auto; }
 
-        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 30px; height: 100vh; overflow-y: auto; }
-
-        /* GESTION DES PAGES */
-        .page { display: none; animation: fadeIn 0.5s ease; }
-        .page.active { display: block; }
-
-        /* ACCUEIL / HERO AVEC IMAGE MEULEUSE */
+        /* HERO IMAGE LOCALE */
         .hero-sima {
-           /* ... tes autres styles ... */
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(30, 58, 138, 0.5)), 
-                url('hero.jpg'); /* Utilise ici le nom de ton fichier image */
-    background-size: cover;
-    background-position: center;
+            height: 300px; border-radius: 20px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(30,58,138,0.5)), url('hero.jpg');
+            background-size: cover; background-position: center;
+            display: flex; align-items: flex-end; padding: 30px; color: white; margin-bottom: 20px;
         }
-        .hero-sima h2 { font-size: 2.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
 
-        /* --- STYLE POUR LES SOUS-PAGES / ONGLETS --- */
-        .sub-nav {
-            display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;
-        }
-        .sub-nav button {
-            background: none; border: none; padding: 10px 20px; cursor: pointer;
-            font-weight: 600; color: var(--text-muted); border-radius: 8px; transition: 0.3s;
-        }
-        .sub-nav button.active {
-            background: var(--primary-blue); color: white;
-        }
-        .sub-content { display: none; animation: fadeIn 0.4s ease; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        /* NAVIGATION SOUS-PAGES */
+        .sub-nav { display: flex; gap: 10px; margin-bottom: 20px; }
+        .sub-nav button { padding: 10px; cursor: pointer; border: none; border-radius: 5px; }
+        .sub-nav button.active { background: var(--primary-blue); color: white; }
+        .sub-content { display: none; }
         .sub-content.active { display: block; }
 
-        /* CARTES ET FORMULAIRES */
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .card h2 { margin-bottom: 20px; color: var(--primary-blue); border-bottom: 2px solid var(--light-bg); padding-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-        
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
-        
-        /* TABLEAUX */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        th { background: #f8fafc; color: var(--primary-blue); font-weight: 600; }
-        
-        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
-        .badge-success { background: #dcfce7; color: var(--success); }
-        .badge-warning { background: #fef9c3; color: var(--warning); }
-        .badge-danger { background: #fee2e2; color: var(--danger); }
-
-        .btn-save { 
-            background: var(--primary-blue); color: white; padding: 15px 30px; border: none; 
-            border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 10px;
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; padding: 10px; }
+            .sidebar span { display: none; }
+            .main-content { margin-left: 70px; }
         }
-        .btn-save:hover { background: var(--secondary-blue); }
-        .btn-pdf { background: #dc2626; } 
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <!-- PAGE DE CONNEXION -->
     <div id="login-page">
         <div class="login-container">
-            <img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo-aicha.png" alt="Logo Aïcha" class="logo-aicha">
-            <h1>MAINTENANCE</h1>
-            <form id="login-form">
-                <div class="input-group">
-                    <label>Identifiant</label>
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Ex: AIC-2026" required>
-                </div>
-                <div class="input-group">
-                    <label>Code d'accès</label>
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-login">Accéder à la plateforme</button>
-            </form>
+            <img src="logo.png" alt="Logo" style="max-width:120px; margin-bottom:20px;">
+            <input type="password" id="pass" placeholder="Code d'accès" style="width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ddd;">
+            <button onclick="login()" style="width:100%; padding:12px; background:var(--primary-blue); color:white; border:none; border-radius:8px; font-weight:bold;">Entrer</button>
         </div>
     </div>
 
-    <!-- DASHBOARD -->
     <div id="main-dashboard">
         <aside class="sidebar">
-            <div class="sidebar-logo"><img src="logo.png" alt="Logo Aïcha"></div>
+            <div style="background:white; padding:5px; border-radius:8px; margin-bottom:20px;"><img src="logo.png" style="width:100%;"></div>
             <nav>
-                <ul>
-                    <li class="active" id="menu-accueil"><a href="#" onclick="showPage('accueil')"><i class="fas fa-tachometer-alt"></i> Accueil</a></li>
-                    <li id="menu-bt"><a href="#" onclick="showPage('bt')"><i class="fas fa-file-invoice"></i> Bon de Travaux</a></li>
-                    <li id="menu-plan"><a href="#" onclick="showPage('plan')"><i class="fas fa-calendar-check"></i> Plan de Maintenance</a></li>
-                    <li><a href="#" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                </ul>
+                <div onclick="showPage('accueil')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-home"></i> <span>Accueil</span></div>
+                <div onclick="showPage('bt')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-file-alt"></i> <span>Bon de Travaux</span></div>
+                <div onclick="showPage('plan')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-calendar"></i> <span>Plan de Maintenance</span></div>
             </nav>
         </aside>
 
         <main class="main-content">
-            <!-- PAGE ACCUEIL -->
             <section id="accueil" class="page active">
-                <div class="hero-sima">
-                    <h2>Expertise Maintenance Aïcha</h2>
-                </div>
-                <div class="card">
-                    <h3>État actuel </h3>
-                    <p style="color: var(--success); font-weight: bold; margin-top: 10px;"><i class="fas fa-check-circle"></i> Système Opérationnel</p>
-                </div>
+                <div class="hero-sima"><h2>Maintenance Aïcha</h2></div>
+                <div class="card"><h3>Système Prêt</h3></div>
             </section>
 
-            <!-- PAGE BON DE TRAVAUX (BT) -->
             <section id="bt" class="page">
                 <div class="card" id="pdf-content">
-                    <h2>
-                        <span><i class="fas fa-tools"></i> Bon de Travaux (BT)</span>
-                        <img src="logo.png" alt="Logo Aïcha" style="height: 40px;">
-                    </h2>
-                    <form class="form-grid">
-                        <div class="form-group">
-                            <label>Équipement</label>
-                            <input type="text" value="Sertisseuse SIMA #01">
-                        </div>
-                        <div class="form-group">
-                            <label>Type d'intervention</label>
-                            <select>
-                                <option>Corrective (Panne)</option>
-                                <option>Préventive</option>
-                                <option>Améliorative</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="grid-column: span 2;">
-                            <label>Description du problème</label>
-                            <textarea rows="3" placeholder="Décrivez l'anomalie..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Intervenant</label>
-                            <input type="text" placeholder="Nom du technicien">
-                        </div>
-                        <div class="form-group">
-                            <label>Urgence</label>
-                            <select>
-                                <option>Faible</option>
-                                <option>Moyenne</option>
-                                <option>Critique (Arrêt Production)</option>
-                            </select>
-                        </div>
-                    </form>
-                    
-                    <div style="margin-top: 20px; display: flex; gap: 10px;" class="no-pdf">
-                        <button class="btn-save" onclick="alert('BT Enregistré !')">Enregistrer BT</button>
-                        <button class="btn-save btn-pdf" onclick="genererPDF()">
-                            <i class="fas fa-file-pdf"></i> Télécharger PDF
-                        </button>
-                    </div>
+                    <h2>Nouveau Bon de Travaux</h2>
+                    <input type="text" placeholder="Équipement" style="width:100%; margin-top:10px; padding:10px;">
+                    <textarea placeholder="Description" style="width:100%; margin-top:10px; padding:10px;"></textarea>
+                    <button onclick="genererPDF()" style="margin-top:15px; padding:10px; background:#dc2626; color:white; border:none; border-radius:5px;">Télécharger PDF</button>
                 </div>
             </section>
 
-            <!-- PAGE PLAN DE MAINTENANCE (Contenant les sous-pages) -->
             <section id="plan" class="page">
                 <div class="sub-nav">
-                    <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')"><i class="fas fa-calendar-alt"></i> Calendrier</button>
-                    <button id="btn-sub-equipements" onclick="showSubPage('equipements')"><i class="fas fa-cogs"></i> Équipements</button>
-                    <button id="btn-sub-support" onclick="showSubPage('support')"><i class="fas fa-headset"></i> Supports Techniques</button>
+                    <button id="btn-calendrier" class="active" onclick="showSub('calendrier')">Calendrier</button>
+                    <button id="btn-equip" onclick="showSub('equip')">Équipements</button>
+                    <button id="btn-support" onclick="showSub('support')">Support</button>
                 </div>
-
-                <!-- SOUS-PAGE CALENDRIER -->
-                <div id="sub-calendrier" class="sub-content active">
-                    <div class="card">
-                        <h2>Calendrier Préventif</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date Prévue</th>
-                                    <th>Équipement</th>
-                                    <th>Action</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>05/05/2026</td>
-                                    <td>Sertisseuse SIMA #01</td>
-                                    <td>Graissage</td>
-                                    <td><span class="badge badge-success">Réalisé</span></td>
-                                </tr>
-                                <tr>
-                                    <td>12/05/2026</td>
-                                    <td>Sertisseuse SIMA #01</td>
-                                    <td>Vérification courroies</td>
-                                    <td><span class="badge badge-warning">En attente</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- SOUS-PAGE ÉQUIPEMENTS -->
-                <div id="sub-equipements" class="sub-content">
-                    <div class="card">
-                        <h2>Inventaire des Équipements</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Nom</th>
-                                    <th>Localisation</th>
-                                    <th>Dernier Entretien</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>SIMA-01</td>
-                                    <td>Sertisseuse Industrielle</td>
-                                    <td>Ligne A</td>
-                                    <td>20/04/2026</td>
-                                </tr>
-                                <tr>
-                                    <td>CONV-C4</td>
-                                    <td>Convoyeur Motorisé</td>
-                                    <td>Zone Stockage</td>
-                                    <td>02/05/2026</td>
-                                </tr>
-				  <tr>
-                                    <td>BRO-B2</td>
-                                    <td>Broyeur</td>
-                                    <td>Zone X</td>
-                                    <td>12/05/2026</td>
-                                </tr>
-				  <tr>
-                                    <td>PAST-P1</td>
-                                    <td>PASTORISATEUR</td>
-                                    <td>Zone X</td>
-                                    <td>02/05/2026</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- SOUS-PAGE SUPPORT -->
-                <div id="sub-support" class="sub-content">
-                    <div class="card">
-                        <h2>Assistance & Documentation</h2>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                            <div style="border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px;">
-                                <h3><i class="fas fa-phone-alt"></i> Urgence Technique</h3>
-                                <p style="margin-top:10px;">Poste interne : <strong>405</strong></p>
-                                <p>Responsable : M. Ahmed (Maintenance)</p>
-                            </div>
-                            <div style="border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px;">
-                                <h3><i class="fas fa-book"></i> Manuels</h3>
-                                <p style="margin-top:10px;"><a href="#" style="color: var(--secondary-blue);">Manuel_SIMA_v2.pdf</a></p>
-                                <p><a href="#" style="color: var(--secondary-blue);">Schémas_Électriques_C4.pdf</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="sub-calendrier" class="sub-content active"><div class="card">Planning de la semaine...</div></div>
+                <div id="sub-equip" class="sub-content"><div class="card">Liste des machines...</div></div>
+                <div id="sub-support" class="sub-content"><div class="card">Contacts techniques...</div></div>
             </section>
         </main>
     </div>
 
     <script>
-        // Switch Login -> Dashboard
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function login() {
             document.getElementById('login-page').style.transform = 'translateY(-100%)';
-            setTimeout(() => {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('main-dashboard').style.display = 'flex';
-                document.body.style.overflow = 'auto';
-            }, 600);
-        });
+            setTimeout(() => { document.getElementById('main-dashboard').style.display = 'flex'; }, 600);
+        }
 
-        // Navigation entre les pages principales
-        function showPage(pageId) {
+        function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-            document.getElementById('menu-' + pageId).classList.add('active');
+            document.getElementById(id).classList.add('active');
         }
 
-        // Navigation entre les sous-pages de "Plan de Maintenance"
-        function showSubPage(subId) {
+        function showSub(id) {
             document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
-            document.getElementById('sub-' + subId).classList.add('active');
-            
             document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-sub-' + subId).classList.add('active');
+            document.getElementById('sub-' + id).classList.add('active');
+            document.getElementById('btn-' + id).classList.add('active');
         }
 
-        // Génération du PDF
         async function genererPDF() {
             const { jsPDF } = window.jspdf;
-            const content = document.getElementById("pdf-content");
-            const actionButtons = document.querySelector(".no-pdf");
+            const canvas = await html2canvas(document.getElementById("pdf-content"));
+            const pdf = new jsPDF();
+            pdf.addImage(canvas.toDataURL("image/png"), 'PNG', 10, 10, 190, 0);
+            pdf.save("BT_Aicha.pdf");
+        }
 
-            actionButtons.style.display = "none";
-
-            try {
-                const canvas = await html2canvas(content, { scale: 2, useCORS: true });
-                const imgData = canvas.toDataURL("image/png");
-                const pdf = new jsPDF("p", "mm", "a4");
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
-                pdf.save("BT_AICHA_MAINTENANCE.pdf");
-            } catch (err) {
-                alert("Erreur lors de la génération du PDF.");
-            } finally {
-                actionButtons.style.display = "flex";
-            }
+        // Activation du mode application
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>
