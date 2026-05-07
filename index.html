@@ -3,131 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aïcha Maintenance</title>
+    <title>Aïcha Maintenance - Système Intégré</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="theme-color" content="#1e3a8a">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        :root { --primary-blue: #1e3a8a; --secondary-blue: #3b82f6; --white: #ffffff; --light-bg: #f1f5f9; --sidebar-width: 260px; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--light-bg); height: 100vh; overflow: hidden; }
-
-        /* CONNEXION */
-        #login-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); display: flex; align-items: center; justify-content: center; z-index: 1000; transition: 0.6s; }
-        .login-container { background: var(--white); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
-
-        /* DASHBOARD */
-        #main-dashboard { display: none; height: 100vh; }
-        .sidebar { width: var(--sidebar-width); background: var(--primary-blue); color: white; height: 100vh; position: fixed; padding: 20px; }
-        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 20px; height: 100vh; overflow-y: auto; }
-
-        /* HERO IMAGE LOCALE */
-        .hero-sima {
-            height: 300px; border-radius: 20px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(30,58,138,0.5)), url('hero.jpg');
-            background-size: cover; background-position: center;
-            display: flex; align-items: flex-end; padding: 30px; color: white; margin-bottom: 20px;
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --white: #ffffff;
+            --light-bg: #f1f5f9;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --sidebar-width: 260px;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
 
-        .page { display: none; }
-        .page.active { display: block; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body { background-color: var(--light-bg); min-height: 100vh; overflow-x: hidden; }
+
+        /* --- ÉCRAN DE CONNEXION --- */
+        #login-page {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-container {
+            background: var(--white); padding: 30px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 90%; max-width: 400px; text-align: center;
+        }
+
+        .logo-aicha { max-width: 150px; margin-bottom: 10px; }
+
+        .input-group { margin-bottom: 15px; position: relative; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem; }
+        .input-group i { position: absolute; left: 15px; top: 38px; color: #94a3b8; }
         
-        /* NAVIGATION SOUS-PAGES */
-        .sub-nav { display: flex; gap: 10px; margin-bottom: 20px; }
-        .sub-nav button { padding: 10px; cursor: pointer; border: none; border-radius: 5px; }
+        input, select, textarea { 
+            width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none; font-size: 16px;
+        }
+        input { padding-left: 45px; }
+
+        .btn-login {
+            width: 100%; padding: 14px; background-color: var(--primary-blue); color: white;
+            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+
+        /* --- INTERFACE PRINCIPALE --- */
+        #main-dashboard { display: none; flex-direction: row; height: 100vh; }
+
+        .sidebar { width: var(--sidebar-width); background: var(--primary-blue); color: white; height: 100vh; position: fixed; padding: 20px; z-index: 100; transition: 0.3s; }
+        .sidebar-logo { background: white; padding: 10px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
+        .sidebar-logo img { max-width: 100px; }
+        .sidebar ul { list-style: none; }
+        .sidebar ul li a {
+            color: white; text-decoration: none; display: flex; align-items: center;
+            padding: 12px; border-radius: 8px; transition: 0.3s; margin-bottom: 5px;
+        }
+        .sidebar ul li a:hover, .sidebar ul li.active a { background: var(--secondary-blue); }
+        .sidebar i { margin-right: 15px; width: 20px; }
+
+        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 20px; height: 100vh; overflow-y: auto; transition: 0.3s; }
+
+        /* GESTION DES PAGES */
+        .page { display: none; animation: fadeIn 0.5s ease; }
+        .page.active { display: block; }
+
+        /* HERO AVEC hero.jpg */
+        .hero-sima {
+            height: 250px; border-radius: 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.5)), 
+                        url('hero.jpg'); 
+            background-size: cover; background-position: center;
+            display: flex; align-items: flex-end; padding: 25px; color: white; margin-bottom: 25px;
+        }
+        .hero-sima h2 { font-size: 1.8rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+
+        .sub-nav {
+            display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; overflow-x: auto;
+        }
+        .sub-nav button {
+            background: none; border: none; padding: 8px 15px; cursor: pointer;
+            font-weight: 600; color: var(--text-muted); border-radius: 8px; transition: 0.3s; white-space: nowrap;
+        }
         .sub-nav button.active { background: var(--primary-blue); color: white; }
-        .sub-content { display: none; }
+        .sub-content { display: none; animation: fadeIn 0.4s ease; }
         .sub-content.active { display: block; }
 
-        @media (max-width: 768px) {
-            .sidebar { width: 70px; padding: 10px; }
-            .sidebar span { display: none; }
-            .main-content { margin-left: 70px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .card h2 { margin-bottom: 15px; color: var(--primary-blue); border-bottom: 2px solid var(--light-bg); padding-bottom: 10px; font-size: 1.2rem; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; } 
+        
+        .table-container { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 500px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
+        th { background: #f8fafc; color: var(--primary-blue); }
+        
+        .btn-save { 
+            background: var(--primary-blue); color: white; padding: 12px 20px; border: none; 
+            border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 10px; width: 100%; justify-content: center;
         }
+        .btn-pdf { background: #dc2626; } 
+
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; padding: 15px 10px; }
+            .sidebar-logo { padding: 5px; }
+            .sidebar-logo img { max-width: 45px; }
+            .sidebar span { display: none; }
+            .sidebar i { margin-right: 0; font-size: 1.2rem; }
+            .main-content { margin-left: 70px; padding: 15px; }
+            .hero-sima { height: 180px; padding: 15px; }
+            .hero-sima h2 { font-size: 1.3rem; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="login-page">
         <div class="login-container">
-            <img src="logo.png" alt="Logo" style="max-width:120px; margin-bottom:20px;">
-            <input type="password" id="pass" placeholder="Code d'accès" style="width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ddd;">
-            <button onclick="login()" style="width:100%; padding:12px; background:var(--primary-blue); color:white; border:none; border-radius:8px; font-weight:bold;">Entrer</button>
+            <img src="logo.png" alt="Logo Aïcha" class="logo-aicha">
+            <h1 style="color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 20px;">ESPACE MAINTENANCE</h1>
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Identifiant</label>
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Ex: AIC-2026" required>
+                </div>
+                <div class="input-group">
+                    <label>Code d'accès</label>
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-login">Se connecter</button>
+            </form>
         </div>
     </div>
 
     <div id="main-dashboard">
         <aside class="sidebar">
-            <div style="background:white; padding:5px; border-radius:8px; margin-bottom:20px;"><img src="logo.png" style="width:100%;"></div>
+            <div class="sidebar-logo"><img src="logo.png" alt="Logo"></div>
             <nav>
-                <div onclick="showPage('accueil')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-home"></i> <span>Accueil</span></div>
-                <div onclick="showPage('bt')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-file-alt"></i> <span>Bon de Travaux</span></div>
-                <div onclick="showPage('plan')" style="cursor:pointer; margin-bottom:15px;"><i class="fas fa-calendar"></i> <span>Plan de Maintenance</span></div>
+                <ul>
+                    <li class="active" id="menu-accueil"><a href="#" onclick="showPage('accueil')"><i class="fas fa-tachometer-alt"></i> <span>Accueil</span></a></li>
+                    <li id="menu-bt"><a href="#" onclick="showPage('bt')"><i class="fas fa-file-invoice"></i> <span>Bons</span></a></li>
+                    <li id="menu-plan"><a href="#" onclick="showPage('plan')"><i class="fas fa-calendar-check"></i> <span>Planning</span></a></li>
+                    <li><a href="#" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> <span>Quitter</span></a></li>
+                </ul>
             </nav>
         </aside>
 
         <main class="main-content">
             <section id="accueil" class="page active">
-                <div class="hero-sima"><h2>Maintenance Aïcha</h2></div>
-                <div class="card"><h3>Système Prêt</h3></div>
+                <div class="hero-sima">
+                    <h2>Expertise Maintenance Aïcha</h2>
+                </div>
+                <div class="card">
+                    <h3>État du Système</h3>
+                    <p style="color: var(--success); font-weight: bold; margin-top: 10px;"><i class="fas fa-check-circle"></i> Mode Application Activé</p>
+                </div>
             </section>
 
             <section id="bt" class="page">
                 <div class="card" id="pdf-content">
-                    <h2>Nouveau Bon de Travaux</h2>
-                    <input type="text" placeholder="Équipement" style="width:100%; margin-top:10px; padding:10px;">
-                    <textarea placeholder="Description" style="width:100%; margin-top:10px; padding:10px;"></textarea>
-                    <button onclick="genererPDF()" style="margin-top:15px; padding:10px; background:#dc2626; color:white; border:none; border-radius:5px;">Télécharger PDF</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="border:none; margin:0;"><i class="fas fa-tools"></i> Bon de Travaux</h2>
+                        <img src="logo.png" alt="Aicha" style="height: 30px;">
+                    </div>
+                    <form class="form-grid">
+                        <div class="form-group">
+                            <label>Équipement</label>
+                            <input type="text" value="Sertisseuse SIMA #01">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea rows="3" placeholder="Détails de l'intervention..."></textarea>
+                        </div>
+                    </form>
+                    
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;" class="no-pdf">
+                        <button class="btn-save" onclick="alert('BT Enregistré !')">Enregistrer</button>
+                        <button class="btn-save btn-pdf" onclick="genererPDF()">
+                            <i class="fas fa-file-pdf"></i> Télécharger PDF
+                        </button>
+                    </div>
                 </div>
             </section>
 
             <section id="plan" class="page">
                 <div class="sub-nav">
-                    <button id="btn-calendrier" class="active" onclick="showSub('calendrier')">Calendrier</button>
-                    <button id="btn-equip" onclick="showSub('equip')">Équipements</button>
-                    <button id="btn-support" onclick="showSub('support')">Support</button>
+                    <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')">Calendrier</button>
+                    <button id="btn-sub-equipements" onclick="showSubPage('equipements')">Équipements</button>
                 </div>
-                <div id="sub-calendrier" class="sub-content active"><div class="card">Planning de la semaine...</div></div>
-                <div id="sub-equip" class="sub-content"><div class="card">Liste des machines...</div></div>
-                <div id="sub-support" class="sub-content"><div class="card">Contacts techniques...</div></div>
+
+                <div id="sub-calendrier" class="sub-content active">
+                    <div class="card">
+                        <h2>Planning Préventif</h2>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Date</th><th>Machine</th><th>Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-equipements" class="sub-content">
+                    <div class="card">
+                        <h2>Inventaire</h2>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Code</th><th>Nom</th><th>Zone</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>SIMA-01</td><td>Sertisseuse</td><td>Ligne A</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
 
     <script>
-        function login() {
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             document.getElementById('login-page').style.transform = 'translateY(-100%)';
-            setTimeout(() => { document.getElementById('main-dashboard').style.display = 'flex'; }, 600);
-        }
+            setTimeout(() => {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-dashboard').style.display = 'flex';
+                document.body.style.overflow = 'auto';
+            }, 600);
+        });
 
-        function showPage(id) {
+        function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+            document.getElementById('menu-' + pageId).classList.add('active');
         }
 
-        function showSub(id) {
+        function showSubPage(subId) {
             document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
+            document.getElementById('sub-' + subId).classList.add('active');
             document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('sub-' + id).classList.add('active');
-            document.getElementById('btn-' + id).classList.add('active');
+            document.getElementById('btn-sub-' + subId).classList.add('active');
         }
 
         async function genererPDF() {
             const { jsPDF } = window.jspdf;
-            const canvas = await html2canvas(document.getElementById("pdf-content"));
-            const pdf = new jsPDF();
-            pdf.addImage(canvas.toDataURL("image/png"), 'PNG', 10, 10, 190, 0);
-            pdf.save("BT_Aicha.pdf");
+            const content = document.getElementById("pdf-content");
+            const actionButtons = document.querySelector(".no-pdf");
+            actionButtons.style.display = "none";
+
+            try {
+                const canvas = await html2canvas(content, { scale: 2, useCORS: true });
+                const imgData = canvas.toDataURL("image/png");
+                const pdf = new jsPDF("p", "mm", "a4");
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
+                pdf.save("BT_AICHA_MAINTENANCE.pdf");
+            } catch (err) {
+                alert("Erreur PDF.");
+            } finally {
+                actionButtons.style.display = "flex";
+            }
         }
 
-        // Activation du mode application
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
