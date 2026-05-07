@@ -11,7 +11,6 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -25,13 +24,17 @@
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
+            --border: #e2e8f0;
+            --radius: 12px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body { background-color: var(--light-bg); min-height: 100vh; overflow-x: hidden; }
 
-        /* --- ÉCRAN DE CONNEXION --- */
+        /* =====================
+           ÉCRAN DE CONNEXION
+        ===================== */
         #login-page {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -41,288 +44,1095 @@
         }
 
         .login-container {
-            background: var(--white); padding: 30px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 90%; max-width: 400px; text-align: center;
+            background: var(--white); padding: 35px 30px; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25); width: 90%; max-width: 400px; text-align: center;
         }
 
         .logo-aicha { max-width: 150px; margin-bottom: 10px; }
 
         .input-group { margin-bottom: 15px; position: relative; text-align: left; }
         .input-group label { display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem; }
-        .input-group i { position: absolute; left: 15px; top: 38px; color: #94a3b8; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; outline: none; font-size: 16px;
+        .input-group i.field-icon { position: absolute; left: 15px; top: 38px; color: #94a3b8; }
+
+        input[type="text"], input[type="password"], select, textarea {
+            width: 100%; padding: 12px 15px; border: 2px solid var(--border);
+            border-radius: 10px; outline: none; font-size: 15px; transition: border-color 0.2s;
+            font-family: inherit; background: #fff;
         }
-        input { padding-left: 45px; }
+        input[type="text"]:focus, input[type="password"]:focus,
+        select:focus, textarea:focus {
+            border-color: var(--secondary-blue);
+        }
+        input[type="text"].has-icon, input[type="password"].has-icon { padding-left: 45px; }
+
+        .input-group .error-msg {
+            font-size: 0.78rem; color: var(--danger); margin-top: 5px; display: none;
+        }
+        .input-group.invalid input { border-color: var(--danger); }
+        .input-group.invalid .error-msg { display: block; }
+
+        #login-error {
+            background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c;
+            padding: 10px 14px; border-radius: 8px; font-size: 0.85rem;
+            margin-bottom: 15px; display: none; text-align: left;
+        }
 
         .btn-login {
             width: 100%; padding: 14px; background-color: var(--primary-blue); color: white;
-            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
+            border: none; border-radius: 10px; font-weight: bold; font-size: 1rem;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
         }
+        .btn-login:hover { background: #1e40af; }
+        .btn-login:active { transform: scale(0.98); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* --- INTERFACE PRINCIPALE --- */
+        /* =====================
+           INTERFACE PRINCIPALE
+        ===================== */
         #main-dashboard { display: none; flex-direction: row; height: 100vh; }
 
-        .sidebar { width: var(--sidebar-width); background: var(--primary-blue); color: white; height: 100vh; position: fixed; padding: 20px; z-index: 100; transition: 0.3s; }
+        /* --- Bouton hamburger (mobile uniquement) --- */
+        #hamburger {
+            display: none;
+            position: fixed; top: 14px; left: 14px; z-index: 300;
+            background: var(--primary-blue); color: white;
+            border: none; border-radius: 10px; width: 42px; height: 42px;
+            font-size: 1.1rem; cursor: pointer; align-items: center; justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25); transition: background 0.2s;
+        }
+        #hamburger:hover { background: var(--secondary-blue); }
+
+        /* --- Overlay sombre derrière la sidebar (mobile) --- */
+        #sidebar-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 149;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        #sidebar-overlay.visible { opacity: 1; }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: var(--sidebar-width); background: var(--primary-blue); color: white;
+            height: 100vh; position: fixed; padding: 20px; z-index: 150;
+            display: flex; flex-direction: column;
+            transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* Bouton fermeture intégré à la sidebar (mobile) */
+        .sidebar-close {
+            display: none; position: absolute; top: 14px; right: 14px;
+            background: rgba(255,255,255,0.15); border: none; color: white;
+            width: 32px; height: 32px; border-radius: 8px; font-size: 1rem;
+            cursor: pointer; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .sidebar-close:hover { background: rgba(255,255,255,0.28); }
+
         .sidebar-logo { background: white; padding: 10px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
         .sidebar-logo img { max-width: 100px; }
+
+        .sidebar nav { flex: 1; }
         .sidebar ul { list-style: none; }
         .sidebar ul li a {
             color: white; text-decoration: none; display: flex; align-items: center;
-            padding: 12px; border-radius: 8px; transition: 0.3s; margin-bottom: 5px;
+            padding: 12px; border-radius: 8px; transition: background 0.2s; margin-bottom: 5px;
         }
-        .sidebar ul li a:hover, .sidebar ul li.active a { background: var(--secondary-blue); }
+        .sidebar ul li a:hover { background: rgba(255,255,255,0.15); }
+        .sidebar ul li.active a { background: var(--secondary-blue); }
         .sidebar i { margin-right: 15px; width: 20px; }
 
-        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 20px; height: 100vh; overflow-y: auto; transition: 0.3s; }
+        .sidebar-user {
+            border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
+            font-size: 0.82rem; color: rgba(255,255,255,0.7);
+        }
+        .sidebar-user strong { display: block; color: white; margin-bottom: 2px; }
 
-        /* GESTION DES PAGES */
-        .page { display: none; animation: fadeIn 0.5s ease; }
+        .main-content {
+            margin-left: var(--sidebar-width); flex: 1; padding: 25px;
+            height: 100vh; overflow-y: auto; transition: margin-left 0.3s;
+        }
+
+        /* Pages */
+        .page { display: none; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
 
-        /* HERO */
+        /* Hero */
         .hero-sima {
-            height: 250px; border-radius: 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(30, 58, 138, 0.5)), 
-                        url('hero.jpg'); 
+            height: 220px; border-radius: 18px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(30,58,138,0.6)), url('hero.jpg');
             background-size: cover; background-position: center;
-            display: flex; align-items: flex-end; padding: 25px; color: white; margin-bottom: 25px;
+            display: flex; flex-direction: column; align-items: flex-start;
+            justify-content: flex-end; padding: 25px; color: white; margin-bottom: 25px;
         }
         .hero-sima h2 { font-size: 1.8rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+        .hero-sima p { opacity: 0.85; margin-top: 5px; font-size: 0.9rem; }
 
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card {
+            background: white; padding: 18px; border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center;
+        }
+        .stat-card .stat-val { font-size: 1.8rem; font-weight: 700; color: var(--primary-blue); }
+        .stat-card .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* Sub nav */
         .sub-nav {
-            display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; overflow-x: auto;
+            display: flex; gap: 8px; margin-bottom: 20px;
+            border-bottom: 2px solid var(--border); padding-bottom: 10px; overflow-x: auto;
         }
         .sub-nav button {
-            background: none; border: none; padding: 8px 15px; cursor: pointer;
-            font-weight: 600; color: var(--text-muted); border-radius: 8px; transition: 0.3s; white-space: nowrap;
+            background: none; border: none; padding: 8px 16px; cursor: pointer;
+            font-weight: 600; color: var(--text-muted); border-radius: 8px;
+            transition: all 0.2s; white-space: nowrap; font-size: 0.9rem;
         }
         .sub-nav button.active { background: var(--primary-blue); color: white; }
-        .sub-content { display: none; animation: fadeIn 0.4s ease; }
+        .sub-nav button:hover:not(.active) { background: var(--light-bg); }
+
+        .sub-content { display: none; animation: fadeIn 0.3s ease; }
         .sub-content.active { display: block; }
 
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .card h2 { margin-bottom: 15px; color: var(--primary-blue); border-bottom: 2px solid var(--light-bg); padding-bottom: 10px; font-size: 1.2rem; }
-        
-        .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; } 
-        
+        /* Cards */
+        .card {
+            background: white; padding: 22px; border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;
+        }
+        .card h2 {
+            margin-bottom: 15px; color: var(--primary-blue);
+            border-bottom: 2px solid var(--light-bg); padding-bottom: 10px;
+            font-size: 1.15rem; display: flex; align-items: center; gap: 8px;
+        }
+        .card h3 { font-size: 1rem; color: var(--text-dark); margin-bottom: 10px; }
+
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .form-group label {
+            display: block; margin-bottom: 6px; color: var(--primary-blue);
+            font-weight: 600; font-size: 0.85rem;
+        }
+        .form-group select, .form-group textarea, .form-group input[type="text"],
+        .form-group input[type="date"] { width: 100%; }
+        .form-group .char-count { font-size: 0.75rem; color: var(--text-muted); text-align: right; margin-top: 3px; }
+
+        /* Table */
         .table-container { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 500px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
-        th { background: #f8fafc; color: var(--primary-blue); }
-        
-        .btn-save { 
-            background: var(--primary-blue); color: white; padding: 12px 20px; border: none; 
-            border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 10px; width: 100%; justify-content: center;
-        }
-        .btn-pdf-download { background: #dc2626; } 
+        table { width: 100%; border-collapse: collapse; min-width: 400px; }
+        th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+        th { background: #f8fafc; color: var(--primary-blue); font-weight: 600; }
+        tr:hover td { background: #fafbff; }
 
+        .badge {
+            display: inline-block; padding: 3px 10px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger  { background: #fee2e2; color: #991b1b; }
+        .badge-info    { background: #dbeafe; color: #1e40af; }
+
+        /* Buttons */
+        .btn-save {
+            background: var(--primary-blue); color: white; padding: 12px 20px;
+            border: none; border-radius: 10px; cursor: pointer; font-weight: bold;
+            margin-top: 15px; transition: background 0.2s, transform 0.1s;
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem;
+        }
+        .btn-save:hover { background: #1e40af; }
+        .btn-save:active { transform: scale(0.98); }
+        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-pdf-download { background: #dc2626; }
+        .btn-pdf-download:hover { background: #b91c1c; }
+        .btn-secondary {
+            background: white; color: var(--primary-blue); border: 2px solid var(--primary-blue);
+        }
+        .btn-secondary:hover { background: var(--light-bg); }
+        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+        .btn-row .btn-save { margin-top: 0; flex: 1; justify-content: center; }
+        .btn-danger-sm {
+            background: none; border: none; color: var(--danger); cursor: pointer;
+            padding: 4px 8px; border-radius: 6px; transition: background 0.2s;
+        }
+        .btn-danger-sm:hover { background: #fee2e2; }
+
+        /* Toast */
+        #toast {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+            background: var(--primary-blue); color: white; padding: 12px 20px;
+            border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-size: 0.9rem; display: flex; align-items: center; gap: 10px;
+            transform: translateY(80px); opacity: 0; transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        #toast.show { transform: translateY(0); opacity: 1; }
+        #toast.success { background: #059669; }
+        #toast.error   { background: #dc2626; }
+
+        /* PDF links */
         .pdf-link {
-            color: var(--secondary-blue);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: 0.2s;
+            color: var(--text-dark); text-decoration: none;
+            display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+            border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px;
+            transition: all 0.2s;
         }
-        .pdf-link:hover { background: #f8fafc; border-color: var(--secondary-blue); }
+        .pdf-link:hover { background: #f8fafc; border-color: var(--secondary-blue); transform: translateX(3px); }
+        .pdf-link .pdf-info { flex: 1; }
+        .pdf-link .pdf-name { font-weight: 600; font-size: 0.9rem; }
+        .pdf-link .pdf-desc { font-size: 0.78rem; color: var(--text-muted); }
 
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        .modal {
+            background: white; border-radius: 16px; padding: 25px; width: 90%;
+            max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0.95); transition: transform 0.2s;
+        }
+        .modal-overlay.open .modal { transform: scale(1); }
+        .modal h3 { margin-bottom: 15px; color: var(--primary-blue); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-actions button { flex: 1; }
+
+        /* Confirmation delete */
+        #confirm-delete-modal .btn-delete-confirm {
+            background: var(--danger); color: white; padding: 11px;
+            border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+
+        /* =====================
+           RESPONSIVE MOBILE
+        ===================== */
         @media (max-width: 768px) {
-            .sidebar { width: 70px; padding: 15px 10px; }
-            .sidebar-logo { padding: 5px; }
-            .sidebar-logo img { max-width: 45px; }
-            .sidebar span { display: none; }
-            .sidebar i { margin-right: 0; font-size: 1.2rem; }
-            .main-content { margin-left: 70px; padding: 15px; }
-            .hero-sima { height: 180px; padding: 15px; }
-            .hero-sima h2 { font-size: 1.3rem; }
+            /* Cacher la sidebar par défaut, la faire glisser depuis la gauche */
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+                padding: 20px;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+            }
+            /* Sidebar ouverte */
+            .sidebar.open { transform: translateX(0); }
+
+            /* Afficher le bouton X dans la sidebar sur mobile */
+            .sidebar-close { display: flex; }
+
+            /* Afficher overlay et hamburger */
+            #sidebar-overlay { display: block; }
+            #hamburger { display: flex; }
+
+            /* Le contenu prend toute la largeur */
+            .main-content { margin-left: 0; padding: 15px; padding-top: 68px; }
+
+            .hero-sima { height: 160px; padding: 15px; }
+            .hero-sima h2 { font-size: 1.2rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .btn-row { flex-direction: column; }
+            .btn-row .btn-save { flex: unset; width: 100%; }
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="login-page">
-        <div class="login-container">
-            <img src="logo.png" alt="Logo Aïcha" class="logo-aicha">
-            <h1 style="color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 20px;">ESPACE MAINTENANCE</h1>
-            <form id="login-form">
-                <div class="input-group">
-                    <label>Identifiant</label>
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Ex: AIC-2026" required>
-                </div>
-                <div class="input-group">
-                    <label>Code d'accès</label>
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-login">Se connecter</button>
-            </form>
+<!-- ==================== LOGIN ==================== -->
+<div id="login-page" role="main" aria-label="Page de connexion">
+    <div class="login-container">
+        <img src="logo.png" alt="Logo Aïcha Maintenance" class="logo-aicha">
+        <h1 style="color: var(--primary-blue); font-size: 1.4rem; margin-bottom: 6px;">ESPACE MAINTENANCE</h1>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 22px;">Connectez-vous pour accéder au système</p>
+
+        <div id="login-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> <span id="login-error-msg">Identifiants incorrects.</span>
         </div>
+
+        <form id="login-form" novalidate>
+            <div class="input-group" id="group-username">
+                <label for="username">Identifiant</label>
+                <i class="fas fa-user field-icon" aria-hidden="true"></i>
+                <input type="text" id="username" class="has-icon" placeholder="Ex: AIC-2026"
+                       autocomplete="username" required aria-describedby="username-error">
+                <span class="error-msg" id="username-error">Veuillez saisir votre identifiant.</span>
+            </div>
+            <div class="input-group" id="group-password">
+                <label for="password">Code d'accès</label>
+                <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+                <input type="password" id="password" class="has-icon" placeholder="••••••••"
+                       autocomplete="current-password" required aria-describedby="password-error">
+                <span class="error-msg" id="password-error">Veuillez saisir votre code d'accès.</span>
+            </div>
+            <button type="submit" class="btn-login" id="btn-login">
+                <span id="btn-login-text">Se connecter</span>
+            </button>
+        </form>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:18px;">
+            Compte démo : <strong>AIC-2026</strong> / <strong>aicha2026</strong>
+        </p>
     </div>
+</div>
 
-    <div id="main-dashboard">
-        <aside class="sidebar">
-            <div class="sidebar-logo"><img src="logo.png" alt="Logo"></div>
-            <nav>
-                <ul>
-                    <li class="active" id="menu-accueil"><a href="#" onclick="showPage('accueil')"><i class="fas fa-tachometer-alt"></i> <span>Accueil</span></a></li>
-                    <li id="menu-bt"><a href="#" onclick="showPage('bt')"><i class="fas fa-file-invoice"></i> <span>Bons</span></a></li>
-                    <li id="menu-plan"><a href="#" onclick="showPage('plan')"><i class="fas fa-calendar-check"></i> <span>Planning</span></a></li>
-                    <li id="menu-support"><a href="#" onclick="showPage('support')"><i class="fas fa-headset"></i> <span>Support</span></a></li>
-                    <li><a href="#" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> <span>Quitter</span></a></li>
-                </ul>
-            </nav>
-        </aside>
+<!-- ==================== DASHBOARD ==================== -->
+<div id="main-dashboard" aria-label="Tableau de bord Aïcha Maintenance">
 
-        <main class="main-content">
-            <section id="accueil" class="page active">
-                <div class="hero-sima">
-                    <h2>Expertise Maintenance Aïcha</h2>
+    <!-- Bouton hamburger (mobile) -->
+    <button id="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu" aria-expanded="false">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+
+    <!-- Overlay sombre -->
+    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
+        <!-- Bouton fermeture (mobile) -->
+        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fermer le menu">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <div class="sidebar-logo">
+            <img src="logo.png" alt="Logo Aïcha">
+        </div>
+        <nav>
+            <ul>
+                <li class="active" id="menu-accueil">
+                    <a href="#" onclick="showPage('accueil'); return false;" aria-label="Accueil">
+                        <i class="fas fa-tachometer-alt" aria-hidden="true"></i> <span>Accueil</span>
+                    </a>
+                </li>
+                <li id="menu-bt">
+                    <a href="#" onclick="showPage('bt'); return false;" aria-label="Bons de Travaux">
+                        <i class="fas fa-file-invoice" aria-hidden="true"></i> <span>Bons</span>
+                    </a>
+                </li>
+                <li id="menu-plan">
+                    <a href="#" onclick="showPage('plan'); return false;" aria-label="Planning">
+                        <i class="fas fa-calendar-check" aria-hidden="true"></i> <span>Planning</span>
+                    </a>
+                </li>
+                <li id="menu-support">
+                    <a href="#" onclick="showPage('support'); return false;" aria-label="Support">
+                        <i class="fas fa-headset" aria-hidden="true"></i> <span>Support</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="deconnexion(); return false;" aria-label="Se déconnecter">
+                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Quitter</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <strong id="sidebar-username">—</strong>
+            Connecté
+        </div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+
+        <!-- ACCUEIL -->
+        <section id="accueil" class="page active" aria-label="Accueil">
+            <div class="hero-sima">
+                <h2>Expertise Maintenance Aïcha</h2>
+                <p id="hero-date"></p>
+            </div>
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-bt">0</div>
+                    <div class="stat-label">Bons de travaux</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-equipements">1</div>
+                    <div class="stat-label">Équipements</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-plannings">1</div>
+                    <div class="stat-label">Tâches planifiées</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" style="color: var(--success);">✓</div>
+                    <div class="stat-label">Système opérationnel</div>
+                </div>
+            </div>
+            <div class="card">
+                <h2><i class="fas fa-history" aria-hidden="true"></i> Derniers bons enregistrés</h2>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>N°</th><th>Équipement</th><th>Priorité</th><th>Date</th><th>Statut</th></tr></thead>
+                        <tbody id="recent-bt-tbody">
+                            <tr><td colspan="5" style="color:var(--text-muted); text-align:center; padding: 20px;">Aucun bon enregistré</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- BONS DE TRAVAUX -->
+        <section id="bt" class="page" aria-label="Bons de Travaux">
+            <div class="sub-nav">
+                <button id="btn-sub-nouveau-bt" class="active" onclick="showSubPage('nouveau-bt')" aria-selected="true">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Nouveau bon
+                </button>
+                <button id="btn-sub-liste-bt" onclick="showSubPage('liste-bt')" aria-selected="false">
+                    <i class="fas fa-list" aria-hidden="true"></i> Liste des bons
+                </button>
+            </div>
+
+            <!-- Formulaire nouveau BT -->
+            <div id="sub-nouveau-bt" class="sub-content active">
                 <div class="card">
-                    <h3>État du Système</h3>
-                    <p style="color: var(--success); font-weight: bold; margin-top: 10px;"><i class="fas fa-check-circle"></i> Mode Application Activé</p>
-                </div>
-            </section>
-
-            <section id="bt" class="page">
-                <div class="card" id="pdf-content">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h2 style="border:none; margin:0;"><i class="fas fa-tools"></i> Bon de Travaux</h2>
-                        <img src="logo.png" alt="Aicha" style="height: 30px;">
-                    </div>
-                    <form class="form-grid">
-                        <div class="form-group">
-                            <label>Équipement</label>
-                            <input type="text" value="Sertisseuse SIMA #01">
+                    <h2><i class="fas fa-tools" aria-hidden="true"></i> Nouveau Bon de Travaux</h2>
+                    <form id="bt-form" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="bt-equipement">Équipement *</label>
+                                <select id="bt-equipement" required aria-required="true">
+                                    <option value="">— Sélectionner —</option>
+                                    <option value="Sertisseuse SIMA #01">Sertisseuse SIMA #01</option>
+                                    <option value="Compresseur Ligne A">Compresseur Ligne A</option>
+                                    <option value="Convoyeur Ligne B">Convoyeur Ligne B</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bt-type">Type d'intervention *</label>
+                                <select id="bt-type" required aria-required="true">
+                                    <option value="">— Sélectionner —</option>
+                                    <option value="Curatif">Curatif</option>
+                                    <option value="Préventif">Préventif</option>
+                                    <option value="Amélioratif">Amélioratif</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bt-priorite">Priorité *</label>
+                                <select id="bt-priorite" required aria-required="true">
+                                    <option value="">— Sélectionner —</option>
+                                    <option value="Basse">Basse</option>
+                                    <option value="Normale">Normale</option>
+                                    <option value="Haute">Haute</option>
+                                    <option value="Urgente">Urgente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bt-description">Description de l'intervention *</label>
+                                <textarea id="bt-description" rows="4" placeholder="Décrivez les symptômes, actions à réaliser..."
+                                          maxlength="500" required aria-required="true"
+                                          oninput="updateCharCount(this, 'desc-count')"></textarea>
+                                <div class="char-count"><span id="desc-count">0</span>/500 caractères</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bt-technicien">Technicien assigné</label>
+                                <input type="text" id="bt-technicien" placeholder="Nom du technicien">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea rows="3" placeholder="Détails de l'intervention..."></textarea>
+                        <div class="btn-row">
+                            <button type="submit" class="btn-save" id="btn-enregistrer-bt">
+                                <i class="fas fa-save" aria-hidden="true"></i> Enregistrer
+                            </button>
+                            <button type="button" class="btn-save btn-pdf-download" id="btn-pdf" disabled onclick="genererPDF()">
+                                <i class="fas fa-file-pdf" aria-hidden="true"></i> Exporter PDF
+                            </button>
                         </div>
                     </form>
-                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;" class="no-pdf">
-                        <button class="btn-save" onclick="alert('BT Enregistré !')">Enregistrer</button>
-                        <button class="btn-save btn-pdf-download" onclick="genererPDF()">
-                            <i class="fas fa-file-pdf"></i> Télécharger PDF
-                        </button>
-                    </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="plan" class="page">
-                <div class="sub-nav">
-                    <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')">Calendrier</button>
-                    <button id="btn-sub-equipements" onclick="showSubPage('equipements')">Équipements</button>
-                </div>
-                <div id="sub-calendrier" class="sub-content active">
-                    <div class="card">
-                        <h2>Planning Préventif</h2>
-                        <div class="table-container">
-                            <table>
-                                <thead><tr><th>Date</th><th>Machine</th><th>Action</th></tr></thead>
-                                <tbody><tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td></tr></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div id="sub-equipements" class="sub-content">
-                    <div class="card">
-                        <h2>Inventaire</h2>
-                        <div class="table-container">
-                            <table>
-                                <thead><tr><th>Code</th><th>Nom</th><th>Zone</th></tr></thead>
-                                <tbody><tr><td>SIMA-01</td><td>Sertisseuse</td><td>Ligne A</td></tr></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="support" class="page">
+            <!-- Liste des BT -->
+            <div id="sub-liste-bt" class="sub-content">
                 <div class="card">
-                    <h2>Centre de Ressources</h2>
-                    <p style="margin-bottom: 20px; color: var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
-                    
-                    <h3><i class="fas fa-file-pdf"></i> Documents PDF</h3>
-                    <div style="margin-top: 15px;">
-                        <a href="manuel_sima.pdf" target="_blank" class="pdf-link">
-                            <i class="fas fa-file-pdf" style="color:red"></i> Manuel Technique SIMA
-                        </a>
-                        <a href="schema_electrique.pdf" target="_blank" class="pdf-link">
-                            <i class="fas fa-file-pdf" style="color:red"></i> Schémas Électriques Ligne C
-                        </a>
-                    </div>
-
-                    <h3 style="margin-top: 25px;"><i class="fas fa-phone-alt"></i> Contact Maintenance</h3>
-                    <div style="background: var(--light-bg); padding: 15px; border-radius: 10px; margin-top: 10px;">
-                        <p><strong>Poste interne :</strong> 405</p>
-                        <p><strong>Responsable :</strong> M. Ahmed</p>
+                    <h2><i class="fas fa-list" aria-hidden="true"></i> Bons de Travaux enregistrés</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N°</th><th>Équipement</th><th>Type</th>
+                                    <th>Priorité</th><th>Date</th><th>Statut</th><th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bt-tbody">
+                                <tr id="bt-empty-row"><td colspan="7" style="color:var(--text-muted); text-align:center; padding:20px;">Aucun bon enregistré</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
+
+        <!-- PLANNING -->
+        <section id="plan" class="page" aria-label="Planning">
+            <div class="sub-nav">
+                <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')" aria-selected="true">Calendrier</button>
+                <button id="btn-sub-equipements" onclick="showSubPage('equipements')" aria-selected="false">Équipements</button>
+                <button id="btn-sub-nouveau-plan" onclick="showSubPage('nouveau-plan')" aria-selected="false">+ Ajouter</button>
+            </div>
+
+            <div id="sub-calendrier" class="sub-content active">
+                <div class="card">
+                    <h2><i class="fas fa-calendar-alt" aria-hidden="true"></i> Planning Préventif</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Date</th><th>Machine</th><th>Action</th><th>Responsable</th><th>Statut</th><th>Suppr.</th></tr></thead>
+                            <tbody id="plan-tbody">
+                                <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td><td>M. Ahmed</td><td><span class="badge badge-warning">En attente</span></td><td>—</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sub-equipements" class="sub-content">
+                <div class="card">
+                    <h2><i class="fas fa-cogs" aria-hidden="true"></i> Inventaire Équipements</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Code</th><th>Nom</th><th>Zone</th><th>État</th></tr></thead>
+                            <tbody id="equip-tbody">
+                                <tr><td>SIMA-01</td><td>Sertisseuse SIMA</td><td>Ligne A</td><td><span class="badge badge-success">Opérationnel</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sub-nouveau-plan" class="sub-content">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle" aria-hidden="true"></i> Nouvelle tâche préventive</h2>
+                    <form id="plan-form" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="plan-date">Date prévue *</label>
+                                <input type="date" id="plan-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="plan-machine">Machine *</label>
+                                <select id="plan-machine" required>
+                                    <option value="">— Sélectionner —</option>
+                                    <option value="SIMA #01">SIMA #01</option>
+                                    <option value="Compresseur Ligne A">Compresseur Ligne A</option>
+                                    <option value="Convoyeur Ligne B">Convoyeur Ligne B</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="plan-action">Action à réaliser *</label>
+                                <input type="text" id="plan-action" placeholder="Ex: Remplacement filtre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="plan-responsable">Responsable</label>
+                                <input type="text" id="plan-responsable" placeholder="Nom">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-plus" aria-hidden="true"></i> Ajouter au planning
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUPPORT -->
+        <section id="support" class="page" aria-label="Support technique">
+            <div class="card">
+                <h2><i class="fas fa-book-open" aria-hidden="true"></i> Centre de Ressources</h2>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
+
+                <h3><i class="fas fa-file-pdf" aria-hidden="true"></i> Documents PDF</h3>
+                <div style="margin-top: 12px;">
+                    <a href="manuel_sima.pdf" target="_blank" class="pdf-link" rel="noopener">
+                        <i class="fas fa-file-pdf" style="color:#dc2626; font-size:1.3rem;" aria-hidden="true"></i>
+                        <div class="pdf-info">
+                            <div class="pdf-name">Manuel Technique SIMA</div>
+                            <div class="pdf-desc">Guide complet d'utilisation et maintenance</div>
+                        </div>
+                        <i class="fas fa-external-link-alt" style="color:var(--text-muted); font-size:0.8rem;" aria-hidden="true"></i>
+                    </a>
+                    <a href="schema_electrique.pdf" target="_blank" class="pdf-link" rel="noopener">
+                        <i class="fas fa-file-pdf" style="color:#dc2626; font-size:1.3rem;" aria-hidden="true"></i>
+                        <div class="pdf-info">
+                            <div class="pdf-name">Schémas Électriques Ligne C</div>
+                            <div class="pdf-desc">Câblage, bornier, tableaux électriques</div>
+                        </div>
+                        <i class="fas fa-external-link-alt" style="color:var(--text-muted); font-size:0.8rem;" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <h3 style="margin-top: 25px;"><i class="fas fa-phone-alt" aria-hidden="true"></i> Contacts Maintenance</h3>
+                <div style="background: var(--light-bg); padding: 16px; border-radius: 10px; margin-top: 10px; display: grid; gap: 8px;">
+                    <p><strong>Poste interne :</strong> 405</p>
+                    <p><strong>Responsable :</strong> M. Ahmed</p>
+                    <p><strong>Urgences :</strong> <a href="tel:+212600000000" style="color:var(--secondary-blue);">+212 6 00 00 00 00</a></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Toast notification -->
+<div id="toast" role="alert" aria-live="polite">
+    <i class="fas fa-check-circle" aria-hidden="true"></i>
+    <span id="toast-msg"></span>
+</div>
+
+<!-- Modal confirmation suppression -->
+<div class="modal-overlay" id="confirm-delete-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+        <h3 id="modal-title"><i class="fas fa-trash" style="color:var(--danger)"></i> Confirmer la suppression</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce bon de travaux ?</p>
+        <div class="modal-actions">
+            <button class="btn-save btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+            <button class="btn-delete-confirm" id="btn-confirm-delete" onclick="confirmerSuppression()">Supprimer</button>
+        </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('login-page').style.transform = 'translateY(-100%)';
-            setTimeout(() => {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('main-dashboard').style.display = 'flex';
-                document.body.style.overflow = 'auto';
-            }, 600);
-        });
+<script>
+// =====================================================================
+// CONFIGURATION — Identifiants (à remplacer par un vrai backend)
+// =====================================================================
+const USERS = {
+    'AIC-2026': 'aicha2026',
+    'admin':    'admin123'
+};
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-            document.getElementById('menu-' + pageId).classList.add('active');
+// =====================================================================
+// ÉTAT GLOBAL
+// =====================================================================
+let currentUser = null;
+let btList = [];
+let planList = [{ date: '12/05/2026', machine: 'SIMA #01', action: 'Vérification courroies', responsable: 'M. Ahmed', statut: 'En attente' }];
+let btCounter = 0;
+let btASupprimer = null;
+
+// =====================================================================
+// CONNEXION
+// =====================================================================
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const errDiv   = document.getElementById('login-error');
+    const errMsg   = document.getElementById('login-error-msg');
+    const btn      = document.getElementById('btn-login');
+
+    // Validation champs vides
+    let valid = true;
+    if (!username) { document.getElementById('group-username').classList.add('invalid'); valid = false; }
+    else { document.getElementById('group-username').classList.remove('invalid'); }
+    if (!password) { document.getElementById('group-password').classList.add('invalid'); valid = false; }
+    else { document.getElementById('group-password').classList.remove('invalid'); }
+    if (!valid) return;
+
+    // Vérification identifiants
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+
+    setTimeout(() => {
+        if (USERS[username] && USERS[username] === password) {
+            currentUser = username;
+            errDiv.style.display = 'none';
+            chargerDonnees();
+            afficherInterface();
+            document.getElementById('sidebar-username').textContent = username;
+            document.getElementById('hero-date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+        } else {
+            errMsg.textContent = 'Identifiant ou code d\'accès incorrect.';
+            errDiv.style.display = 'flex';
+            errDiv.style.alignItems = 'center';
+            errDiv.style.gap = '8px';
+            btn.disabled = false;
+            btn.innerHTML = 'Se connecter';
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
         }
+    }, 600); // légère pause pour effet de feedback
+});
 
-        function showSubPage(subId) {
-            document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
-            document.getElementById('sub-' + subId).classList.add('active');
-            document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-sub-' + subId).classList.add('active');
-        }
+function afficherInterface() {
+    const loginPage = document.getElementById('login-page');
+    loginPage.style.transform = 'translateY(-100%)';
+    setTimeout(() => {
+        loginPage.style.display = 'none';
+        const dash = document.getElementById('main-dashboard');
+        dash.style.display = 'flex';
+        document.body.style.overflow = 'auto';
+        mettreAJourStats();
+        afficherRecentsBT();
+    }, 600);
+}
 
-        async function genererPDF() {
-            const { jsPDF } = window.jspdf;
-            const content = document.getElementById("pdf-content");
-            const actionButtons = document.querySelector(".no-pdf");
-            actionButtons.style.display = "none";
+function deconnexion() {
+    if (!confirm('Confirmer la déconnexion ?')) return;
+    sauvegarderDonnees();
+    location.reload();
+}
 
-            try {
-                const canvas = await html2canvas(content, { scale: 2, useCORS: true });
-                const imgData = canvas.toDataURL("image/png");
-                const pdf = new jsPDF("p", "mm", "a4");
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
-                pdf.save("BT_AICHA_MAINTENANCE.pdf");
-            } catch (err) {
-                alert("Erreur lors de la génération du PDF.");
-            } finally {
-                actionButtons.style.display = "flex";
-            }
-        }
+// =====================================================================
+// PERSISTANCE localStorage
+// =====================================================================
+function sauvegarderDonnees() {
+    localStorage.setItem('aicha_bt', JSON.stringify(btList));
+    localStorage.setItem('aicha_plan', JSON.stringify(planList));
+    localStorage.setItem('aicha_bt_counter', btCounter);
+}
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
+function chargerDonnees() {
+    const savedBT = localStorage.getItem('aicha_bt');
+    const savedPlan = localStorage.getItem('aicha_plan');
+    const savedCounter = localStorage.getItem('aicha_bt_counter');
+    if (savedBT)      btList    = JSON.parse(savedBT);
+    if (savedPlan)    planList  = JSON.parse(savedPlan);
+    if (savedCounter) btCounter = parseInt(savedCounter);
+    afficherBTs();
+    afficherPlannings();
+}
+
+// =====================================================================
+// SIDEBAR RÉTRACTABLE (mobile)
+// =====================================================================
+function toggleSidebar() {
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const hamburger = document.getElementById('hamburger');
+    const isOpen   = sidebar.classList.contains('open');
+    if (isOpen) { closeSidebar(); }
+    else {
+        sidebar.classList.add('open');
+        overlay.classList.add('visible');
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.querySelector('i').className = 'fas fa-times';
+    }
+}
+
+function closeSidebar() {
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const hamburger = document.getElementById('hamburger');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.querySelector('i').className = 'fas fa-bars';
+}
+
+// =====================================================================
+// NAVIGATION
+// =====================================================================
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+    const menuEl = document.getElementById('menu-' + pageId);
+    if (menuEl) menuEl.classList.add('active');
+    document.getElementById('main-content').scrollTop = 0;
+    // Fermer la sidebar sur mobile après navigation
+    if (window.innerWidth <= 768) closeSidebar();
+}
+
+function showSubPage(subId) {
+    document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
+    document.getElementById('sub-' + subId).classList.add('active');
+    document.querySelectorAll('.sub-nav button').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+    });
+    const btn = document.getElementById('btn-sub-' + subId);
+    if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
+}
+
+// =====================================================================
+// BONS DE TRAVAUX
+// =====================================================================
+document.getElementById('bt-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const equipement  = document.getElementById('bt-equipement').value;
+    const type        = document.getElementById('bt-type').value;
+    const priorite    = document.getElementById('bt-priorite').value;
+    const description = document.getElementById('bt-description').value.trim();
+    const technicien  = document.getElementById('bt-technicien').value.trim();
+
+    // Validation
+    if (!equipement || !type || !priorite || !description) {
+        showToast('Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+    }
+    if (description.length < 10) {
+        showToast('La description doit comporter au moins 10 caractères.', 'error');
+        return;
+    }
+
+    btCounter++;
+    const bt = {
+        id: btCounter,
+        numero: 'BT-' + String(btCounter).padStart(4, '0'),
+        equipement, type, priorite, description, technicien,
+        date: new Date().toLocaleDateString('fr-FR'),
+        statut: 'Ouvert'
+    };
+
+    btList.unshift(bt);
+    sauvegarderDonnees();
+    afficherBTs();
+    afficherRecentsBT();
+    mettreAJourStats();
+
+    // Activer le bouton PDF avec les données du BT
+    document.getElementById('btn-pdf').disabled = false;
+    document.getElementById('btn-pdf').dataset.btId = bt.id;
+
+    showToast('Bon de travaux ' + bt.numero + ' enregistré !', 'success');
+    this.reset();
+    document.getElementById('desc-count').textContent = '0';
+});
+
+function afficherBTs() {
+    const tbody = document.getElementById('bt-tbody');
+    const emptyRow = document.getElementById('bt-empty-row');
+    if (btList.length === 0) {
+        tbody.innerHTML = '<tr id="bt-empty-row"><td colspan="7" style="color:var(--text-muted);text-align:center;padding:20px;">Aucun bon enregistré</td></tr>';
+        return;
+    }
+    tbody.innerHTML = btList.map(bt => `
+        <tr>
+            <td><strong>${bt.numero}</strong></td>
+            <td>${bt.equipement}</td>
+            <td>${bt.type}</td>
+            <td>${badgePriorite(bt.priorite)}</td>
+            <td>${bt.date}</td>
+            <td>${badgeStatut(bt.statut)}</td>
+            <td>
+                <button class="btn-danger-sm" onclick="ouvrirDeleteModal(${bt.id})" 
+                        aria-label="Supprimer ${bt.numero}" title="Supprimer">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function afficherRecentsBT() {
+    const tbody = document.getElementById('recent-bt-tbody');
+    const recent = btList.slice(0, 5);
+    if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px;">Aucun bon enregistré</td></tr>';
+        return;
+    }
+    tbody.innerHTML = recent.map(bt => `
+        <tr>
+            <td><strong>${bt.numero}</strong></td>
+            <td>${bt.equipement}</td>
+            <td>${badgePriorite(bt.priorite)}</td>
+            <td>${bt.date}</td>
+            <td>${badgeStatut(bt.statut)}</td>
+        </tr>
+    `).join('');
+}
+
+function badgePriorite(p) {
+    const map = { 'Urgente': 'danger', 'Haute': 'warning', 'Normale': 'info', 'Basse': 'success' };
+    return `<span class="badge badge-${map[p] || 'info'}">${p}</span>`;
+}
+
+function badgeStatut(s) {
+    const map = { 'Ouvert': 'info', 'En cours': 'warning', 'Clôturé': 'success' };
+    return `<span class="badge badge-${map[s] || 'info'}">${s}</span>`;
+}
+
+// Suppression
+function ouvrirDeleteModal(id) {
+    btASupprimer = id;
+    document.getElementById('confirm-delete-modal').classList.add('open');
+}
+
+function closeDeleteModal() {
+    btASupprimer = null;
+    document.getElementById('confirm-delete-modal').classList.remove('open');
+}
+
+function confirmerSuppression() {
+    btList = btList.filter(bt => bt.id !== btASupprimer);
+    sauvegarderDonnees();
+    afficherBTs();
+    afficherRecentsBT();
+    mettreAJourStats();
+    closeDeleteModal();
+    showToast('Bon supprimé.', 'success');
+}
+
+document.getElementById('confirm-delete-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+});
+
+// =====================================================================
+// PLANNING
+// =====================================================================
+document.getElementById('plan-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const date        = document.getElementById('plan-date').value;
+    const machine     = document.getElementById('plan-machine').value;
+    const action      = document.getElementById('plan-action').value.trim();
+    const responsable = document.getElementById('plan-responsable').value.trim();
+
+    if (!date || !machine || !action) {
+        showToast('Veuillez remplir les champs obligatoires.', 'error');
+        return;
+    }
+
+    const entry = {
+        date: new Date(date).toLocaleDateString('fr-FR'),
+        machine, action,
+        responsable: responsable || '—',
+        statut: 'En attente'
+    };
+
+    planList.push(entry);
+    sauvegarderDonnees();
+    afficherPlannings();
+    mettreAJourStats();
+    this.reset();
+    showSubPage('calendrier');
+    showToast('Tâche ajoutée au planning !', 'success');
+});
+
+function afficherPlannings() {
+    const tbody = document.getElementById('plan-tbody');
+    if (planList.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:20px;">Aucune tâche planifiée</td></tr>';
+        return;
+    }
+    tbody.innerHTML = planList.map((p, i) => `
+        <tr>
+            <td>${p.date}</td>
+            <td>${p.machine}</td>
+            <td>${p.action}</td>
+            <td>${p.responsable}</td>
+            <td><span class="badge badge-${p.statut === 'En attente' ? 'warning' : 'success'}">${p.statut}</span></td>
+            <td>
+                <button class="btn-danger-sm" onclick="supprimerPlan(${i})" aria-label="Supprimer tâche" title="Supprimer">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function supprimerPlan(idx) {
+    if (!confirm('Supprimer cette tâche du planning ?')) return;
+    planList.splice(idx, 1);
+    sauvegarderDonnees();
+    afficherPlannings();
+    mettreAJourStats();
+    showToast('Tâche supprimée.', 'success');
+}
+
+// =====================================================================
+// STATS
+// =====================================================================
+function mettreAJourStats() {
+    document.getElementById('stat-bt').textContent = btList.length;
+    document.getElementById('stat-plannings').textContent = planList.length;
+}
+
+// =====================================================================
+// GÉNÉRATION PDF (jsPDF pur, sans html2canvas)
+// =====================================================================
+function genererPDF() {
+    const btId = document.getElementById('btn-pdf').dataset.btId;
+    const bt   = btList.find(b => b.id == btId);
+    if (!bt) { showToast('Aucun bon sélectionné.', 'error'); return; }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = doc.internal.pageSize.getWidth();
+    const margin = 20;
+
+    // En-tête
+    doc.setFillColor(30, 58, 138);
+    doc.rect(0, 0, W, 35, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text('AÏCHA MAINTENANCE', margin, 15);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Bon de Travaux — ' + bt.numero, margin, 24);
+    doc.text('Généré le ' + new Date().toLocaleDateString('fr-FR'), W - margin, 24, { align: 'right' });
+
+    // Corps
+    doc.setTextColor(30, 41, 59);
+    let y = 50;
+
+    const champs = [
+        ['Numéro',     bt.numero],
+        ['Équipement', bt.equipement],
+        ['Type',       bt.type],
+        ['Priorité',   bt.priorite],
+        ['Technicien', bt.technicien || '—'],
+        ['Date',       bt.date],
+        ['Statut',     bt.statut],
+    ];
+
+    champs.forEach(([label, valeur]) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text(label + ' :', margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.text(valeur, margin + 40, y);
+        y += 9;
+    });
+
+    // Description
+    y += 5;
+    doc.setFillColor(241, 245, 249);
+    doc.roundedRect(margin, y, W - margin * 2, 50, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Description :', margin + 4, y + 10);
+    doc.setFont('helvetica', 'normal');
+    const lignes = doc.splitTextToSize(bt.description, W - margin * 2 - 10);
+    doc.text(lignes, margin + 4, y + 18);
+
+    // Signature
+    y += 70;
+    doc.setDrawColor(200, 200, 200);
+    doc.line(margin, y, margin + 60, y);
+    doc.line(W - margin - 60, y, W - margin, y);
+    doc.setFontSize(9);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Signature Technicien', margin, y + 6);
+    doc.text('Signature Responsable', W - margin, y + 6, { align: 'right' });
+
+    // Pied de page
+    doc.setFillColor(30, 58, 138);
+    doc.rect(0, 285, W, 12, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8);
+    doc.text('Aïcha Maintenance — Document généré automatiquement', W / 2, 292, { align: 'center' });
+
+    doc.save('BT_' + bt.numero + '.pdf');
+    showToast('PDF généré : ' + bt.numero, 'success');
+}
+
+// =====================================================================
+// UTILITAIRES
+// =====================================================================
+function updateCharCount(textarea, countId) {
+    document.getElementById(countId).textContent = textarea.value.length;
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const icon  = toast.querySelector('i');
+    document.getElementById('toast-msg').textContent = message;
+    toast.className = 'show ' + type;
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => { toast.className = ''; }, 3500);
+}
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
 </body>
 </html>
