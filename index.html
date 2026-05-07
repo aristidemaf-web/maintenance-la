@@ -80,11 +80,11 @@
 
         /* ACCUEIL / HERO AVEC IMAGE MEULEUSE */
         .hero-sima {
-            height: 350px; border-radius: 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(30, 58, 138, 0.5)), 
-                        url('https://media.istockphoto.com/id/1051092562/fr/photo/jeune-femme-stagiaire-travaille-avec-une-meuleuse-dans-un-atelier-%C3%A9tincelles.jpg?s=612x612&w=0&k=20&c=cYl2r82BBggzNqh5ftveh66A2pfgH8I9Ma4HF24WOpQ='); 
-            background-size: cover; background-position: center;
-            display: flex; align-items: flex-end; padding: 40px; color: white; margin-bottom: 30px;
+           /* ... tes autres styles ... */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(30, 58, 138, 0.5)), 
+                url('hero.jpg'); /* Utilise ici le nom de ton fichier image */
+    background-size: cover;
+    background-position: center;
         }
         .hero-sima h2 { font-size: 2.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
 
@@ -156,7 +156,7 @@
     <!-- DASHBOARD -->
     <div id="main-dashboard">
         <aside class="sidebar">
-            <div class="sidebar-logo"><img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo-aicha.png" alt="Logo"></div>
+            <div class="sidebar-logo"><img src="logo.png" alt="Logo Aïcha"></div>
             <nav>
                 <ul>
                     <li class="active" id="menu-accueil"><a href="#" onclick="showPage('accueil')"><i class="fas fa-tachometer-alt"></i> Accueil</a></li>
@@ -184,7 +184,7 @@
                 <div class="card" id="pdf-content">
                     <h2>
                         <span><i class="fas fa-tools"></i> Bon de Travaux (BT)</span>
-                        <img src="https://upload.wikimedia.org/wikipedia/fr/0/0d/Logo-aicha.png" alt="Aicha" style="height: 40px;">
+                        <img src="logo.png" alt="Logo Aïcha" style="height: 40px;">
                     </h2>
                     <form class="form-grid">
                         <div class="form-group">
