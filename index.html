@@ -1210,8 +1210,8 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 </script>
-    <script>
-    // 1. Déclarations des variables globales (en haut du script)
+<script>
+    // 1. Déclarations des variables globales
     let inventaireCSV = [];
 
     // 2. Fonctions de chargement
@@ -1219,19 +1219,84 @@ if ('serviceWorker' in navigator) {
         try {
             const res = await fetch('pieces.csv');
             const text = await res.text();
-            // ... reste du code de parsing ...
-        } catch (err) { console.error(err); }
+            
+            // On sépare les lignes du fichier
+            const lignes = text.split('\n');
+            
+            // On ignore la première ligne (en-tête) et on traite les autres
+            inventaireCSV = lignes.slice(1).map(l => {
+                if (!l.trim()) return null; // Ignore les lignes vides
+                
+                // --- VÉRIFICATION DU SÉPARATEUR ICI ---
+                // Si ton Excel utilise des virgules, change ';' par ','
+                const c = l.split(';'); 
+                
+                if(c.length >= 2) {
+                    return { 
+                        id: c[0].trim(), 
+                        nom: c[1].trim(), 
+                        zone: c[2] ? c[2].trim() : 'N/A' 
+                    };
+                }
+                return null;
+            }).filter(p => p !== null);
+            
+            console.log("Catalogue chargé : " + inventaireCSV.length + " pièces.");
+        } catch (err) { 
+            console.error("Erreur de chargement du CSV :", err); 
+        }
     }
 
-    // 3. Écouteurs d'événements (Event Listeners)
+    // 3. Écouteurs d'événements pour la recherche
     document.getElementById('search-piece').addEventListener('input', function() {
-        // ... code de filtrage ...
+        const saisie = this.value.toLowerCase();
+        const liste = document.getElementById('results-dropdown');
+        liste.innerHTML = ''; // On vide les anciens résultats
+        
+        // On commence à chercher à partir de 2 caractères
+        if (saisie.length < 2) {
+            liste.style.display = 'none';
+            return;
+        }
+
+        // On filtre dans notre tableau inventaireCSV
+        const filtres = inventaireCSV.filter(p => 
+            p.nom.toLowerCase().includes(saisie) || 
+            p.id.toLowerCase().includes(saisie)
+        ).slice(0, 5); // On limite à 5 résultats pour l'écran mobile
+
+        if (filtres.length > 0) {
+            filtres.forEach(p => {
+                const div = document.createElement('div');
+                div.style.padding = '12px';
+                div.style.borderBottom = '1px solid #eee';
+                div.style.cursor = 'pointer';
+                div.innerHTML = `<strong>${p.nom}</strong> <br> <small>${p.id} | ${p.zone}</small>`;
+                
+                // Quand on clique sur un résultat
+                div.onclick = function() {
+                    document.getElementById('search-piece').value = p.nom;
+                    document.getElementById('selected-piece-id').value = p.id;
+                    liste.style.display = 'none';
+                };
+                liste.appendChild(div);
+            });
+            liste.style.display = 'block';
+        } else {
+            liste.style.display = 'none';
+        }
     });
+
+    // Fonction pour vider la recherche (bouton X)
+    function viderRecherche() {
+        document.getElementById('search-piece').value = '';
+        document.getElementById('selected-piece-id').value = '';
+        document.getElementById('results-dropdown').style.display = 'none';
+    }
 
     // 4. Lancement au chargement du DOM
     document.addEventListener('DOMContentLoaded', () => {
         initialiserCatalogue();
-        // tes autres fonctions d'initialisation...
     });
 </script>
 </body>
