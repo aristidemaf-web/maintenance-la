@@ -1,0 +1,1176 @@
+﻿Désignations;Références;Quantité;Emplacement
+Regulateur de temperature;Amtr220;1;O.6.1
+Regulateur de temperature;ACE-ELADIGIT;1;O.6.1
+Regulateur de temperature Pid;Omron E5cc-Rx3A5M-000;1;O.6.1
+Thermostat Industriel;5634012830MC5025;1;O.6.1
+Regulateur de temperature ;E5CW;2;O.6.1
+Regulateur Numerique de temperature;Eurotherm 2132;1;O.6.1
+Regulateur Shinko de temperature;Jcs-33A-R/M-01;1;O.6.1
+Regulateur Vitesse du moteur continue;Grossenbach;1;O.6.2
+Variateur monophasé ;Eliwell Fasec 33;1;O.6.2
+Controleur de Zone ;Denki CRM-105FP1-EUR;1;O.6.2
+Convertisseur SAMSON;;1;O.6.2
+Regulateur de temperature universel;Landis&Gyr Polygyr Rwf612;2;O.6.2
+Alimentation à Decoupage ;Omron S82K-05024;1;O.6.2
+Interface d'affichage ASCII;BURR BROWN TM 76 ;1;O.6.3
+Controleur/Clavier Telemecanique;VW3A66206;1;O.6.3
+Clavier de command;SEW-EURODRIVE DBG11B;1;O.6.3
+Module de sécurité ;SICK ;1;O.6.3
+Interface Homme-Machine;Pliz Mini-Touch 270;1;O.6.3
+Indicateur Led Programmable;PR ELECTRONICS 5714;2;O.6.3
+Module de contrôle  ;AUTOMATISME ZSDA 1/2;1;O.6.3
+Controleur de Niveau;GESTRA NRS;1;O.6.3
+Bloc de contact ;Telemecanique XAL-W6;1;O.6.4
+Controleur de temperature;Datalogic;4;O.6.4
+Convertisseur JVS en JAMMA;;1;O.6.4
+Verin Rotatif pneu;DSR-25-180-P;1;O.6.4
+Controleur de debit;Electronic SI5;2;O.6.4
+Regulateur numerique Compact;Samson Trovis 6494;1;O.6.5
+Regulateur numerique Avancé;Omron E5AN-HAA2HBBMD;2;O.6.5
+Controleur de temperature Industriel;West 6100;5;O.6.5
+Regulateur de temperature programmable;Eliwell Ewtr 930;4;O.6.5
+Regulateur digital de Temperature;Rcq 5100/10-0-054;4;O.6.5
+Disjoncteur Moteur;Klockner Moeller LC-PS-24;1;O.6.6
+Debimètre;SU7000;3;O.6.6
+Regulateur de temperature;Omron E5AC-RX4A5M-010;1;O.6.6
+Regulateur de temperature;ERO Electronic EVH DOSa;1;O.6.6
+Regulateur de temperature Datalogic;Es00;5;O.6.6
+Boitier Electrique;Landis&Gyr ARG6100;1;O.6.7
+Sonde de temperature;QAA24;2;O.6.7
+Regulateur electronique de temperature;LAE AC1-5TS2RD;1;O.6.7
+Poignet de fenetre;;6;O.6.7
+Module de connexion Sick;CD420-0001;2;O.6.8
+Bloc d'extension de contact pliz;77414150;1;O.6.8
+Socle de relais octal;ENTRELEC ES8;1;O.6.8
+Capteur photoelectrique;E3C-183R;1;O.5.1
+Capteur de proximité;543892;11;O.5.1
+Capteur photoelectrique;PLK23-6-M-1000;1;O.5.1
+Interrupteur à Lames Souples;Souple creed switch;4;O.5.1
+Capteur de securité;;1;O.5.1
+Actionneur plat;T4000-1KBA;1;O.5.1
+Capteur de position;830100441;3;O.5.1
+Capteur de Contraste;NT603012;1;O.5.1
+Detecteur inductif;IFM effector;2;O.5.2
+Barriere  Photoelectrique;MLV40-54/47/70B;1;O.5.2
+Capteur magnetique pour verin;;4;O.5.2
+Capteur magnetique pour verin;MK5107;2;O.5.2
+Fibre Optique pour capteur;E32-TC200;3;O.5.2
+Reflecteur de capteur;XUZC50;6;O.5.2
+Interrupteur à Lames Souples;M/50/LS;4;O.5.2
+Capteur photoelectrique;;1;O.5.2
+Capteur de fibre optique;;1;O.5.2
+Capteur photoelectrique;RK06;1;O.5.3
+Capteur photoelectrique;E3Z-R86;4;O.5.3
+Capteur photoelectrique;92EZMCAE;3;O.5.3
+Capteur photoelectrique;MQ-W20CR-DC12-24VEM;1;O.5.3
+Capteur de securité;440N-S32032;6;O.5.3
+Capteur de securité;165270R;4;O.5.3
+Capteur pression ;PA3021;1;O.5.3
+Electrovane;O375;5;O.5.3
+Capeur de securité codé;CHCZI8X110;1;O.5.4
+Sonde electronique;VEGA;1;O.5.4
+Capteur magnetique de position;KL3046;9;O.5.4
+Capteur de cable;;2;O.5.4
+Capteur de verrin pneumatique;MZT8-03VPS-KP01044458;6;O.5.4
+Interrupteur de fin de course;;1;O.5.4
+Capteur de proximité;830100365;12;O.5.4
+Capteur photoelectrique;;1;O.5.4
+Raccord de Vanne;;6;O.5.4
+Capteur  Smc;;2;O.5.5
+Sonde de temperature;Landis&gyr;1;O.5.5
+Relais DPDT;CP60R-04;2;O.5.5
+Capteur pression Bosh;830100382;2;O.5.5
+Capteur de position;SMT-8F-25-24V-K2,5-OE-EX;2;O.5.5
+Relecteur Telemecanique;XUZC24;4;O.5.5
+Interrupteur de securité;XCSDMC5902;5;O.5.5
+Capteur de temperature ;TA3437;1;O.5.6
+Capteur photoelectrique;Leuze electronique RK 78/7-800;1;O.5.6
+Emetteur de barrière;;9;O.5.6
+Capteur ;ST6;1;O.5.6
+Capteur photoelectrique;OLS22V200;2;O.5.6
+Capteur photoelectrique;RK72/2-200;1;O.5.6
+Capteur photoelectrique;WL10-7313;2;O.5.6
+Capteur photoelectrique;XUHFO2631;4;O.5.6
+Raccord pour capteur;;5;O.5.6
+Capteur photoelectrique;42BA-SILPAG-A2;3;O.5.7
+Interrupteur photoelectrique;Omron E3B2-D2M4D-G;1;O.5.7
+Capteur de proximité;P8S-GPFTX;1;O.5.7
+Capteur photoelectrique Omron;E3FA-DP23;1;O.5.7
+Capteur photoelectrique;WE12L-2P430;1;O.5.7
+Capteur photoelectrique;FEDK 10P3101;1;O.5.7
+Dissipateur thermique;;1;O10.1
+Declencheur Min tens;24V-50HZ-60HZ;3;O10.1
+Disjoncteur moteur ;30-40A;3;O10.1
+Disjoncteur moteur ;4A;1;O10.1
+Disjoncteur modulaire ;63A;1;O10.1
+Disjoncteur Magnéto-thermique ;10KA;1;O10.1
+Disjoncteur moteur ;0,1-0,16A;3;O10.1
+Disjoncteur Mini;2A;1;O10.2
+Disjoncteur Mini;6A; ;O10.2
+Disjoncteur Mini;4A;1;O10.2
+Disjoncteur Moteur Magneto-Thermique;0,1-0,16A;2;O10.2
+Commutateur;20A;3;O10.2
+Commutateur;10A;2;O10.2
+Inverseur de source;63A;1;O10.2
+Inverseur de source;20A;1;O10.2
+Porte-Fusible;500V;1;O10.2
+Inter Sectionneur;32A;1;O10.3
+Inter Sectionneur Rotatif;32A;1;O10.3
+Inter Sectionneur Arret d'urgence;20A;1;O10.3
+Inter Sectionneur;125A;2;O10.3
+Sectionneur Porte-Fusible;125A;1;O10.3
+Inter de Position;3A;1;O10.3
+Contacteur inverseur;24V-50HZ-60HZ(5,5KW-400V);3;O10.4
+Contacteur inverseur;48V-50/60HZ (4kW/400V);4;O10.4
+Contacteur inverseur;24VDC(4KW-400V);2;O10.4
+Contacteur inverseur;230V-50/60HZ(11KW/400V);2;O10.4
+Contacteur inverseur;24V-50/60Hz(5,5KW/400V);3;O10.4
+Contacteur inverseur;24V-50/60Hz;1;O10.5
+Contacteur inverseur;24V 50/60Hz(4KV/400V);1;O10.5
+Contacteur inverseur;110V 50-60Hz(5,5KW);1;O10.5
+Contacteur ;220V 50/60Hz;2;O10.5
+Contacteur ;24V 50/60Hz;1;O10.5
+Contacteur ;24V 50/60Hz(37KW-400V);1;O10.5
+Contacteur ;220V(2.2KW);1;O10.5
+Contacteur ;230V-50/60HZ;1;O10.6
+Contacteur ;48V-50/60HZ ;2;O10.6
+Contacteur ;220V-230V(50Hz) 220-240V(60Hz);1;O10.6
+Contacteur ;220V(50Hz) 240V(60Hz);1;O10.6
+Contacteur ;24V 50/60Hz;3;O10.6
+Contacteur Auxiliaire;24V 50-60Hz(4KW);7;O10.6
+Contacteur Auxiliaire;48V 50-60Hz;8;O10.6
+Bloc de contacts Auxiliaire;10A-690V;8;O10.6
+Bloc de contacts Auxiliaire;;;O10.6
+Contacteur ;24VDC 11KW-400V;5;O10.7
+Contacteur ;220V 50/60Hz(7,5KW-400V);5;O10.7
+Contacteur ;24V 50-60Hz(7,5-6KW);3;O10.7
+Contacteur ;380-400V 50/60Hz;1;O10.7
+Contacteur ;230V 50-60Hz;2;O10.7
+Contacteur ;24V 50/60Hz(7,5KW-400V);1;O10.7
+Contacteur ;380-400V 50/60Hz;1;O10.7
+Contacteur ;115V 50-60Hz;1;O10.7
+Contacteur ;40V;1;O10.7
+Contacteur ;48V 50-60Hz;17;O10.8
+Bloc de contact;10A 690V;16;O10.8
+Interrupteur à poignée;;3;O9.1
+Boite bouton pendante;;3;O9.1
+Module pour  arret d'urgence;230V;5;O9.1
+Bloc contacts lateral;10A 690V;3;O9.1
+Contact relais d'Interface;2966016;2;O9.2
+Transmetteur de temperature;55V;5;O9.2
+Module relais;220-240V(2A);1;O9.2
+Relais instantané;48VAC 50HZ;4;O9.2
+Transmetteur de temperature;E:128mv;5;O9.2
+Relais JRB;24VDC;1;O9.2
+Relais Temporise;220V 50-60HZ;2;O9.2
+Relais de puissance;24V;1;O9.2
+Relais de couplage;;14;O9.3
+Relais à guidage Force;8A-250V;5;O9.3
+Relais mini;6A---277VAC 8A---30VDC;8;O9.3
+Relais à Usage general;24V;2;O9.3
+Relais Temporise;24V;13;O9.3
+Relais Electromecanique ;7A-250V;2;O9.3
+Relais Electromecanique ;24V-120VAC;3;O9.3
+Relais de puissance;24V 50-60HZ;2;O9.3
+Relais mini;5A-250VAC;14;O9.3
+Relais Temporise;24V 50-60HZ;5;O9.4
+Relais Temporise;24V 1S-30MIN;2;O9.4
+Relais instantané;230V 50Hz;5;O9.4
+Relais instantané;24V 50HZ;4;O9.4
+Relais instantané;24V;1;O9.4
+Relais securité Temporisé;250v-5A 230V-3,5A;1;O9.5
+Relais securité;AC-15:250v/2A  Dc 13:24V/2A;2;O9.5
+Relais de puissance;24VCC;2;O9.5
+Horamètre;87632;1;O9.5
+Relais de mesure de courant;8-16A   50/60HZ;1;O9.5
+Alimentation de Securité;220V;1;O9.5
+Relais securité;24VAC /DC;5;O9.6
+Relais securité;24VDC 230V-5A;1;O9.6
+Relais securité;24V;1;O9.6
+Relais securité;24V 5VA(50-60HZ);3;O9.6
+Relais securité;Pliz PNOZX1;1;O9.6
+Relais securité;24V 50-60HZ;5;O9.6
+Relais securité;24V-5W 250V;1;O9.6
+Relais de Courant;230V 10A;1;O9.6
+Transmetteur de mesure;;1;O9.6
+Dispositif d'interverrouillage;24V;2;O9.6
+Controleur de conductivité;;1;O9.6
+Bloc temporise ;10-180s 10A;11;O9.7
+Relais statique 3ph ;28A  8,5-30DC   10-30VAC;1;O9.7
+Relais Temporise;100-240v  0,05s-300H;1;O9.7
+Conditionneur de Signal ;8560700000;6;O9.7
+Relais temporisé ;1-45min 24/240V;1;O9.7
+Relais temporisé ;6A-220V;1;O9.7
+Relais de controle;24V-240V;1;O9.7
+Relais temporisé ;0,1s--100H  0,7A  24v-240VA;1;O9.7
+Relais temporisé ;0,7A-240V 60mn;1;O9.7
+Relais temporisé ;0,1-100H(24-240v  50/60Hz);1;O9.7
+Module DEF;;1;O9.7
+Relais temporisé  numerique;24V;1;O9.8
+Boitier de contrôle automatique;IFS258;1;O9.8
+Conducteur de signal ;200-250v;1;O9.8
+Relais electronique;;1;O9.8
+Relais temporisé;0,1--100H;1;O9.8
+Convertisseur Isolant de sécurité;;2;O9.8
+Relais de securité;24v;1;O9.8
+Embase pour Relais;RHZ21;4;O9.8
+Bloc disjoncteur Triphasé;;1;O8.1
+Bloc contacts Auxiliaires;;1;O8.1
+Connecteur Electrique ;;12;O8.1
+Contacts Auditifs;240V;2;O8.1
+Embase pour Relais;10A-250V;7;O8.1
+Module de Diodes;;2;O8.1
+Protection thermique ;LI35M;3;O8.1
+Thermostat mecanique;O11;1;O8.1
+Embase pour Relais;;3;O8.1
+Module de mesure;;1;O8.2
+Porte-Fusible modulaire;;3;O8.2
+Embase pour Relais;;5;O8.2
+Embase pour Relais mini;;2;O8.2
+Embase pour Relais;;1;O8.2
+Relais de puissance mini;110V;1;O8.2
+Module electronique ;;2;O8.2
+Module d'interface de bus;;2;O8.2
+Module Redresseur;8257221;2;O8.2
+Controleur de debit;VS0200;1;O8.3
+Convertisseur Analogique;5/BUS;1;O8.3
+Module electronique ;;1;O8.3
+Module Terminaux;6E57193-ACZUO;1;O8.3
+Module contrôle capteur;;6;O8.3
+Module optocoupleur;60986;8;O8.3
+Module de Relais;;3;O8.3
+Module d'interface;;1;O8.3
+Relais Module;24VAC /DC;1;O8.4
+Module d'entrée numerique;;1;O8.4
+Relais d'interface;24VDC;1;O8.4
+Bloc de contact Auxiliaire ;690VCA;2;O8.4
+Amplificateur de communication ;;1;O8.4
+Amplificateur separateur Modulaire;;1;O8.4
+Amplificateur de mesure modulaire;;1;O8.4
+Amplificateur ;0-10V;2;O8.4
+Bloc de jonction enfichable;;6;O8.4
+Thermostat  Limiteur;12-95°C;2;O8.4
+Transducteur;7NGU150-1AB10;1;O8.4
+Station d'affichage de contrôle;;2;O8.4
+Relais statique;5A94z460;1;O8.4
+Module Optoculteur;52501;1;O8.4
+Commande exterieure;;1;O8.4
+Relais de contrôle de tension;;1;O8.4
+Boitier de fin de course;;3;O8.5
+Embase;;4;O8.5
+Attenuateur;;1;O8.5
+Bloc de contact;;8;O8.5
+Bloc de contact ;ZB2RE102;11;O8.5
+Module Numerique;;1;O8.5
+Transducteur;MCR 4V;1;O8.5
+Bouton tournant avec clé;;17;O7.1
+Interrupteur de contrôle;;4;O7.1
+Bouton tournant noir;;10;O7.1
+Boite à bouton tournant;;1;O7.1
+Bouton poussoir vert;;15;O7.1
+Bouton poussoir rouge ;;7;O7.1
+Bouton poussoir bleu;;9;O7.1
+Bouton poussoir ;;4;O7.1
+Bloc lumineux;;31;O7.2
+Bouton tournant noir;;38;O7.2
+Bouton poussoir noir;;9;O7.2
+Voyant lumineux Rouge;;26;O7.2
+Voyant lumineux Vert;;16;O7.2
+Bouton poussoire d'arret d'urgence;;16;O7.3
+Bouton poussoire coup de poing;;5;O7.3
+Boite d'arret d'urgence;;6;O7.3
+Coffret coup de poing;;1;O7.3
+Bouton poussoir d'arret d'urgence;;12;O7.3
+Precoupure du neutre;;2;O7.3
+Bouton  poussoir blanc;;8;O7.4
+Presse Etoupe;;18;O7.4
+Connecteur circulaire;;7;O7.4
+Capuchon Rouge ;;8;O7.4
+Capuchon noir;;8;O7.4
+Capuchon blanc;;1;O7.4
+Bouton poussoir noir;;6;O7.4
+Corps boussoir Lumineux;;3;O7.4
+Arbre d'extension;;7;O7.4
+Ecrou pour presse Etoupe;;21;O7.5
+Ecrou;;13;O7.5
+Ecrou;;54;O7.5
+Bouchon obsturateur;ZB2 SZ4;6;O7.5
+Transmoteur de temperature;;1;O7.5
+Corsses a sortir male;466-986;30;O7.5
+Capteur photoelectrique Sick;WL9-N132;2;O4.1
+Capteur photoelectrique Visolux;RL21;2;O4.1
+Capteur photoelectrique Papperl+Fuchs;MLV40-8-H-80/48;3;O4.1
+Capteur photoelectrique Leuze Electronique;RK85/2-800;3;O4.1
+Capteur photoelectrique Telemecanique;XUMOAPSAL2;3;O4.1
+Capteur photoelectrique Telemecanique;XUL-M300318;1;O4.1
+Capteur photoelectrique Telemecanique;XUH-HO2313;2;O4.1
+Capteur photoelectrique Sick;FR2-122B;2;O4.2
+Capteur photoelectrique Telemecanique;XUBH0430;4;O4.2
+Capteur photoelectrique Sick;WT12-2N130;1;O4.2
+Capteur photoelectrique Sick;VT18-2P4420-501;8;O4.2
+Capteur Inductif Telemecanique;XS5118B1PAL2;7;O4.2
+Capteur Inductif Telemecanique;XUL-F04631;2;O4.2
+Capteur photoelectrique Telemecanique;XU8-M18MA230WK;4;O4.3
+Capteur photoelectrique Telemecanique;XUK1ARCNL2;1;O4.3
+Capteur Inductif Telemecanique;XS4P18PA370B;2;O4.3
+Capteur photoelectrique Telemecanique;XUB-AO89115;1;O4.3
+Capteur photoelectrique Telemecanique;XUB-JQ43134;4;O4.3
+Capteur photoelectrique Elesta;ORE2PA140;1;O4.3
+Capteur photoelectrique Omron;E3C-DS10;2;O4.3
+Capteur photoelectrique Visolux ;RL20;1;O4.3
+Actionneur Sécurité Sick;T4000-DNAC;1;O4.4
+Capteur photoelectrique Sick;WTB11-2P2461;1;O4.4
+Capteur photoelectrique Sick;WT170-P410;2;O4.4
+Capteur photoelectrique Sick;WL160-E142;4;O4.4
+Capteur photoelectrique Telemecanique;XUMH103535;1;O4.4
+Capteur photoelectrique Sick;WL260-S270;3;O4.4
+Capteur photoelectrique;FSDK 10D9001;2;O4.4
+Capteur photoelectrique Sick;WL160-N142 9706F;2;O4.4
+Capteur photoelectrique Sick;WL9-2P130;2;O4.4
+Capteur contraste Sick;NT8-02412;1;O4.4
+Capteur photoelectrique Sick;WTB4-3P3161;1;O4.5
+Capteur photoelectrique Telemecanique;XUH-F02631;1;O4.5
+Capteur photoelectrique Sick;KT3W-P1116;1;O4.5
+Capteur photoelectrique Sick;WT12-2P440;6;O4.5
+Capteur photoelectrique Sick;NT6-03012;1;O4.5
+Capteur photoelectrique Sick;WE160-N132;2;O4.5
+Capteur photoelectrique Sick;WL140-2P430;1;O4.5
+Capteur photoelectrique Sick;WT160-N182;1;O4.5
+Capteur photoelectrique Sick;WL9-2P131;1;O4.5
+Capteur photoelectrique Sick;WL9-3P2432;2;O4.5
+Capteur photoelectrique Sick;WT18-2P610;1;O4.5
+Capteur photoelectrique Sick;WT150-P430;1;O4.5
+Capteur photoelectrique Sick;WL18-3P630;2;O4.5
+Capteur photoelectrique Sick;WL18-2P132;1;O4.5
+Capteur photoelectrique Sick;WE150-P132;1;O4.5
+Capteur photoelectrique Sick;WTB140-P430;6;O4.6
+Capteur photoelectrique Sick;WT150-P460;2;O4.6
+Capteur photoelectrique Sick;WLL12-B5181;12;O4.6
+Capteur photoelectrique Cometa-Honeywell;MCAR 92TO;3;O4.6
+Capteur photoelectrique Omron;E3C-VS3R;6;O4.6
+Capteur photoelectrique Omron;E3S-DS10B4;2;O4.6
+Capteur photoelectrique Omron;E3S-LS5B4S1;2;O4.6
+Capteur photoelectrique Omron;E3S-DS10B41;2;O4.6
+Capteur photoelectrique Optique;SM312FQD;2;O4.6
+Capteur photoelectrique ;E3JK-DS30M1;4;O4.6
+Capteur photoelectrique Telemecanique;XUG-F04731;2;O4.7
+Capteur photoelectrique Sunx;CX-28-PN;1;O4.7
+Capteur inductif Electronique;IN5225;2;O4.7
+Capteur photoelectrique Telemecanique;XUB4APANM12;1;O4.7
+Capteur photoelectrique Telemecanique;XUBOAAPSNM12;2;O4.7
+Capteur photoelectrique Leuze Electronique;RK 72;1;O4.7
+Capteur photoelectrique Telemecanique;XUBOAPSNM12;6;O4.7
+Capteur photoelectrique Telemecanique;XUBOAPSNL2;3;O4.7
+Capteur photoelectrique Papperl+Fuchs;;2;O4.7
+Capteur Inductif IFM Electronique ;IN5212;2;O4.7
+Capteur Laser;GV-21P;2;O4.7
+Capteur photoelectrique Sick;KT5W-2P1113;1;O4.8
+Capteur photoelectrique Sick;XUM-FO2631;2;O4.8
+Capteur photoelectrique Sick;WTB27-3F2611;9;O4.8
+Capteur photoelectrique Sick;WL12G-3B2531;1;O4.8
+Capteur photoelectrique Sick;WT18-3P610;8;O4.8
+Capteur photoelectrique Sick;WT18-2P112;3;O4.8
+Capteur photoelectrique Sick;WLL180T-M434;5;O4.9
+Capteur photoelectrique Omron;E3S-X3CB4;1;O4.9
+Capteur de Proximité Sick;CM18-12NPP-KC1;1;O4.9
+Capteur photoelectrique ;FHDK 10P110/KS35;3;O4.9
+Capteur photoelectrique ;E3S-5DE41;6;O4.9
+Capteur photoelectrique Omron;E3S-DC200;3;O4.9
+Capteur à Fourche;WF80-40B410;1;O4.9
+Capteur photoelectrique ;NI3002L BPDG;1;O4.9
+Capteur photoelectrique Omron;E3F2-DS10C4-N 2M;1;O4.9
+Capteur de pression  ;VEGABAR 52;4;O3.1
+Capteur de niveau;VEGASWING 51;3;O3.1
+Capteur de pression  ;TN00517905;3;O3.1
+Capteur de distance ;AC1151;2;O3.1
+Codeur incrementaire;BHK 16.24K1024-B6-5;2;O3.2
+Carte de communication;E53-CNBN2;4;O3.2
+Sonde de temperature;TES13X221037;3;O3.2
+Cable de connexion;KMYZ-1-24-2,5 30446;8;O3.2
+Capteur de position;FR 5001;2;O3.2
+Interrupteur de position;XCMD2502L1;1;O3.2
+Capteur de proximité Omron;TL-X-C;1;O3.2
+Capteur de proximité;XSA-HO131;3;O3.3
+Capteur de proximité;IM08-2N5PS;3;O3.3
+Capteur de proximité;IM12-04NPS-ZW1;3;O3.3
+Capteur de proximité;VTF18-4P1212;3;O3.3
+Capteur Photoelectrique;VL18-4P3240;2;O3.3
+Capteur Photoelectrique;GRL118S-P2431V;4;O3.3
+Capteur inductif ;IME12-04BPSZCOS;1;O3.3
+Capteur inductif ;IR0004;1;O3.4
+Capteur de rupture ;SE/SE-HT;2;O3.4
+Capteur capacitif;CJ10-30GM-WS;1;O3.4
+Capteur de Proximité;XSA V11801;1;O3.4
+Capteur de Proximité;IM05-0B8PS-ZW1;4;O3.4
+Capteur de Proximité;IE5099;1;O3.4
+Capteur inductif;EN 50008-A23;1;O3.4
+Capteur de securité;L21S-11MA1A;3;O3.4
+Capteur Photoelectrique;WS150-D132;1;O3.4
+Capteur de securité;SERIE671;1;O3.5
+Capteur de Photoelectrique;LS72/2 Se;1;O3.5
+Capteur de Proximité;IME12;1;O3.5
+Capteur de Proximité;NT2;4;O3.5
+Capteur de niveau liquide;LBF5-011;3;O3.5
+Capteur de Proximité;E2A-S08KN04-WP-C2 2M;5;O3.5
+Capteur de Proximité;IM18-05BUS ZUO;1;O3.5
+Capteur de Proximité;XUB-HO2313;1;O3.5
+Capteur de Proximité;E2K-C25MF2;3;O3.5
+Capteur de Proximité;XSA-V1161;2;O3.6
+Capteur Photoelectrique;XUBOBPSWL2;1;O3.6
+Capteur de Proximité;XS612B1PAL2;3;O3.6
+Capteur de Proximité;;1;O3.6
+Capteur Inductif;IFRO526-35;1;O3.6
+Capteur de Proximité;EZEG-XZC1;1;O3.6
+Detecteur de Proximité;08N1701IL;1;O3.6
+Capteur Photoelectrique;E3S-CL1;3;O3.6
+Capteur Photoelectrique;E3Z-T61;2;O3.6
+Detecteur de Proximité;3RG40ZZ-0AB00;2;O3.6
+Capteur de Proximité;E2EG-X2B1;1;O3.6
+Capteur de Proximité;SERIE EZEH;1;O3.7
+Capteur de Proximité;IFRM 12P3702/4;1;O3.7
+Capteur Niveau Vibrant;VEGASWING 51;1;O3.7
+Capteur Pression ;30749-02;1;O3.7
+Capteur;DSD1005-00;1;O3.7
+Capteur de Proximité;;3;O3.7
+Capteur Photoelectrique Omron;E3A2-XCR4-G;2;O3.8
+Capteur Photoelectrique Omron;E3S-LS10XB3;1;O3.8
+Capteur Photoelectrique Omron;IM12-04BPS-CK;4;O3.8
+Capteur Photoelectrique Omron;E3G-ML79T-G;1;O3.8
+Capteur Photoelectrique Omron;E3C-VS3R;1;O3.8
+Capteur Photoelectrique Omron;E3FA-DP23;3;O3.8
+Capteur Photoelectrique Telemecanique;XU9M18MA23WK;1;O3.8
+Capteur Photoelectrique Omron;E3S-CD11;5;O3.8
+Capteur photoelectrique Omron;E3JM-R4M4-G;4;O3.8
+Cable Auto;LM7-450/9513;3;O2.1
+Cable Signal;E48408;2;O2.1
+Capteur de Sécurité;410;2;O2.1
+Cable pour Capteur;RKMV3-224V2;4;O2.1
+Cable pour Capteur;CTFL;2;O2.1
+Cable d'alimentation;15563;1;O2.2
+Cable connecteur de Vanne;37212;3;O2.2
+Cable connecteur de Vanne;16425;4;O2.2
+Cable connecteur de Vanne;A905;3;O2.2
+Cable connecteur de Vanne;KMEB1-24-5;1;O2.2
+Cable de raccordement;RKWT/LED P4-07;1;O2.3
+Cable pour Capteur;E10866;5;O2.3
+Cable de connexion;EVC 145;5;O2.3
+Cable pour Capteur;RKMWV/LEDA 3-90/2;2;O2.3
+Amplificateur;PO2A01024;2;O2.3
+Capteur de securité;185270AA;2;O2.4
+Cable pour Capteur;E48408;3;O2.4
+Cable pour Capteur;NBV-ZUWAZK;5;O2.4
+Cable pour Capteur;E02-3;6;O2.4
+Cable de connexion;151690;2;O2.4
+Contact de Signal Defaut;GV3 A09;4;O2.5
+Conditionneur de Signal ;8852350000;2;O2.5
+Cable pour Capteur;E2Z 1474;1;O2.5
+Cable pour Capteur;SA2-4 POLE;1;O2.5
+Cable pour Capteur;E34722;1;O2.5
+Cable pour Capteur;RSS 12T/S771;1;O2.5
+Cable pour Capteur;15679;3;O2.6
+Cable pour Capteur;;2;O2.6
+Cable pour Capteur;AS-i AirBox;3;O2.6
+Cable pour Capteur;NR 6008900;1;O2.6
+Cable pour Capteur;EVS005;3;O2.6
+Reflecteur;XUZC80;2;O2.6
+Servomoteur pour Vanne;SQS35 00;2;P1.1
+Electrovanne;166B-351JM;2;P1.1
+Bobine de Vanne;481865C2D5BF;2;P1.1
+Bobine de Vanne;150 00 40 000;3;P1.1
+Bobine de Vanne;P2G-PV32C2;2;P1.1
+Bobine de Vanne;3035MTF;1;P1.1
+Electrovanne;VEP206;3;P1.1
+Bobine de Vanne;43004166;5;P1.2
+Electrovanne;125338Z;1;P1.2
+Electrovanne;48351056F;2;P1.2
+Electrovanne;MSFW-110;4;P1.2
+Electrovanne;1219918;1;P1.2
+Bobine de Vanne;43004473;4;P1.2
+Bobine de Vanne;400325-112;2;P1.2
+Electrovanne;O150;4;P1.2
+Electrovanne;179799W2XLA;2;P1.3
+Raccord de Vanne;;6;P1.3
+Raccord de Vanne;400525-101;2;P1.3
+Bobine de Vanne;400-325-212;1;P1.3
+Electrovanne;MSFG-24/42-50/61;3;P1.3
+Electrovanne;71215SN2W00;1;P1.3
+Raccord de Vanne;;3;P1.3
+Electrovanne;P2G-PV32C2;4;P1.3
+Bobine de Vanne;MSW;3;P1.3
+Bobine de Vanne;1B24210222;4;P1.3
+Raccord de Vanne;;3;P1.3
+Electrovanne;362080;1;P1.4
+Electrovanne;VA19;2;P1.4
+Electrovanne;UXGZ62COO2;2;P1.4
+Electrovanne;443776W;2;P1.4
+Electrovanne;12776-9;12;P1.4
+Electrovanne;92240;1;P1.4
+Bobine de Vanne;OO425290;4;P1.4
+Bobine de Vanne;ZB09IMQ;2;P1.4
+Ventouse Pneu;;4;P1.4
+Electrovanne;481865A4F;1;P1.5
+Electrovanne;EV220B;2;P1.5
+Electrovanne;110360;1;P1.5
+Electrovanne;Z723A;3;P1.5
+Electrovanne;O18F6757;1;P1.5
+Bobine de Vanne;O18F6176;3;P1.5
+Bobine de Vanne;O1F7397;3;P1.5
+Bobine de Vanne;O42N7551;21;P1.5
+ Electrovanne;O32U7170;2;P1.6
+ Electrovanne;4818653DF;1;P1.6
+ Electrovanne;G356AOO25B4Z;3;P1.6
+ Electrovanne;C02-502;1;P1.6
+ Electrovanne;Z723A;3;P1.6
+ Electrovanne;LU003639;2;P1.6
+Bobine de Vanne;126146;3;P1.6
+Bobine de Vanne;1383164;1;P1.6
+Bobine de Vanne;018F6851;3;P1.6
+Electrovanne;E215B060;2;P1.7
+Bobine de Vanne;3490030;1;P1.7
+Bobine de Vanne;33D-C-3OB-MS;1;P1.7
+Electrovanne;256447-645;3;P1.7
+Electrovanne;043481K;5;P1.7
+Electrovanne;43004184;2;P1.7
+Raccord de vanne;;20;P1.7
+Bobine de vanne;400325-117;1;P1.7
+Bobine de vanne;M5W-230AC 3592;4;P1.7
+Electrovanne;1162510;1;P1.8
+Electrovanne;RCA302;2;P1.8
+Electrovanne;1400250000;1;P1.8
+Electrovanne;9100;3;P1.8
+Electrovanne;OO126146;1;P1.8
+Electrovanne;OO177800;1;P1.8
+Electrovanne;MS-P508;4;P1.8
+Connecteur pour Electrovanne;43650;5;P1.8
+Bobine de Vanne;V19bDCW18;1;P1.8
+Bobine de Vanne;O18Z8182;2;P1.8
+Bobine de Vanne;43004422;2;P1.8
+Bobine de Vanne;43004166;7;P1.8
+Bobine de Vanne;400125-181;7;P1.9
+Bobine de Vanne;O42N7508;1;P1.9
+Bobine de Vanne;1826182;2;P1.9
+Bobine de Vanne;43004472;4;P1.9
+Bobine de Vanne;400325-117;3;P1.9
+Electrovanne;W2522050;1;P1.9
+Electrovanne;OO125692;9;P1.9
+Electrovanne;19090008;3;P1.9
+Raccord de Vanne;;7;P1.9
+Electrovanne;6126;1;P1.10
+Electrovanne;29029200;4;P1.10
+Electrovanne;EV220B22;4;P1.10
+Electrovanne;E210D004;1;P1.10
+Bobine de Vanne;;7;P1.10
+Bobine de Vanne;481865J3D5XJ3F;4;P1.10
+Bobine de Vanne;39903220;2;P1.10
+Bobine de Vanne;620712C;2;P1.10
+Raccord de Vanne;;10;P1.10
+Connecteur d'Electrovanne;MSSD 14966542;1;P2.1
+Connecteur d'Electrovanne;MSSD;6;P2.1
+Distributeur;CM-602A;1;P2.1
+Distributeur;MFH-5/2D-1-6;1;P2.1
+Distributeur;54191027;1;P2.1
+Distributeur;5/2-M5-L-LED 34309;4;P2.1
+Distributeur;O30602;1;P2.1
+Distributeur Pneumatique;O820022991;7;P2.1
+Raccord de Vanne;;8;P2.1
+Bobine de Vanne;182421220;4;P2.1
+Bobine de Vanne;7290;8;P2.1
+Filtre Regulateur Boch group;5351330200;1;P2.1
+Electrovanne Pneumatique;55192011;;P2.2
+Electrovanne Pneumatique;134515;2;P2.2
+Electrovanne;OO125654;3;P2.2
+Electrovanne;OO3F1232;10;P2.2
+Electrovanne;BE110C8;2;P2.2
+Electrovanne;O134515;2;P2.2
+Electrovanne;OO221599;3;P2.2
+Condensateur de demarrage;CBB61;12;P2.2
+Embase;;1;P2.3
+Pressostat Festo;PEV-1/4-B;3;P2.3
+Distributeur Pneumatique;JMV5-5-1/4;1;P2.3
+Regulateur ;LOE-M1-G1/4-P;1;P2.3
+Distributeur Pneumatique;4030900;1;P2.3
+Raccord de Vanne;694436;6;P2.3
+Distributeur;O10221;2;P2.3
+Bobine de Vanne;7290 CI16;3;P2.3
+Connecteur pour Electrovanne;18B448110471482;9;P2.3
+Bobine de Vanne;2EV145;30;P2.3
+Bobine de Vanne;400425-142;1;P2.3
+Electrodistributeur;MCH-3-1/8;4;P2.4
+Distributeur Pneumatique;8L501-101;3;P2.4
+Distributeur Pneumatique;8823/JH-5-1/8;2;P2.4
+Distributeur Pneumatique;OOO413;2;P2.4
+Distributeur Pneumatique;8LM512-101;2;P2.4
+Distributeur;O820022958;2;P2.4
+Electrovanne Pneumatique;MH20366;20;P2.4
+Electrovanne Pneumatique;MFH;1;P2.4
+Electrovanne Pneumatique;34393108;1;P2.4
+Electrovanne Pneumatique;Clapet 4/2 263-264;3;P2.4
+Embase de Collecteur;V62D'IMI NORGREN;3;P2.4
+Distributeur Pneumatique;O820060502;23;P2.5
+Distributeur Pneumatique;8958724F;3;P2.5
+Distributeur Pneumatique;DX2-421-70;3;P2.5
+Distributeur Pneumatique;487066;1;P2.5
+Distributeur Pneumatique;O820058028;19;P2.5
+Distributeur Pneumatique;CPE18-M1H-3GC;1;P2.5
+Bobine Pour Electrovanne;O42N7512;5;P2.5
+Distributeur 5/2 Pneumatique;DX1.406.70;8;P2.6
+Servomoteur;SQS65;1;P2.6
+Raccord de vanne;I4A;8;P2.6
+Electrovanne;3/2 0470;4;P2.6
+Bobine Pour Electrovanne;50/60HZ ;3;P2.6
+Distributeur Pneumatique;131025;1;P2.7
+Distributeur  5/2;O820032992;1;P2.7
+Bobine Pour Electrovanne;CI14;19;P2.7
+Distributeur à galet pneumatique;R-5-1/4B8996;11;P2.7
+Distributeur;5711000300;2;P2.7
+Distributeur;577627;1;P2.7
+Valve pneumatique;9764;4;P2.7
+Valve pneumatique;;5;P2.8
+Embase;;3;P2.8
+Connecteur pour Electrovanne;542;8;P2.8
+Bobine Pour Electrovanne;400127-197;3;P2.8
+Electrovanne;400425-142;4;P2.8
+Bobine Pour Electrovanne;43004155;1;P2.8
+Bobine Pour Electrovanne;Rexroh 1824210223;4;P2.9
+Vanne pneumatique type Et;ZK-PK-3-6/3;6;P2.9
+Adapteur de montage;Zezyne;14;P2.9
+Electrovanne;7341LDC1LNM8;1;P2.9
+Detecteur de Niveau;VEGAVIB 61;1;P3.1
+Transmetteur de Pression;VEGABAR 52;1;P3.1
+Detecteur de Niveau;VEGACAP64;2;P3.1
+Detecteur de Niveau;VEGACAL62;1;P3.1
+Sonde de temperature;PT4E406B3BBB1;2;P3.1
+Detecteur de Niveau;VEGAVIB 61;1;P3.2
+Detecteur de Niveau;VEGACAP62;4;P3.2
+Detecteur de Niveau;VEGACAP11;2;P3.2
+Thermostat industriel;JUMO;1;P3.2
+Detecteur debit;DTR;1;P3.2
+Servomoteur pour Vanne;SAS61.03;3;P3.3
+Servomoteur Electromecanique;SIEMENS SAX61.03;1;P3.3
+Actionneur Electromecanique;Schneider Electrique M700-SRSU;1;P3.3
+Electrovanne;;1;P3.3
+Electrovanne Danfoss;EV220B;6;P3.3
+Electrovanne Pneumatique;KAYVALVE KVLE143;1;P3.4
+Thermostat à Canne;;1;P3.4
+Porte-Etiquette;Harmony XB4/XB5;28;P3.4
+Distributeur Pneumatique;VL-5-PK-3;2;P3.4
+Filtre à Air comprimé Riegler;O821301500;1;P3.5
+Regulateur de pression;O821300911;1;P3.5
+Injecteur diesel;ORP-9E;1;P3.5
+Filtre pneumatique PARKER;P3E-LA00TFN;3;P3.5
+Accumulateur d'air comprimé Festo;CRVLS-0,4160234;1;P3.5
+Filtre à Air Rexroth;5351220000;1;P3.5
+Thermostat de temperature Siemens;RAK-TW-1000B-H;1;P3.5
+Regulateur de debit;M/887;10;P3.5
+Regulateur de pression avec filtre Bosh;O821300042;1;P3.6
+Filtre à Air comprimé;Norgren F15-000-M3HO;1;P3.6
+Electrovanne ;;1;P3.6
+Vanne Pneumatique PARKER;P3D-DA00BNN;2;P3.6
+Bobine Pour Electrovanne;;3;P3.6
+Boite à bouton deux trous;XALDO2;2;P3.6
+Manomètre à bain de glycérine;Distrilabo 2163RV15D;5;P3.7
+Raccord pneumatique ;KS3-CK-4;9;P3.7
+Raccord pneumatique ;KS3-CK-6;10;P3.7
+Capteur de debit ifm effector300;SI5000;2;P3.7
+Boite à bouton Schneider Electric;XALDO2H7;1;P3.7
+Boitier de bouton;Martin Lunel;1;P3.7
+Interrupteur de securité à cable;XY2.CC132;3;P3.7
+Raccord de tube à Compression;;7;P3.8
+Interrupteur de temperature;JUMO,STE-S;1;P3.8
+Sonde de temperature PT100;;4;P3.8
+Sonde de temperature PT101;Prosensor;1;P3.8
+Vanne thermostatique Danfoss;Danfoss AVTA15;11;P4.1
+Regulateur de debit d'eau ;Danfoss WVFX20;1;P4.1
+Thermostat;Danfoss RT3 ;1;P4.2
+Thermostat;Danfoss RT14;1;P4.2
+Thermostat;Danfoss RT101;2;P4.2
+Thermostat;Danfoss KP79;4;P4.2
+Pressostat ;Danfoss RT262A;1;P4.2
+Pressostat ;Danfoss RT15;1;P4.2
+Thermostat;AVTA;1;P4.3
+Thermostat;RT200;1;P4.3
+Thermocouple;A003/05;1;P4.3
+Thermostat;2430K;2;P4.3
+Controleur de temperature;2750-0;1;P4.3
+Controleur de debit;F615B-9103;1;P4.4
+Thermostat;003N1163;1;P4.4
+Thermostat;9008-11;1;P4.4
+Pressostat ;411201421;1;P4.4
+Pressostat ;XMLB010AZS11;1;P4.4
+Filtre Regulateur de pression;R412006261;3;P4.4
+Filtre Regulateur de pression;R412006273;4;P4.4
+Manometre;R412004417;1;P4.5
+Pressostat Differentiel;RT262A;1;P4.5
+Pressostat;KP7ABS;1;P4.5
+Sonde Plongeur;162046;4;P4.5
+Actionneur de vanne de Refrigerateur;CVQ;1;P4.5
+Filtre  Air;;3;P4.5
+Thermostat;300;1;P4.5
+Filtre Regulateur de pression;R412007209;2;P4.6
+Filtre Regulateur de pression;34203081;1;P4.6
+Filtre Regulateur de pression;R412006009;7;P4.6
+Pressostat BETA;C1P506H;1;P4.6
+Pressostat ;MCS11;1;P4.6
+Filtre Regulateur de pression;R412006251;2;P4.7
+Filtre Regulateur de pression;R412006209;4;P4.7
+Filtre Regulateur de pression;412007269;2;P4.7
+Filtre Regulateur de pression;R412006123;2;P4.7
+Filtre Regulateur de pression;R412007273;3;P4.7
+Ecrou;98W16;;P4.8
+Vanne d'arret pneumatique;R412006265;4;P4.8
+Vanne d'arret pneumatique;R412007261;3;P4.8
+Filtre pneumatique Festo;MS4-LFR-1/4-D7-ERV-AS;1;P4.8
+Filtre pneumatique Festo;R422002738;3;P4.8
+Valve 581-1;581128000;1;P4.8
+;;;
+;;;P5.1
+Electrovanne Pneumatique;Rexroh 0820058020;1;P5.1
+Electrovanne ;Parker Lucifer 34N01;2;P5.1
+Pressostat;Festo Pev-1/4-00-175250;2;P5.1
+Generateur de vide;Festo P.08681.00;2;P5.1
+Vanne de Mise sous pression ;Festo HEL-D-Mini;2;P5.1
+Actionneur pneumatique rotatif;Festo DSR-16-180P;1;P5.1
+Electrodistributeur;Asco G55AA001;1;P5.1
+Electrovanne Pneumatique;ASCO 551;2;P5.1
+Verin de guidage ;Festo DFM-20-20-P-A-GF;1;P5.1
+Kit de vidange Auto;Parker EP1;3;P5.2
+Servomoteur pour Vanne;SAS61.53;1;P5.2
+Module de derivation pneumatique;Festo M56-FRM;2;P5.2
+Vanne;Festo M56-EE-1/2-10V24-S;2;P5.2
+Electrovanne pneumatique;Festo CPE14-M1BH-3GL-1/8;1;P5.2
+Filtre de pression pneumatique;Festo LFR-M1-G1/4-EO7RG;1;P5.2
+Filtre de ligne sous pression;Bijur Delimon 19849;1;P5.3
+Filtre de pression de carburant vehicule;;1;P5.3
+Electrovanne Pneumatique;MFH-5-1/8;2;P5.3
+Bride de fixation avec collier de Serrage;;21;P5.3
+Capteur à vide;Robovac;2;P5.3
+Pressostat Differentiel;Huba contrôle 604;1;P5.4
+Reservoir d'air comprimé;Festo CRVZS-0.4160234;1;P5.4
+Detendeur de pression;C71239;1;P5.4
+Regulateur de pression ;Samson 708;3;P5.4
+Filtre regulateur pneumatique;Festo LOE-1/2-S-B;2;P5.4
+Detecteur de niveau à lame vibrantes;KROHNE LS6 500;1;P5.4
+Chariot de guidage;RWU45-E-L;1;P5.5
+Distributeur pneumatique;5/3 voies Aventics 581;2;P5.5
+Coude; 3/8;11;M10.01
+Coude; 1/2;4;M10.01
+Coude;"2""";1;M10.01
+Coude;"1""1/2";7;M10.01
+Réduction;3/8---1/4;6;M10.05
+Réduction;1/2---1/4;4;M10.05
+Réduction;1/2---3/8;15;M10.05
+Réduction;3/4---1/4;14;M10.05
+Réduction;3/4---3/9;27;M10.05
+Réduction;3/4---1/2;19;M10.05
+Réduction;"1""/4---1";6;M10.05
+Réduction;"1""/2---1";4;M10.05
+Réduction;"3/8---1""";12;M10.06
+Réduction;"1""---1/2";16;M10.06
+Réduction;"1""1/4---3/8";14;M10.06
+Réduction;"1""1/2---1/2";2;M10.06
+Réduction;"1""1/4---1/2";16;M10.06
+Réduction;"1""---3/4";6;M10.06
+Réduction;"1""1/4---3/4";16;M10.06
+Réduction;"1""1/2---3/4";1;M10.06
+Réduction;"1""1/2---1/2";6;M10.07
+Réduction;"1""1/2---3/4";4;M10.07
+Réduction;"2""---1/2";3;M10.07
+Réduction;"2""---1""1/2";8;M10.07
+Mamelon reduit;X;5;M10.07
+Réduction;"1""1/2---1""1/4";2;M10.07
+Réduction;2---1;8;M10.07
+Réduction;"2---1""1/2";7;M10.07
+Réduction;"2""1/2---1""1/2";2;M10.07
+Mamelon ; 1/4;5;M10.11
+Mamelon ;"2""---1/2";2;M10.11
+Mamelon ;"2""";1;M10.11
+Mamelon ;"1""1/2";11;M10.11
+Mamelon ;"1""";4;M10.11
+Mamelon ; 1/2;32;M10.11
+Mamelon ; 3/8;68;M10.11
+Mamelon ; 3/4;18;M10.11
+Mamelon ;"1""--1/4";11;M10.11
+Coude Rac; 1/4;6;M10.02
+Coude Rac; 3/8;6;M10.02
+Coude Rac;"1""--1/4";2;M10.02
+Coude Rac;"1""--1/2";1;M10.02
+Coude Rac;"2""";2;M10.02
+Coude Rac;"1""--3/8";6;M10.03
+Manchon réduit;"1""--1/2";11;M10.03
+Manchon réduit;"1""1/2---1/2";2;M10.03
+Manchon réduit;"1""1/2---1""1/4";1;M10.03
+Coude Rac;"1""--3/4";1;M10.03
+Manchon réduit;"2""X1""---1""";1;M10.03
+Manchon réduit;"1""1/2---3/4";1;M10.03
+Mamelon réduit MF;3/8---1/4;5;M10.04
+Manchon réduit;X;3;M10.03
+Mamelon réduit MF;1/2---3/8;3;M10.04
+Mamelon réduit MF;1/2---1/4;11;M10.04
+Mamelon réduit MF;"1""1/2";12;M10.04
+Mamelon réduit MF;"1""3/4";7;M10.04
+Mamelon réduit MF;"1""1/2--1""";4;M10.04
+Mamelon réduit MF;"1""1/4--1/2";4;M10.04
+Mamelon réduit MF;"1""1/4--1""";2;M10.04
+Mamelon réduit MF;"2""---1""1/2";1;M10.04
+Mamelon réduit ;1/4---3/8;6;M10.08
+Mamelon réduit ;1/2---3/9;7;M10.08
+Mamelon réduit ;"2""---3/4";8;M10.08
+Mamelon réduit ;3/4---1/2;6;M10.08
+Mamelon réduit ;"1""---3/8";5;M10.08
+Mamelon réduit ;"1""---1/2";14;M10.08
+Mamelon réduit ;"1""1/4---1/2";11;M10.08
+Mamelon réduit ;"1""1/4---3/4";6;M10.09
+Mamelon réduit ;"1""1/2---1";4;M10.09
+Mamelon réduit ;"1""---3/4";7;M10.09
+Mamelon réduit ;"1""1/4---1";2;M10.09
+Mamelon réduit ;"1""1/2---1/4";2;M10.09
+Mamelon réduit ;"2""--1""";4;M10.09
+Mamelon réduit ;"2""--1""1/2";3;M10.09
+Mamelon réduit ;"2""---1/2";2;M10.09
+Mamelon réduit ;"2""--1""1/4";2;M10.09
+Manchon ;"2""---1/2";2;M10.10
+Mamelon ;"2""";5;M10.10
+Mamelon ;"1""---1/2";8;M10.10
+Mamelon ;"1""";26;M10.10
+Mamelon ;"1""---1/4";40;M10.10
+Mamelon ; 3/4;12;M10.10
+Mamelon ; 1/2;15;M10.10
+Mamelon ; 3/8;6;M10.10
+Mamelon ; 1/4;4;M10.10
+Bouchon;"1""--1/4";1;M10.12
+Bouchon;"2""";3;M10.12
+Bouchon;"1""--1/2";2;M10.12
+Bouchon;"1""--1/4";6;M10.12
+Bouchon;"1""--3/4";4;M10.12
+Bouchon; 3/4;27;M10.12
+Bouchon; 1/2;15;M10.12
+Té galvanisé F-F-F;"2""";4;M9.1
+Té galvanisé F-F-F;"1""--1/4";12;M9.1
+Té galvanisé F-F-F;"1""--1/2";6;M9.1
+Té galvanisé F-F-F; 3/4;17;M9.1
+Ténor vap  F-F-F; 3/4;5;M9.2
+Ténor vap  F-F-F; 1/2;4;M9.2
+Ténor  F-F-F;"1""";5;M9.2
+Ténor  F-F-F; 3/4;5;M9.2
+Ténor  F-F-F; 1/2;10;M9.2
+Ténor  F-F-F; 1/4;6;M9.2
+Ténor  F-F-F; 3/8;5;M9.2
+Coude noir  vap F-F-F; 3/4;6;M9.3
+Coude noir  F-F-F;"1""";15;M9.3
+Coude noir  F-F-F;"1""";2;M9.3
+Coude noir  F-F-F;"1""";1;M9.3
+Coude noir Grand F-F-F;"1""---1/4";1;M9.3
+Coude noir  F-F-F;"1""---1/4";3;M9.3
+Coude noir  F-F-F;"1""---1/2";9;M9.3
+Coude noir  F-F-F;"2""";4;M9.3
+Coude noir  F-F-F; 1/4;7;M9.4
+Coude noir Grand F-F-F; 1/4;18;M9.4
+Coude noir  F-F-F; 3/8;4;M9.4
+Coude noir Grand F-F-F; 3/8;6;M9.4
+Coude noir  F-F-F; 1/2;29;M9.4
+Coude noir Grand F-F-F; 1/2;1;M9.4
+Coude noir vap  F-F-F; 1/2;1;M9.4
+Coude noir  F-F-F; 3/4;13;M9.4
+Coude noir vap F-F-F; 3/4;2;M9.4
+Coude noir Grand F-F-F; 3/4;2;M9.4
+Coude noir  F-F-F; 1/8;11;M9.5
+Coude noir  F-F-F; 1/4;49;M9.5
+Coude noir vap F-F-F; 1/4;5;M9.5
+Coude noir  F-F-F; 3/8;29;M9.5
+Coude noir  F-F-F; 1/2;7;M9.5
+Coude noir  F-F-F; 3/4;13;M9.5
+Coude noir  F-F-F; 3/4;4;M9.5
+Coude noir  MF;"1""";28;M9.6
+Coude noir Grand MF;"1""";2;M9.6
+Coude noir   MF;"1""---1/4";1;M9.6
+Coude noir  Grand FF;"1""---1/4";1;M9.6
+Coude noir  MF;"1""---1/2";6;M9.6
+Coude noir  MF;"1""---1/2";3;M9.6
+Raccord Union Noir FF; 1/8;23;M9.7
+Raccord Union Noir FF; 3/8;8;M9.7
+Raccord Union Noir FF; 1/4;38;M9.7
+Raccord Union Noir FF; 1/2;11;M9.7
+Raccord Union Noir FF; 3/4;28;M9.8
+Raccord Union Noir FF;"1""---1/2";9;M9.8
+Raccord Union Noir FF Vapeur;"1""---1/2";2;M9.8
+Raccord Union Noir MF; 3/4;7;M9.8
+Raccord Union Noir MF;X;4;M9.8
+Raccord Union Noir MF; 1/4;8;M9.9
+Raccord Union Noir MF; 3/8;2;M9.9
+Raccord Union Noir MF; 1/2;22;M9.9
+Raccord Union Noir MF; 3/4;47;M9.9
+Raccord Union Noir MF;"1""---1/4";2;M9.9
+Raccord Union Noir MF;"1""---1/2";4;M9.9
+Raccord Union Noir MF;"2""";4;M9.9
+Bouchon noir M; 3/8;9;M9.10
+Bouchon noir M; 1/4;3;M9.10
+Bouchon noir M; 1/2;10;M9.10
+Bouchon noir M; 3/4;11;M9.10
+Bouchon noir M;"1""";16;M9.10
+Bouchon noir M;"1""---1/4";2;M9.10
+Bouchon noir M;"1""---1/2";8;M9.10
+Bouchon noir M;"2""";12;M9.10
+Bouchon noir M;"2""---1/2";5;M9.10
+Raccord Union Coudé MF;"1""---1/4";5;M7.11
+Raccord Union Coudé MF;"1""---1/2";6;M7.11
+Bouchon galvanisé M; 3/8;25;M7.11
+Bouchon galvanisé M; 1/4;7;M7.11
+Bouchon galvanisé M; 3/4;12;M7.11
+Bouchon galvanisé M; 1/2;32;M7.11
+Bouchon galvanisé M;"1""---1/4";8;M7.11
+Bouchon galvanisé M;"1""";14;M7.11
+Bouchon galvanisé M;"2""";5;M7.11
+Bouchon galvanisé M;"1""---1/2";10;M7.11
+Bouchon galvanisé M;"2""---1/2";6;M7.11
+Bouchon galvanisé M; 3/4;6;M7.11
+Bouchon galvanisé M; 1/2;8;M7.11
+Bouchon galvanisé M;"1""";6;M7.11
+Bouchon galvanisé M;"2""";9;M7.11
+Bouchon galvanisé M;"3""";1;M7.11
+Té Inox F-F-F; 1/4;3;M6.1
+Té Inox F-F-F; 3/8;6;M6.1
+Té Inox F-F-F; 1/2;4;M6.1
+Té Inox F-F-F; 3/4;8;M6.1
+Té Inox F-F-F;"1""";4;M6.1
+Té Inox F-F-F;"1""---1/4";5;M6.1
+Reduction Inox F-F;1/2---1/4;3;M6.2
+Reduction Inox F-F;1/2---3/8;2;M6.2
+Reduction Inox F-F;3/4---3/8;2;M6.2
+Reduction Inox F-F; ;3;M6.2
+Reduction;"1""---3/4";4;M6.3
+Reduction;"1""1/4---3/4";7;M6.3
+Reduction;"1""1/4---1""";3;M6.3
+Reduction;"1""---1/2";9;M6.3
+Reduction Inox M-F;;;M6.3
+Reduction Inox M-F;1/2---1/4;6;M6.4
+Reduction Inox M-F;1/2---3/8;6;M6.4
+Reduction Inox M-F;"1""---3/8";4;M6.4
+Reduction Inox M-F;3/4---1/2;17;M6.4
+Reduction Inox M-F;"1""---3/4";8;M6.4
+Reduction Inox M-F;"1""---1/2";29;M6.4
+Reduction Inox M-F;"3/4---1""1/2";4;M6.4
+Reduction Inox F-M;"1""1/4---1"" ";2;M6.4
+Reduction Inox M-F;"1""1/4---1"" ";2;M6.5
+Reduction Inox M-F;"1""---1/2";6;M6.5
+Reduction Inox M-F;1/2---3/4;9;M6.5
+Reduction Inox M-F;3/4---3/8;4;M6.5
+Reduction Inox M-F;1/4---1/2;6;M6.5
+Reduction Inox M-F;1/2---3/8;3;M6.5
+Coude 90 Inox MF;"1""---1/4";2;M6.6
+Coude 90 Inox MF;"1""---1/2";2;M6.6
+Coude 90 Inox MF;"1""";3;M6.6
+Reduction Inox M-F;"1""1/4---3/4";6;M6.6
+Reduction Inox M-F;"1""1/2---1""";1;M6.6
+Reduction Inox M-F;"1""---1/2";11;M6.7
+Coude  Inox MF; 1/4;6;M6.7
+Coude 90 Inox MF; 3/8;5;M6.7
+Coude 90 Inox MF; 1/2;7;M6.7
+Coude 90 Inox MF; 3/4;5;M6.7
+Coude 90 Inox MF; 1/4;6;M6.7
+Coude 90 Inox MF; 3/4;9;M6.7
+Coude 90 Inox MF; 1/2;10;M6.7
+Coude 90 Inox MF; 3/8;6;M6.7
+Mamelon Reduit M-M;3/8---1/4;3;M6.8
+Mamelon Reduit M-M;1/2---1/4;2;M6.8
+Mamelon Reduit M-M;1/2---3/8;3;M6.8
+Mamelon Reduit M-M;3/4---3/8;3;M6.8
+Mamelon Reduit M-M;3/4---1/2;36;M6.8
+Mamelon Reduit M-M;"1""---3/4";8;M6.8
+Mamelon Reduit M-M;"1""---1/2";3;M6.8
+Mamelon Reduit M-M;"1""1/4---3/4";10;M6.8
+Mamelon Reduit M-M;"1""1/4---1""";2;M6.8
+Manchon Inox; 1/4;4;M6.9
+Manchon Inox; 3/8;6;M6.9
+Manchon Inox; 3/4;7;M6.9
+Manchon Inox;"1""1/4";4;M6.9
+Manchon Inox;"1""1/2";7;M6.9
+Mamelon Inox; 1/4;13;M6.10
+Mamelon Inox; 3/8;10;M6.10
+Mamelon Inox; 1/2;5;M6.10
+Mamelon Inox; 3/4;18;M6.10
+Mamelon Inox;"1""";4;M6.10
+Manchon Union; 1/8;7;M6.11
+Manchon Union; 3/8;12;M6.11
+Manchon Union; 1/2;14;M6.11
+Manchon Union; 3/4;1;M6.11
+Manchon Union;"1""";4;M6.11
+Manchon Union;"1""1/4";4;M6.11
+Raccord Union;"1""1/2";2;M6.11
+Manchon Union Inox; 1/4;7;M6.12
+Manchon Union Inox; 3/8;1;M6.12
+Manchon Union Inox; 1/2;2;M6.12
+Manchon Union Inox; 3/4;1;M6.12
+Manchon Union Inox;"1""1/4";3;M6.12
+Vanne de Regulation 3Voies Cuivre;"2""1/2";1;M1.1
+Vanne de Regulation 3Voies Cuivre;"1""1/4";5;M1.1
+Vanne de Regulation 3Voies Cuivre; 1/2;4;M1.1
+Vanne de Regulation 2Voies Cuivre;"1""1/4";2;M1.1
+Regulation de temperature Cuivre; 3/4;2;M1.1
+Vanne de Regulation 3Voies Cuivre;" 1""3/4";1;M1.2
+Vanne de Regulation 3Voies Cuivre;"2""";4;M1.2
+Vanne de Regulation 3Voies Cuivre;"1""";2;M1.2
+Raccord  Vanne 3Voies Cuivre; 3/4;3;M1.2
+Vanne à Volant Cuivre;"2""";1;M1.3
+Vanne à Volant Cuivre;"1""";2;M1.3
+Raccord tuyau Cuivre;"1""";4;M1.6
+Raccord tuyau Cuivre; 1/2;4;M1.6
+Coude Cuivre;1/2--3/8;4;M1.6
+Coude Cuivre;"1""";3;M1.6
+Coude Cuivre; 1/4;8;M1.6
+Coude Cuivre; 3/8;19;M1.6
+Raccord tuyau Cuivre; 3/8;30;M1.6
+Raccord Cuivre;"1""";33;M1.4
+Mamelon/Raccord Cuivre; 3/4;57;M1.4
+Mamelon/Raccord Cuivre;1/2--1/4;;M1.4
+Mamelon Reduit Cuivre;3/8--1/4;4;M1.4
+Mamelon Reduit Cuivre;3/4--1/4;16;M1.4
+Mamelon  Cuivre;"2""";1;M1.4
+Mamelon  Cuivre;1/4--1/4;3;M1.4
+Mamelon Reduit Cuivre; 3/4;11;M1.4
+Mamelon Reduit Cuivre;"1""--3/4";5;M1.4
+Mamelon Reduit Cuivre;"1""--1/2";10;M1.4
+Reduction Cuivre M-F;3/8--3/4;13;M1.5
+Reduction Cuivre M-F;1/4--1/4;3;M1.5
+Reduction Cuivre M-F;3/4--1/4;12;M1.5
+Reduction Cuivre M-F;3/4--3/4;19;M1.5
+Reduction Cuivre M-F;"3/4---1""";3;M1.5
+Bouchon Cuivre;"2""";3;M1.7
+Bouchon Cuivre;"1""1/2";6;M1.7
+Bouchon Cuivre;"1""1/4";7;M1.7
+Bouchon Cuivre;"1""";4;M1.7
+Bouchon Cuivre; 3/4;6;M1.7
+Bouchon Cuivre; 1/2;6;M1.7
+Bouchon Cuivre; 3/8;6;M1.7
+Bouchon Cuivre; 1/4;11;M1.7
+Filtre Cuivre;"1""1/4";2;M1.8
+Filtre Cuivre;"1""";1;M1.8
+Filtre Cuivre;"1""1/2";3;M1.8
+Filtre Cuivre;"2""";3;M1.8
+Filtre Cuivre; 3/4;4;M1.8
+Filtre Cuivre; 1/2;4;M1.8
+Filtre Cuivre; 3/8;10;M1.8
+Vanne à volant Cuivre; 3/8;2;M1.9
+Vanne à volant Cuivre;"1""1/4";5;M1.9
+Vanne à volant Cuivre;"1""1/2";1;M1.9
+Vanne à volant Cuivre; 3/4;1;M1.9
+Vanne à volant Cuivre;"1""";2;M1.9
+Vanne à volant Cuivre; 1/2;3;M1.9
+Vanne d'équilibre; 1/2;1;M1.9
+Soupape;6,5Bar;1;M1.9
+Vanne 1/4Tour; 3/8;3;M1.9
+Vanne à volant Cuivre;"2""1/2";3;M1.10
+Vanne à volant Cuivre;"2""";2;M1.10
+Vanne à volant avec filtre Cuivre; 1/2;4;M1.10
+Manchon plastique;;4;M2.4
+Connecteur de tuyau Cuivre en Té;;7;M2.5
+Connecteur de tuyau ;;4;M2.5
+Connecteur de tuyau ;;12;M2.5
+Connecteur de tuyau ;;5;M2.5
+Connecteur de tuyau ;;3;M2.5
+Connecteur de tuyau ;;8;M2.5
+Connecteur de tuyau ;;14;M2.5
+Connecteur de tuyau ;;20;M2.5
+Connecteur de tuyau ;;4;M2.5
+Connecteur de tuyau ;;;M2.5
+Connecteur de tuyau ;;;M2.5
+Connecteur de tuyau ;;;M2.5
+Connecteur de tuyau ;;;M2.5
+Soupape Cuivre;"1""";1;M2.6
+Raccord Cuivre; 3/4;1;M2.6
+Raccord Cuivre;"1""";6;M2.6
+Coude Cuivre;"1""";6;M2.6
+Coude Cuivre; 3/4;14;M2.6
+Bouchon Vidange Cuivre;;11;M2.6
+Coude Cuivre; 1/2;16;M2.6
+Mamelon Cuivre ;;;M2.7
+Mamelon Cuivre ; 3/4;44;M2.7
+Purgeur d'air Cuivre;;;M2.7
+Té Cuivre; 1/2;6;M2.7
+Té Cuivre; 3/4;3;M2.7
+Electrovane Cuivre;;1;M2.7
+Vanne à Membrane Cuivre ;"1""1/2";2;M2.8
+Clapet Anti-Retour Cuivre;"1""";3;M2.8
+Clapet Anti-Retour Cuivre; 1/2;3;M2.8
+Raccord union Cuivre;"1""1/2";30;M2.9
+Coude vapeur;"1""";14;M3.2
+Coude vapeur;DN50;4;M3.4
+Vanne Papillon ;DN85;4;M3.4
+Vanne Papillon ;DN40;3;M3.4
+Vanne Papillon ;DN65;3;M3.4
+Embout;"3""";7;M3.7
+Embout;"2""1/2";8;M3.7
+Embout; 1/4;34;M3.7
+Embout; 3/8;48;M3.7
+Embout; 3/4;34;M3.8
+Embout;"1""1/4";;M3.8
+Embout; 1/2;17;M3.7
+Embout;;;
+Bouchon;"2""";5;M3.9
+Bouchon; 3/8;14;M3.9
+Bouchon;"1""1/2";25;M3.9
+Bouchon; 1/4;13;M3.9
+Bouchon;"1""1/4";6;M3.9
+Bouchon; 1/2;16;M3.9
+Bouchon;"1""";7;M3.9
+Bouchon; 3/4;6;M3.9
+Bouchon;;;
+Bouchon;;;
+;;;
+Embout;;;
+Vanne Papillon ;DN80;5;M3.5
+Embout Inox; 3/8;30;M5.2
+Embout Inox; 3/4;10;M5.2
+Embout Inox;"1""1/2";19;M5.2
+Embout Inox; 1/2;20;M5.2
+Embout Inox; 1/4;25;M5.2
+Embout Inox;"1""";1;M5.2
+Embout Inox;;;M5.2
+Raccord à Soude Inox;"1""";4;M5.3
+Raccord à Soude Inox;"1""3/8";8;M5.3
+Raccord à Soude Inox;"2""1/2";7;M5.3
+Raccord à Soude Inox;"1""1/4";2;M5.3
+Raccord à Soude Inox;"1""1/2";16;M5.3
+Raccord à Soude Inox;"2""1/4";2;M5.3
+Raccord à Soude Inox; 3/4;20;M5.3
+Raccord à Soude Inox;"3""";3;M5.3
+Raccord à Soude Inox;"2""";3;M5.4
+Raccord à Soude Inox;"4""";2;M5.4
+Vanne Papillon Inox;"2""";6;M5.5
+Vanne Papillon Inox;"1""3/4";3;M5.5
+Vanne Papillon Inox;"2""1/2";5;M5.5
+Vanne Papillon Inox;"4""";5;M5.5
+Vanne Papillon Inox;"2""";5;M5.5
+;;;
+Bouchon Inox;80    ;5;M5.8
+Bouchon Inox;X;6;M5.8
+Bouchon Inox;X;3;M5.8
+Bouchon Inox;X;4;M5.8
+Bouchon Inox;X;4;M5.8
+Manchon Inox;"4""";;M5.8
+Font Bombe Inox;;14;M5.8
+Bouchon EAU Inox;;4;M4.1
+Raccord hydrau Inox; 3/4;5;M4.1
+Raccord Tournant Inox;;2;M4.1
+Connecteur de tuyau en Te Inox;;13;M4.1
+Vanne boisseau Inox;;8;M4.1
+Vanne 1/4tours Inox;"2""";3;M4.1
+Vanne boisseau Inox;"1""";6;M4.2
+Raccord  tuyau Inox; 1/2;12;M4.2
+Vanne 1/4tours Inox; 3/4;5;M4.2
+Vanne 1/4tours Inox; 1/4;4;M4.2
+Vanne boisseau Inox;"2""1/2";1;M4.2
+Vanne de Regulation;DN15;1;M4.2
+Vanne boisseau Inox;"1""";1;M4.2
+Filtre Inox; 3/4;4;M4.3
+Filtre Inox;"1""";3;M4.3
+Filtre Inox; 1/2;1;M4.3
+Filtre Inox;"1""1/2";1;M4.3
+Raccord Rapide Hydreau; 1/2;3;M4.3
+Vanne Papillon Inox;X;1;M4.3
+Vanne Papillon Filtre Inox;"3""";4;M4.4
+Vanne Papillon Filtre Inox;DN53;2;M4.4
+Vanne 1/4 Tour Inox;"1""";1;M4.4
+Bouchon De Vidange Inox;"1""";3;M4.4
+Bouchon De Vidange Inox;DN50;20;M4.5
+Vanne Papillon Filtre Inox;"3""1/2";4;M4.5
+Raccord à Soude Inox;DN51;60;M4.6
