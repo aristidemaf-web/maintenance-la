@@ -1225,21 +1225,22 @@ if ('serviceWorker' in navigator) {
             
             // On ignore la première ligne (en-tête) et on traite les autres
             inventaireCSV = lignes.slice(1).map(l => {
-                if (!l.trim()) return null; // Ignore les lignes vides
-                
-                // --- VÉRIFICATION DU SÉPARATEUR ICI ---
-                // Si ton Excel utilise des virgules, change ';' par ','
-                const c = l.split(';'); 
-                
-                if(c.length >= 2) {
-                    return { 
-                        id: c[0].trim(), 
-                        nom: c[1].trim(), 
-                        zone: c[2] ? c[2].trim() : 'N/A' 
-                    };
-                }
-                return null;
-            }).filter(p => p !== null);
+    if (!l.trim()) return null;
+    
+    // On coupe par point-virgule
+    const c = l.split(';'); 
+    
+    if(c.length >= 2) {
+        return { 
+            // D'après ton image :
+            id: c[1] ? c[1].trim() : 'Sans Réf', // Références est en 2ème position
+            nom: c[0] ? c[0].trim() : 'Inconnu', // Désignations est en 1ère position
+            zone: c[3] ? c[3].trim() : 'N/A',    // Emplacement est en 4ème position
+            stock: c[2] ? c[2].trim() : '0'      // Quantité est en 3ème position
+        };
+    }
+    return null;
+}).filter(p => p !== null);
             
             console.log("Catalogue chargé : " + inventaireCSV.length + " pièces.");
         } catch (err) { 
