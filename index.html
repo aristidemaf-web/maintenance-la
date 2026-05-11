@@ -3,729 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aïcha Maintenance - Système Intégré</title>
-    
+    <title>Aïcha Maintenance</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="theme-color" content="#1e3a8a">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
     <style>
         :root {
-            --primary-blue: #1e3a8a;
-            --secondary-blue: #3b82f6;
-            --white: #ffffff;
-            --light-bg: #f1f5f9;
-            --text-dark: #1e293b;
+            --primary:    #1e3a8a;
+            --secondary:  #3b82f6;
+            --light-bg:   #f1f5f9;
+            --text-dark:  #1e293b;
             --text-muted: #64748b;
-            --sidebar-width: 260px;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --border: #e2e8f0;
-            --radius: 12px;
+            --sidebar-w:  260px;
+            --success:    #10b981;
+            --danger:     #ef4444;
+            --warning:    #f59e0b;
+            --border:     #e2e8f0;
+            --radius:     12px;
         }
-.dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--primary);
-        }
-        
-        .badge-info {
-            background-color: #e3f2fd;
-            color: #0d47a1;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        body { background:var(--light-bg); min-height:100vh; overflow-x:hidden; }
 
-        #results-dropdown::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        #results-dropdown::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 10px;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-
-        body { background-color: var(--light-bg); min-height: 100vh; overflow-x: hidden; }
-
-        /* =====================
-           ÉCRAN DE CONNEXION
-        ===================== */
+        /* ── LOGIN ───────────────────────────────── */
         #login-page {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 1000; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position:fixed; inset:0;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            display:flex; align-items:center; justify-content:center;
+            z-index:1000; transition:transform .6s cubic-bezier(.4,0,.2,1);
         }
-
-        .login-container {
-            background: var(--white); padding: 35px 30px; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25); width: 90%; max-width: 400px; text-align: center;
+        .login-box {
+            background:#fff; padding:36px 30px; border-radius:20px;
+            box-shadow:0 20px 40px rgba(0,0,0,.25); width:90%; max-width:400px; text-align:center;
         }
+        .logo-aicha { max-width:140px; margin-bottom:12px; background:#fff; padding:8px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,.1); }
+        .input-group { margin-bottom:14px; position:relative; text-align:left; }
+        .input-group label { display:block; margin-bottom:6px; color:var(--primary); font-weight:600; font-size:.85rem; }
+        .input-group .fi { position:absolute; left:14px; top:37px; color:#94a3b8; pointer-events:none; }
+        .input-group .err { font-size:.75rem; color:var(--danger); margin-top:4px; display:none; }
+        .input-group.bad input { border-color:var(--danger); }
+        .input-group.bad .err { display:block; }
+        #login-alert { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:10px 14px; border-radius:8px; font-size:.85rem; margin-bottom:14px; display:none; gap:8px; align-items:center; text-align:left; }
+        .btn-login { width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:10px; font-weight:700; font-size:1rem; cursor:pointer; transition:background .2s; }
+        .btn-login:hover { background:#1e40af; }
+        .btn-login:disabled { opacity:.6; cursor:not-allowed; }
 
-        .logo-aicha { max-width: 150px; 
-    margin-bottom: 10px;
-    background-color: white; /* Force le fond blanc */
-    padding: 10px;           /* Espace autour du logo */
-    border-radius: 12px;    /* Coins arrondis pour l'esthétique */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Petit relief */}
-
-        .input-group { margin-bottom: 15px; position: relative; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem; }
-        .input-group i.field-icon { position: absolute; left: 15px; top: 38px; color: #94a3b8; }
-
-        input[type="text"], input[type="password"], select, textarea {
-            width: 100%; padding: 12px 15px; border: 2px solid var(--border);
-            border-radius: 10px; outline: none; font-size: 15px; transition: border-color 0.2s;
-            font-family: inherit; background: #fff;
+        /* ── FIELD BASE ─────────────────────────── */
+        input[type=text], input[type=password], input[type=number], input[type=date], select, textarea {
+            width:100%; padding:11px 14px; border:2px solid var(--border);
+            border-radius:10px; outline:none; font-size:16px;
+            font-family:inherit; background:#fff; transition:border-color .2s;
         }
-        input[type="text"]:focus, input[type="password"]:focus,
-        select:focus, textarea:focus {
-            border-color: var(--secondary-blue);
-        }
-        input[type="text"].has-icon, input[type="password"].has-icon { padding-left: 45px; }
+        input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus { border-color:var(--secondary); }
+        input.has-icon { padding-left:44px; }
 
-        .input-group .error-msg {
-            font-size: 0.78rem; color: var(--danger); margin-top: 5px; display: none;
-        }
-        .input-group.invalid input { border-color: var(--danger); }
-        .input-group.invalid .error-msg { display: block; }
+        /* ── DASHBOARD ──────────────────────────── */
+        #app { display:none; flex-direction:row; height:100vh; }
 
-        #login-error {
-            background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c;
-            padding: 10px 14px; border-radius: 8px; font-size: 0.85rem;
-            margin-bottom: 15px; display: none; text-align: left;
-        }
-
-        .btn-login {
-            width: 100%; padding: 14px; background-color: var(--primary-blue); color: white;
-            border: none; border-radius: 10px; font-weight: bold; font-size: 1rem;
-            cursor: pointer; transition: background 0.2s, transform 0.1s;
-        }
-        .btn-login:hover { background: #1e40af; }
-        .btn-login:active { transform: scale(0.98); }
-        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        /* =====================
-           INTERFACE PRINCIPALE
-        ===================== */
-        #main-dashboard { display: none; flex-direction: row; height: 100vh; }
-
-        /* --- Bouton hamburger (mobile uniquement) --- */
+        /* hamburger */
         #hamburger {
-            display: none;
-            position: fixed; top: 14px; left: 14px; z-index: 300;
-            background: var(--primary-blue); color: white;
-            border: none; border-radius: 10px; width: 42px; height: 42px;
-            font-size: 1.1rem; cursor: pointer; align-items: center; justify-content: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.25); transition: background 0.2s;
+            display:none; position:fixed; top:13px; left:13px; z-index:300;
+            background:var(--primary); color:#fff; border:none; border-radius:10px;
+            width:42px; height:42px; font-size:1.1rem; cursor:pointer;
+            align-items:center; justify-content:center;
+            box-shadow:0 3px 10px rgba(0,0,0,.25);
         }
-        #hamburger:hover { background: var(--secondary-blue); }
 
-        /* --- Overlay sombre derrière la sidebar (mobile) --- */
-        #sidebar-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5); z-index: 149;
-            opacity: 0; transition: opacity 0.3s;
-            pointer-events: none;
+        /* overlay */
+        #overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.5); z-index:149;
+            opacity:0; transition:opacity .3s; pointer-events:none;
         }
-        #sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+        #overlay.on { opacity:1; pointer-events:all; }
 
-        /* --- Sidebar --- */
+        /* sidebar */
         .sidebar {
-            width: var(--sidebar-width); background: var(--primary-blue); color: white;
-            height: 100vh; position: fixed; padding: 20px; z-index: 150;
-            display: flex; flex-direction: column;
-            transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+            width:var(--sidebar-w); background:var(--primary); color:#fff;
+            height:100vh; position:fixed; padding:20px; z-index:150;
+            display:flex; flex-direction:column;
+            transition:transform .32s cubic-bezier(.4,0,.2,1);
         }
-
-        /* Bouton fermeture intégré à la sidebar (mobile) */
-        .sidebar-close {
-            display: none; position: absolute; top: 14px; right: 14px;
-            background: rgba(255,255,255,0.15); border: none; color: white;
-            width: 32px; height: 32px; border-radius: 8px; font-size: 1rem;
-            cursor: pointer; align-items: center; justify-content: center;
-            transition: background 0.2s;
+        .sb-close {
+            display:none; position:absolute; top:13px; right:13px;
+            background:rgba(255,255,255,.15); border:none; color:#fff;
+            width:30px; height:30px; border-radius:8px; font-size:.95rem;
+            cursor:pointer; align-items:center; justify-content:center;
         }
-        .sidebar-close:hover { background: rgba(255,255,255,0.28); }
-
-        .sidebar-logo { background: white; padding: 10px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
-        .sidebar-logo img { max-width: 100px; }
-
-        .sidebar nav { flex: 1; }
-        .sidebar ul { list-style: none; }
+        .sb-logo { background:#fff; padding:10px; border-radius:10px; margin-bottom:28px; text-align:center; }
+        .sb-logo img { max-width:95px; }
+        .sidebar nav { flex:1; }
+        .sidebar ul { list-style:none; }
         .sidebar ul li a {
-            color: white; text-decoration: none; display: flex; align-items: center;
-            padding: 12px; border-radius: 8px; transition: background 0.2s; margin-bottom: 5px;
+            color:#fff; text-decoration:none; display:flex; align-items:center;
+            padding:11px; border-radius:8px; transition:background .2s; margin-bottom:4px;
         }
-        .sidebar ul li a:hover { background: rgba(255,255,255,0.15); }
-        .sidebar ul li.active a { background: var(--secondary-blue); }
-        .sidebar i { margin-right: 15px; width: 20px; }
+        .sidebar ul li a:hover { background:rgba(255,255,255,.15); }
+        .sidebar ul li.active a { background:var(--secondary); }
+        .sidebar i { margin-right:13px; width:18px; }
+        .sb-user { border-top:1px solid rgba(255,255,255,.18); padding-top:14px; font-size:.8rem; color:rgba(255,255,255,.7); }
+        .sb-user strong { display:block; color:#fff; margin-bottom:2px; }
 
-        .sidebar-user {
-            border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
-            font-size: 0.82rem; color: rgba(255,255,255,0.7);
+        /* main */
+        .main { margin-left:var(--sidebar-w); flex:1; padding:24px; height:100vh; overflow-y:auto; }
+
+        /* pages */
+        .page { display:none; animation:fadeIn .35s ease; }
+        .page.active { display:block; }
+
+        /* hero */
+        .hero {
+            height:200px; border-radius:16px;
+            background:linear-gradient(rgba(0,0,0,.4),rgba(30,58,138,.6)),url('hero.jpg');
+            background-size:cover; background-position:center;
+            display:flex; flex-direction:column; justify-content:flex-end;
+            padding:22px; color:#fff; margin-bottom:22px;
         }
-        .sidebar-user strong { display: block; color: white; margin-bottom: 2px; }
+        .hero h2 { font-size:1.7rem; text-shadow:2px 2px 8px rgba(0,0,0,.8); }
+        .hero p  { opacity:.85; margin-top:4px; font-size:.88rem; }
 
-        .main-content {
-            margin-left: var(--sidebar-width); flex: 1; padding: 25px;
-            height: 100vh; overflow-y: auto; transition: margin-left 0.3s;
-        }
+        /* stats */
+        .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin-bottom:20px; }
+        .stat { background:#fff; padding:16px; border-radius:var(--radius); box-shadow:0 2px 8px rgba(0,0,0,.06); text-align:center; }
+        .stat-val { font-size:1.7rem; font-weight:700; color:var(--primary); }
+        .stat-lbl { font-size:.75rem; color:var(--text-muted); margin-top:3px; }
 
-        /* Pages */
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        .page.active { display: block; }
-
-        /* Hero */
-        .hero-sima {
-            height: 220px; border-radius: 18px;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(30,58,138,0.6)), url('hero.jpg');
-            background-size: cover; background-position: center;
-            display: flex; flex-direction: column; align-items: flex-start;
-            justify-content: flex-end; padding: 25px; color: white; margin-bottom: 25px;
-        }
-        .hero-sima h2 { font-size: 1.8rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
-        .hero-sima p { opacity: 0.85; margin-top: 5px; font-size: 0.9rem; }
-
-        /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card {
-            background: white; padding: 18px; border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center;
-        }
-        .stat-card .stat-val { font-size: 1.8rem; font-weight: 700; color: var(--primary-blue); }
-        .stat-card .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
-
-        /* Sub nav */
-        .sub-nav {
-            display: flex; gap: 8px; margin-bottom: 20px;
-            border-bottom: 2px solid var(--border); padding-bottom: 10px; overflow-x: auto;
-        }
+        /* sub-nav */
+        .sub-nav { display:flex; gap:8px; margin-bottom:18px; border-bottom:2px solid var(--border); padding-bottom:9px; overflow-x:auto; }
         .sub-nav button {
-            background: none; border: none; padding: 8px 16px; cursor: pointer;
-            font-weight: 600; color: var(--text-muted); border-radius: 8px;
-            transition: all 0.2s; white-space: nowrap; font-size: 0.9rem;
+            background:none; border:none; padding:8px 15px; cursor:pointer;
+            font-weight:600; color:var(--text-muted); border-radius:8px;
+            transition:all .2s; white-space:nowrap; font-size:.88rem;
         }
-        .sub-nav button.active { background: var(--primary-blue); color: white; }
-        .sub-nav button:hover:not(.active) { background: var(--light-bg); }
+        .sub-nav button.active { background:var(--primary); color:#fff; }
+        .sub-nav button:hover:not(.active) { background:var(--light-bg); }
+        .sub { display:none; animation:fadeIn .3s ease; }
+        .sub.active { display:block; }
 
-        .sub-content { display: none; animation: fadeIn 0.3s ease; }
-        .sub-content.active { display: block; }
+        /* card */
+        .card { background:#fff; padding:20px; border-radius:var(--radius); box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:18px; }
+        .card h2 { margin-bottom:14px; color:var(--primary); border-bottom:2px solid var(--light-bg); padding-bottom:9px; font-size:1.1rem; display:flex; align-items:center; gap:8px; }
 
-        /* Cards */
-        .card {
-            background: white; padding: 22px; border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;
-        }
-        .card h2 {
-            margin-bottom: 15px; color: var(--primary-blue);
-            border-bottom: 2px solid var(--light-bg); padding-bottom: 10px;
-            font-size: 1.15rem; display: flex; align-items: center; gap: 8px;
-        }
-        .card h3 { font-size: 1rem; color: var(--text-dark); margin-bottom: 10px; }
+        /* form */
+        .fg { display:grid; gap:14px; }
+        .fg label { display:block; margin-bottom:5px; color:var(--primary); font-weight:600; font-size:.83rem; }
+        .char-c { font-size:.73rem; color:var(--text-muted); text-align:right; margin-top:2px; }
 
-        /* Forms */
-        .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .form-group label {
-            display: block; margin-bottom: 6px; color: var(--primary-blue);
-            font-weight: 600; font-size: 0.85rem;
-        }
-        .form-group select, .form-group textarea, .form-group input[type="text"],
-        .form-group input[type="date"] { width: 100%; }
-        .form-group .char-count { font-size: 0.75rem; color: var(--text-muted); text-align: right; margin-top: 3px; }
+        /* table */
+        .tc { width:100%; overflow-x:auto; }
+        table { width:100%; border-collapse:collapse; min-width:380px; }
+        th,td { padding:10px 11px; text-align:left; border-bottom:1px solid var(--border); font-size:.86rem; }
+        th { background:#f8fafc; color:var(--primary); font-weight:600; }
+        tr:hover td { background:#fafbff; }
 
-        /* Table */
-        .table-container { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 400px; }
-        th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-        th { background: #f8fafc; color: var(--primary-blue); font-weight: 600; }
-        tr:hover td { background: #fafbff; }
+        /* badges */
+        .badge { display:inline-block; padding:3px 9px; border-radius:20px; font-size:.73rem; font-weight:600; }
+        .b-success { background:#d1fae5; color:#065f46; }
+        .b-warning { background:#fef3c7; color:#92400e; }
+        .b-danger  { background:#fee2e2; color:#991b1b; }
+        .b-info    { background:#dbeafe; color:#1e40af; }
 
-        .badge {
-            display: inline-block; padding: 3px 10px; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 600;
+        /* buttons */
+        .btn {
+            background:var(--primary); color:#fff; padding:11px 18px;
+            border:none; border-radius:10px; cursor:pointer; font-weight:700;
+            margin-top:14px; display:inline-flex; align-items:center; gap:7px;
+            font-size:.93rem; transition:background .2s;
         }
-        .badge-success { background: #d1fae5; color: #065f46; }
-        .badge-warning { background: #fef3c7; color: #92400e; }
-        .badge-danger  { background: #fee2e2; color: #991b1b; }
-        .badge-info    { background: #dbeafe; color: #1e40af; }
+        .btn:hover { background:#1e40af; }
+        .btn:disabled { opacity:.55; cursor:not-allowed; }
+        .btn-red  { background:#dc2626; } .btn-red:hover  { background:#b91c1c; }
+        .btn-out  { background:#fff; color:var(--primary); border:2px solid var(--primary); }
+        .btn-out:hover { background:var(--light-bg); }
+        .btn-row  { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+        .btn-row .btn { margin-top:0; flex:1; justify-content:center; }
+        .btn-del  { background:none; border:none; color:var(--danger); cursor:pointer; padding:5px 8px; border-radius:6px; transition:background .2s; }
+        .btn-del:hover { background:#fee2e2; }
 
-        /* Buttons */
-        .btn-save {
-            background: var(--primary-blue); color: white; padding: 12px 20px;
-            border: none; border-radius: 10px; cursor: pointer; font-weight: bold;
-            margin-top: 15px; transition: background 0.2s, transform 0.1s;
-            display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem;
-        }
-        .btn-save:hover { background: #1e40af; }
-        .btn-save:active { transform: scale(0.98); }
-        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-pdf-download { background: #dc2626; }
-        .btn-pdf-download:hover { background: #b91c1c; }
-        .btn-secondary {
-            background: white; color: var(--primary-blue); border: 2px solid var(--primary-blue);
-        }
-        .btn-secondary:hover { background: var(--light-bg); }
-        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
-        .btn-row .btn-save { margin-top: 0; flex: 1; justify-content: center; }
-        .btn-danger-sm {
-            background: none; border: none; color: var(--danger); cursor: pointer;
-            padding: 4px 8px; border-radius: 6px; transition: background 0.2s;
-        }
-        .btn-danger-sm:hover { background: #fee2e2; }
+        /* ── PIÈCES ──────────────────────────────── */
+        .pieces-wrap { margin-top:20px; padding-top:16px; border-top:2px solid var(--light-bg); }
+        .pieces-wrap h3 { color:var(--primary); margin-bottom:8px; font-size:.97rem; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+        #p-status { font-size:.76rem; color:var(--text-muted); display:inline-flex; align-items:center; gap:5px; }
 
-        /* Toast */
+        /* barre de recherche pièce */
+        .p-search-box { position:relative; margin-bottom:6px; }
+        .p-search-box .ico { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none; }
+        #p-input { padding-left:40px !important; }
+
+        /* dropdown résultats */
+        #p-drop {
+            display:none; background:#fff; border:1px solid var(--border);
+            border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.13);
+            max-height:260px; overflow-y:auto; margin-bottom:10px;
+        }
+        #p-drop::-webkit-scrollbar { width:5px; }
+        #p-drop::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:10px; }
+        .p-item { padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--border); transition:background .13s; }
+        .p-item:last-child { border-bottom:none; }
+        .p-item:hover { background:#eff6ff; }
+        .p-item .pn { font-weight:600; font-size:.86rem; color:var(--text-dark); margin-bottom:3px; }
+        .p-item .pm { font-size:.76rem; color:var(--text-muted); display:flex; gap:10px; flex-wrap:wrap; }
+        .p-item .pr { color:var(--secondary); font-weight:500; }
+        .p-none { padding:16px; text-align:center; color:var(--text-muted); font-size:.86rem; }
+
+        /* pièces sélectionnées */
+        #p-selected { display:none; margin-top:10px; }
+        .p-sel-lbl { font-size:.76rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px; }
+        .qty-in { width:54px !important; min-height:unset !important; padding:4px 6px !important; font-size:.83rem !important; text-align:center; }
+
+        /* ── TOAST ───────────────────────────────── */
         #toast {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
-            background: var(--primary-blue); color: white; padding: 12px 20px;
-            border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            font-size: 0.9rem; display: flex; align-items: center; gap: 10px;
-            transform: translateY(80px); opacity: 0; transition: all 0.3s ease;
-            pointer-events: none;
+            position:fixed; bottom:18px; right:18px; z-index:9999;
+            background:var(--primary); color:#fff; padding:11px 18px;
+            border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.2);
+            font-size:.88rem; display:flex; align-items:center; gap:9px;
+            transform:translateY(80px); opacity:0; transition:all .3s ease; pointer-events:none;
+            max-width:320px;
         }
-        #toast.show { transform: translateY(0); opacity: 1; }
-        #toast.success { background: #059669; }
-        #toast.error   { background: #dc2626; }
+        #toast.show  { transform:translateY(0); opacity:1; }
+        #toast.ok    { background:#059669; }
+        #toast.err   { background:#dc2626; }
+        #toast.warn  { background:#d97706; }
 
-        /* PDF links */
-        .pdf-link {
-            color: var(--text-dark); text-decoration: none;
-            display: flex; align-items: center; gap: 12px; padding: 12px 14px;
-            border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px;
-            transition: all 0.2s;
+        /* ── MODAL ───────────────────────────────── */
+        .modal-bg {
+            position:fixed; inset:0; background:rgba(0,0,0,.45);
+            display:flex; align-items:center; justify-content:center;
+            z-index:500; opacity:0; pointer-events:none; transition:opacity .2s;
         }
-        .pdf-link:hover { background: #f8fafc; border-color: var(--secondary-blue); transform: translateX(3px); }
-        .pdf-link .pdf-info { flex: 1; }
-        .pdf-link .pdf-name { font-weight: 600; font-size: 0.9rem; }
-        .pdf-link .pdf-desc { font-size: 0.78rem; color: var(--text-muted); }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s;
-        }
-        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        .modal-bg.open { opacity:1; pointer-events:all; }
         .modal {
-            background: white; border-radius: 16px; padding: 25px; width: 90%;
-            max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: scale(0.95); transition: transform 0.2s;
+            background:#fff; border-radius:16px; padding:24px; width:90%; max-width:440px;
+            box-shadow:0 10px 30px rgba(0,0,0,.2); transform:scale(.95); transition:transform .2s;
         }
-        .modal-overlay.open .modal { transform: scale(1); }
-        .modal h3 { margin-bottom: 15px; color: var(--primary-blue); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-actions button { flex: 1; }
+        .modal-bg.open .modal { transform:scale(1); }
+        .modal h3 { margin-bottom:12px; color:var(--primary); }
+        .modal-btns { display:flex; gap:10px; margin-top:18px; }
+        .modal-btns button { flex:1; }
+        .btn-del-confirm { background:var(--danger); color:#fff; padding:11px; border:none; border-radius:8px; font-weight:700; cursor:pointer; }
 
-        /* Confirmation delete */
-        #confirm-delete-modal .btn-delete-confirm {
-            background: var(--danger); color: white; padding: 11px;
-            border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+        /* ── PDF LINKS ───────────────────────────── */
+        .pdf-link {
+            color:var(--text-dark); text-decoration:none;
+            display:flex; align-items:center; gap:11px; padding:11px 13px;
+            border:1px solid var(--border); border-radius:10px; margin-bottom:9px; transition:all .2s;
         }
+        .pdf-link:hover { background:#f8fafc; border-color:var(--secondary); transform:translateX(3px); }
+        .pdf-info { flex:1; }
+        .pdf-name { font-weight:600; font-size:.88rem; }
+        .pdf-desc { font-size:.76rem; color:var(--text-muted); }
 
-        /* =====================
-           RESPONSIVE MOBILE
-        ===================== */
-        @media (max-width: 768px) {
-            /* Sidebar cachée par défaut, glisse depuis la gauche */
-            .sidebar {
-                transform: translateX(-100%);
-                width: var(--sidebar-width);
-                padding: 20px;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.25);
-            }
-            .sidebar.open { transform: translateX(0); }
+        /* ── STATUT BT (changement de statut inline) */
+        .statut-sel { font-size:.8rem; border:1px solid var(--border); border-radius:6px; padding:3px 6px; background:#fff; cursor:pointer; }
 
-            /* Bouton X visible dans la sidebar */
-            .sidebar-close { display: flex; }
-
-            /* Overlay et hamburger visibles */
-            #hamburger { display: flex; }
-
-            /* Contenu pleine largeur, petit padding-top pour le hamburger */
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-                padding-top: 65px;
-            }
-
-            /* Sub-nav scrollable horizontalement, pas cachée sous le hamburger */
-            .sub-nav {
-                margin-top: 0;
-                padding-bottom: 10px;
-            }
-
-            /* Formulaires et boutons */
-            .btn-row { flex-direction: column; }
-            .btn-row .btn-save { flex: unset; width: 100%; margin-top: 0; }
-            .btn-save { width: 100%; justify-content: center; }
-
-            /* Hero */
-            .hero-sima { height: 150px; padding: 15px; padding-top: 30px; }
-            .hero-sima h2 { font-size: 1.15rem; }
-
-            /* Stats */
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-
-            /* Inputs et selects plus grands pour le touch */
-            input[type="text"], input[type="password"], input[type="date"],
-            select, textarea {
-                font-size: 16px; /* empêche le zoom auto sur iOS */
-                min-height: 46px;
-            }
-            textarea { min-height: 100px; }
-
-            /* Boutons plus grands pour le touch */
-            .sub-nav button { padding: 10px 14px; font-size: 0.85rem; }
-            .btn-danger-sm { padding: 8px 12px; }
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media(max-width:768px){
+            .sidebar { transform:translateX(-100%); box-shadow:4px 0 20px rgba(0,0,0,.25); }
+            .sidebar.open { transform:translateX(0); }
+            .sb-close { display:flex; }
+            #hamburger { display:flex; }
+            .main { margin-left:0; padding:14px; padding-top:64px; }
+            .hero { height:145px; padding:14px; }
+            .hero h2 { font-size:1.1rem; }
+            .stats { grid-template-columns:1fr 1fr; }
+            .btn-row { flex-direction:column; }
+            .btn-row .btn { flex:unset; width:100%; }
+            .btn { width:100%; justify-content:center; }
+            .sub-nav button { padding:9px 12px; font-size:.82rem; }
+            .btn-del { padding:7px 10px; }
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
     </style>
 </head>
 <body>
 
-<!-- ==================== LOGIN ==================== -->
-<div id="login-page" role="main" aria-label="Page de connexion">
-    <div class="login-container">
-        <img src="logo.png" alt="Logo Aïcha Maintenance" class="logo-aicha">
-        <h1 style="color: var(--primary-blue); font-size: 1.4rem; margin-bottom: 6px;">ESPACE MAINTENANCE</h1>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 22px;">Connectez-vous pour accéder au système</p>
-
-        <div id="login-error" role="alert">
-            <i class="fas fa-exclamation-circle"></i> <span id="login-error-msg">Identifiants incorrects.</span>
-        </div>
-
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="login-page">
+    <div class="login-box">
+        <img src="logo.png" alt="Logo Aïcha" class="logo-aicha">
+        <h1 style="color:var(--primary);font-size:1.35rem;margin-bottom:5px;">ESPACE MAINTENANCE</h1>
+        <p style="color:var(--text-muted);font-size:.83rem;margin-bottom:20px;">Connectez-vous pour accéder au système</p>
+        <div id="login-alert"><i class="fas fa-exclamation-circle"></i><span id="login-alert-msg"></span></div>
         <form id="login-form" novalidate>
-            <div class="input-group" id="group-username">
-                <label for="username">Identifiant</label>
-                <i class="fas fa-user field-icon" aria-hidden="true"></i>
-                <input type="text" id="username" class="has-icon" placeholder="Ex: AIC-2026"
-                       autocomplete="username" required aria-describedby="username-error">
-                <span class="error-msg" id="username-error">Veuillez saisir votre identifiant.</span>
+            <div class="input-group" id="grp-user">
+                <label for="f-user">Identifiant</label>
+                <i class="fas fa-user fi"></i>
+                <input type="text" id="f-user" class="has-icon" placeholder="Ex: AIC-2026" autocomplete="username" required>
+                <span class="err">Identifiant requis.</span>
             </div>
-            <div class="input-group" id="group-password">
-                <label for="password">Code d'accès</label>
-                <i class="fas fa-lock field-icon" aria-hidden="true"></i>
-                <input type="password" id="password" class="has-icon" placeholder="••••••••"
-                       autocomplete="current-password" required aria-describedby="password-error">
-                <span class="error-msg" id="password-error">Veuillez saisir votre code d'accès.</span>
+            <div class="input-group" id="grp-pass">
+                <label for="f-pass">Code d'accès</label>
+                <i class="fas fa-lock fi"></i>
+                <input type="password" id="f-pass" class="has-icon" placeholder="••••••••" autocomplete="current-password" required>
+                <span class="err">Code requis.</span>
             </div>
-            <button type="submit" class="btn-login" id="btn-login">
-                <span id="btn-login-text">Se connecter</span>
-            </button>
+            <button type="submit" class="btn-login" id="btn-login">Se connecter</button>
         </form>
-        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:18px;">
-            Compte démo : <strong>AIC-2026</strong> / <strong>aicha2026</strong>
+        <p style="font-size:.73rem;color:var(--text-muted);margin-top:16px;">
+            Démo : <strong>AIC-2026</strong> / <strong>aicha2026</strong>
         </p>
     </div>
 </div>
 
-<!-- ==================== DASHBOARD ==================== -->
-<div id="main-dashboard" aria-label="Tableau de bord Aïcha Maintenance">
-
-    <!-- Bouton hamburger (mobile) -->
-    <button id="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu" aria-expanded="false">
-        <i class="fas fa-bars" aria-hidden="true"></i>
+<!-- ══════════════ APP ══════════════ -->
+<div id="app">
+    <button id="hamburger" onclick="toggleSb()" aria-label="Menu" aria-expanded="false">
+        <i class="fas fa-bars"></i>
     </button>
+    <div id="overlay" onclick="closeSb()"></div>
 
-    <!-- Overlay sombre -->
-    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
-
-    <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
-        <!-- Bouton fermeture (mobile) -->
-        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fermer le menu">
-            <i class="fas fa-times" aria-hidden="true"></i>
-        </button>
-        <div class="sidebar-logo">
-            <img src="logo.png" alt="Logo Aïcha">
-        </div>
+    <aside class="sidebar" id="sidebar">
+        <button class="sb-close" onclick="closeSb()"><i class="fas fa-times"></i></button>
+        <div class="sb-logo"><img src="logo.png" alt="Logo Aïcha"></div>
         <nav>
             <ul>
-                <li class="active" id="menu-accueil">
-                    <a href="#" onclick="showPage('accueil'); return false;" aria-label="Accueil">
-                        <i class="fas fa-tachometer-alt" aria-hidden="true"></i> <span>Accueil</span>
-                    </a>
+                <li class="active" id="m-accueil">
+                    <a href="#" onclick="goPage('accueil');return false;"><i class="fas fa-tachometer-alt"></i><span>Accueil</span></a>
                 </li>
-                <li id="menu-bt">
-                    <a href="#" onclick="showPage('bt'); return false;" aria-label="Bons de Travaux">
-                        <i class="fas fa-file-invoice" aria-hidden="true"></i> <span>Bons</span>
-                    </a>
+                <li id="m-bt">
+                    <a href="#" onclick="goPage('bt');return false;"><i class="fas fa-file-invoice"></i><span>Bons</span></a>
                 </li>
-                <li id="menu-plan">
-                    <a href="#" onclick="showPage('plan'); return false;" aria-label="Planning">
-                        <i class="fas fa-calendar-check" aria-hidden="true"></i> <span>Planning</span>
-                    </a>
+                <li id="m-plan">
+                    <a href="#" onclick="goPage('plan');return false;"><i class="fas fa-calendar-check"></i><span>Planning</span></a>
                 </li>
-                <li id="menu-support">
-                    <a href="#" onclick="showPage('support'); return false;" aria-label="Support">
-                        <i class="fas fa-headset" aria-hidden="true"></i> <span>Support</span>
-                    </a>
+                <li id="m-stock">
+                    <a href="#" onclick="goPage('stock');return false;"><i class="fas fa-boxes"></i><span>Stock pièces</span></a>
+                </li>
+                <li id="m-support">
+                    <a href="#" onclick="goPage('support');return false;"><i class="fas fa-headset"></i><span>Support</span></a>
                 </li>
                 <li>
-                    <a href="#" onclick="deconnexion(); return false;" aria-label="Se déconnecter">
-                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Quitter</span>
-                    </a>
+                    <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i><span>Quitter</span></a>
                 </li>
             </ul>
         </nav>
-        <div class="sidebar-user">
-            <strong id="sidebar-username">—</strong>
-            Connecté
-        </div>
+        <div class="sb-user"><strong id="sb-user">—</strong>Connecté</div>
     </aside>
 
-    <main class="main-content" id="main-content">
+    <main class="main" id="main">
 
-        <!-- ACCUEIL -->
-        <section id="accueil" class="page active" aria-label="Accueil">
-            <div class="hero-sima">
+        <!-- ── ACCUEIL ─────────────────────────────── -->
+        <section id="accueil" class="page active">
+            <div class="hero">
                 <h2>Expertise Maintenance Aïcha</h2>
                 <p id="hero-date"></p>
             </div>
-            <div class="stats-grid" id="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-val" id="stat-bt">0</div>
-                    <div class="stat-label">Bons de travaux</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-val" id="stat-equipements">1</div>
-                    <div class="stat-label">Équipements</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-val" id="stat-plannings">1</div>
-                    <div class="stat-label">Tâches planifiées</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-val" style="color: var(--success);">✓</div>
-                    <div class="stat-label">Système opérationnel</div>
-                </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-val" id="s-bt">0</div><div class="stat-lbl">Bons de travaux</div></div>
+                <div class="stat"><div class="stat-val" id="s-open">0</div><div class="stat-lbl">Bons ouverts</div></div>
+                <div class="stat"><div class="stat-val" id="s-plan">1</div><div class="stat-lbl">Tâches planifiées</div></div>
+                <div class="stat"><div class="stat-val" style="color:var(--success)">✓</div><div class="stat-lbl">Système OK</div></div>
             </div>
             <div class="card">
-                <h2><i class="fas fa-history" aria-hidden="true"></i> Derniers bons enregistrés</h2>
-                <div class="table-container">
+                <h2><i class="fas fa-history"></i> Derniers bons</h2>
+                <div class="tc">
                     <table>
                         <thead><tr><th>N°</th><th>Équipement</th><th>Priorité</th><th>Date</th><th>Statut</th></tr></thead>
-                        <tbody id="recent-bt-tbody">
-                            <tr><td colspan="5" style="color:var(--text-muted); text-align:center; padding: 20px;">Aucun bon enregistré</td></tr>
+                        <tbody id="recent-tbody">
+                            <tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:18px;">Aucun bon enregistré</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- BONS DE TRAVAUX -->
-        <section id="bt" class="page" aria-label="Bons de Travaux">
+        <!-- ── BONS DE TRAVAUX ─────────────────────── -->
+        <section id="bt" class="page">
             <div class="sub-nav">
-                <button id="btn-sub-nouveau-bt" class="active" onclick="showSubPage('nouveau-bt')" aria-selected="true">
-                    <i class="fas fa-plus" aria-hidden="true"></i> Nouveau bon
-                </button>
-                <button id="btn-sub-liste-bt" onclick="showSubPage('liste-bt')" aria-selected="false">
-                    <i class="fas fa-list" aria-hidden="true"></i> Liste des bons
-                </button>
+                <button id="btn-sub-new-bt" class="active" onclick="goSub('new-bt')"><i class="fas fa-plus"></i> Nouveau bon</button>
+                <button id="btn-sub-list-bt" onclick="goSub('list-bt')"><i class="fas fa-list"></i> Liste des bons</button>
             </div>
 
-            <!-- Formulaire nouveau BT -->
-            <div id="sub-nouveau-bt" class="sub-content active">
+            <!-- Nouveau BT -->
+            <div id="sub-new-bt" class="sub active">
                 <div class="card">
-                    <h2><i class="fas fa-tools" aria-hidden="true"></i> Nouveau Bon de Travaux</h2>
+                    <h2><i class="fas fa-tools"></i> Nouveau Bon de Travaux</h2>
                     <form id="bt-form" novalidate>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="bt-equipement">Équipement *</label>
-                                <select id="bt-equipement" required aria-required="true">
+                        <div class="fg">
+                            <div>
+                                <label for="bt-equip">Équipement *</label>
+                                <select id="bt-equip" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option value="Sertisseuse SIMA #01">Sertisseuse SIMA #01</option>
-                                    <option value="Compresseur Ligne A">Compresseur Ligne A</option>
-                                    <option value="Convoyeur Ligne B">Convoyeur Ligne B</option>
-                                    <option value="Autre">Autre</option>
+                                    <option>Sertisseuse SIMA #01</option>
+                                    <option>Compresseur Ligne A</option>
+                                    <option>Convoyeur Ligne B</option>
+                                    <option>Chaudière Centrale</option>
+                                    <option>Autre</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="position: relative;">
-    <label for="search-piece">Pièce de rechange utilisée (Recherche CSV)</label>
-    <div style="display: flex; gap: 5px;">
-        <input type="text" id="search-piece" placeholder="Rechercher par nom ou code..." autocomplete="off">
-        <button type="button" class="btn-save" style="margin-top:0; padding: 10px;" onclick="viderRecherche()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    
-    <div id="results-dropdown" style="display:none; position: absolute; width: 100%; background: white; border: 1px solid #ddd; z-index: 9999; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-height: 250px; overflow-y: auto;">
-    </div>
-</div>
-
-<input type="hidden" id="selected-piece-code">
-                            <div class="form-group">
+                            <div>
                                 <label for="bt-type">Type d'intervention *</label>
-                                <select id="bt-type" required aria-required="true">
+                                <select id="bt-type" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option value="Curatif">Curatif</option>
-                                    <option value="Préventif">Préventif</option>
-                                    <option value="Amélioratif">Amélioratif</option>
+                                    <option>Curatif</option>
+                                    <option>Préventif</option>
+                                    <option>Amélioratif</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="bt-priorite">Priorité *</label>
-                                <select id="bt-priorite" required aria-required="true">
+                            <div>
+                                <label for="bt-prio">Priorité *</label>
+                                <select id="bt-prio" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option value="Basse">Basse</option>
-                                    <option value="Normale">Normale</option>
-                                    <option value="Haute">Haute</option>
-                                    <option value="Urgente">Urgente</option>
+                                    <option>Basse</option>
+                                    <option>Normale</option>
+                                    <option>Haute</option>
+                                    <option>Urgente</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="bt-description">Description de l'intervention *</label>
-                                <textarea id="bt-description" rows="4" placeholder="Décrivez les symptômes, actions à réaliser..."
-                                          maxlength="500" required aria-required="true"
-                                          oninput="updateCharCount(this, 'desc-count')"></textarea>
-                                <div class="char-count"><span id="desc-count">0</span>/500 caractères</div>
+                            <div>
+                                <label for="bt-desc">Description de l'intervention *</label>
+                                <textarea id="bt-desc" rows="4" placeholder="Décrivez les symptômes ou actions à réaliser..." maxlength="500" required oninput="updateCount(this,'desc-c')"></textarea>
+                                <div class="char-c"><span id="desc-c">0</span>/500</div>
                             </div>
-                            <div class="form-group">
-                                <label for="bt-technicien">Technicien assigné</label>
-                                <input type="text" id="bt-technicien" placeholder="Nom du technicien">
+                            <div>
+                                <label for="bt-tech">Technicien assigné</label>
+                                <input type="text" id="bt-tech" placeholder="Nom du technicien">
                             </div>
                         </div>
+
+                        <!-- SECTION PIÈCES -->
+                        <div class="pieces-wrap">
+                            <h3>
+                                <i class="fas fa-boxes"></i> Pièces de rechange
+                                <span id="p-status"><i class="fas fa-spinner fa-spin"></i> Chargement...</span>
+                            </h3>
+                            <div class="p-search-box">
+                                <i class="fas fa-search ico"></i>
+                                <input type="text" id="p-input" placeholder="Tapez un nom ou une référence..." autocomplete="off">
+                            </div>
+                            <div id="p-drop"></div>
+                            <div id="p-selected">
+                                <div class="p-sel-lbl">Pièces ajoutées au bon :</div>
+                                <div class="tc">
+                                    <table>
+                                        <thead><tr><th>Désignation</th><th>Référence</th><th>Emplacement</th><th>Stock</th><th>Qté</th><th></th></tr></thead>
+                                        <tbody id="p-tbody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="btn-row">
-                            <button type="submit" class="btn-save" id="btn-enregistrer-bt">
-                                <i class="fas fa-save" aria-hidden="true"></i> Enregistrer
-                            </button>
-                            <button type="button" class="btn-save btn-pdf-download" id="btn-pdf" disabled onclick="genererPDF()">
-                                <i class="fas fa-file-pdf" aria-hidden="true"></i> Exporter PDF
-                            </button>
+                            <button type="submit" class="btn"><i class="fas fa-save"></i> Enregistrer</button>
+                            <button type="button" class="btn btn-red" id="btn-pdf" disabled onclick="genPDF()"><i class="fas fa-file-pdf"></i> Exporter PDF</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Liste des BT -->
-            <div id="sub-liste-bt" class="sub-content">
+            <!-- Liste BT -->
+            <div id="sub-list-bt" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-list" aria-hidden="true"></i> Bons de Travaux enregistrés</h2>
-                    <div class="table-container">
+                    <h2><i class="fas fa-list"></i> Bons de Travaux enregistrés</h2>
+                    <!-- Filtres -->
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                        <select id="f-statut" onchange="filterBT()" style="flex:1;min-width:120px;padding:8px 10px;font-size:.85rem;">
+                            <option value="">Tous statuts</option>
+                            <option>Ouvert</option>
+                            <option>En cours</option>
+                            <option>Clôturé</option>
+                        </select>
+                        <select id="f-prio" onchange="filterBT()" style="flex:1;min-width:120px;padding:8px 10px;font-size:.85rem;">
+                            <option value="">Toutes priorités</option>
+                            <option>Urgente</option>
+                            <option>Haute</option>
+                            <option>Normale</option>
+                            <option>Basse</option>
+                        </select>
+                        <input type="text" id="f-search" placeholder="🔍 Rechercher..." oninput="filterBT()" style="flex:2;min-width:160px;padding:8px 10px;font-size:.85rem;">
+                    </div>
+                    <div class="tc">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>N°</th><th>Équipement</th><th>Type</th>
-                                    <th>Priorité</th><th>Date</th><th>Statut</th><th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="bt-tbody">
-                                <tr id="bt-empty-row"><td colspan="7" style="color:var(--text-muted); text-align:center; padding:20px;">Aucun bon enregistré</td></tr>
-                            </tbody>
+                            <thead><tr><th>N°</th><th>Équipement</th><th>Type</th><th>Priorité</th><th>Date</th><th>Statut</th><th>PDF</th><th>Suppr.</th></tr></thead>
+                            <tbody id="bt-tbody"></tbody>
                         </table>
                     </div>
+                    <p id="bt-count" style="font-size:.78rem;color:var(--text-muted);margin-top:8px;"></p>
                 </div>
             </div>
         </section>
 
-        <!-- PLANNING -->
-        <section id="plan" class="page" aria-label="Planning">
+        <!-- ── PLANNING ────────────────────────────── -->
+        <section id="plan" class="page">
             <div class="sub-nav">
-                <button id="btn-sub-calendrier" class="active" onclick="showSubPage('calendrier')" aria-selected="true">Calendrier</button>
-                <button id="btn-sub-equipements" onclick="showSubPage('equipements')" aria-selected="false">Équipements</button>
-                <button id="btn-sub-nouveau-plan" onclick="showSubPage('nouveau-plan')" aria-selected="false">+ Ajouter</button>
+                <button id="btn-sub-cal" class="active" onclick="goSub('cal')">Calendrier</button>
+                <button id="btn-sub-equip" onclick="goSub('equip')">Équipements</button>
+                <button id="btn-sub-add-plan" onclick="goSub('add-plan')">+ Ajouter</button>
             </div>
 
-            <div id="sub-calendrier" class="sub-content active">
+            <div id="sub-cal" class="sub active">
                 <div class="card">
-                    <h2><i class="fas fa-calendar-alt" aria-hidden="true"></i> Planning Préventif</h2>
-                    <div class="table-container">
+                    <h2><i class="fas fa-calendar-alt"></i> Planning Préventif</h2>
+                    <div class="tc">
                         <table>
-                            <thead><tr><th>Date</th><th>Machine</th><th>Action</th><th>Responsable</th><th>Statut</th><th>Suppr.</th></tr></thead>
+                            <thead><tr><th>Date</th><th>Machine</th><th>Action</th><th>Responsable</th><th>Statut</th><th></th></tr></thead>
                             <tbody id="plan-tbody">
-                                <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td><td>M. Ahmed</td><td><span class="badge badge-warning">En attente</span></td><td>—</td></tr>
+                                <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td><td>M. Ahmed</td><td><span class="badge b-warning">En attente</span></td><td>—</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div id="sub-equipements" class="sub-content">
+            <div id="sub-equip" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-cogs" aria-hidden="true"></i> Inventaire Équipements</h2>
-                    <div class="table-container">
+                    <h2><i class="fas fa-cogs"></i> Inventaire Équipements</h2>
+                    <div class="tc">
                         <table>
                             <thead><tr><th>Code</th><th>Nom</th><th>Zone</th><th>État</th></tr></thead>
-                            <tbody id="equip-tbody">
-                                <tr><td>SIMA-01</td><td>Sertisseuse SIMA</td><td>Ligne A</td><td><span class="badge badge-success">Opérationnel</span></td></tr>
+                            <tbody>
+                                <tr><td>SIMA-01</td><td>Sertisseuse SIMA</td><td>Ligne A</td><td><span class="badge b-success">Opérationnel</span></td></tr>
+                                <tr><td>COMP-01</td><td>Compresseur Ligne A</td><td>Ligne A</td><td><span class="badge b-success">Opérationnel</span></td></tr>
+                                <tr><td>CONV-01</td><td>Convoyeur Ligne B</td><td>Ligne B</td><td><span class="badge b-warning">Maintenance</span></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div id="sub-nouveau-plan" class="sub-content">
+            <div id="sub-add-plan" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-plus-circle" aria-hidden="true"></i> Nouvelle tâche préventive</h2>
+                    <h2><i class="fas fa-plus-circle"></i> Nouvelle tâche préventive</h2>
                     <form id="plan-form" novalidate>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="plan-date">Date prévue *</label>
-                                <input type="date" id="plan-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="plan-machine">Machine *</label>
-                                <select id="plan-machine" required>
+                        <div class="fg">
+                            <div><label for="pl-date">Date prévue *</label><input type="date" id="pl-date" required></div>
+                            <div>
+                                <label for="pl-machine">Machine *</label>
+                                <select id="pl-machine" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option value="SIMA #01">SIMA #01</option>
-                                    <option value="Compresseur Ligne A">Compresseur Ligne A</option>
-                                    <option value="Convoyeur Ligne B">Convoyeur Ligne B</option>
+                                    <option>SIMA #01</option>
+                                    <option>Compresseur Ligne A</option>
+                                    <option>Convoyeur Ligne B</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="plan-action">Action à réaliser *</label>
-                                <input type="text" id="plan-action" placeholder="Ex: Remplacement filtre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="plan-responsable">Responsable</label>
-                                <input type="text" id="plan-responsable" placeholder="Nom">
-                            </div>
+                            <div><label for="pl-action">Action à réaliser *</label><input type="text" id="pl-action" placeholder="Ex: Remplacement filtre" required></div>
+                            <div><label for="pl-resp">Responsable</label><input type="text" id="pl-resp" placeholder="Nom"></div>
                         </div>
-                        <button type="submit" class="btn-save">
-                            <i class="fas fa-plus" aria-hidden="true"></i> Ajouter au planning
-                        </button>
+                        <button type="submit" class="btn"><i class="fas fa-plus"></i> Ajouter au planning</button>
                     </form>
                 </div>
             </div>
         </section>
 
-        <!-- SUPPORT -->
-        <section id="support" class="page" aria-label="Support technique">
+        <!-- ── STOCK PIÈCES (nouvelle page) ──────────── -->
+        <section id="stock" class="page">
             <div class="card">
-                <h2><i class="fas fa-book-open" aria-hidden="true"></i> Centre de Ressources</h2>
-                <p style="margin-bottom: 20px; color: var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
-
-                <h3><i class="fas fa-file-pdf" aria-hidden="true"></i> Documents PDF</h3>
-                <div style="margin-top: 12px;">
-                    <a href="manuel_sima.pdf" target="_blank" class="pdf-link" rel="noopener">
-                        <i class="fas fa-file-pdf" style="color:#dc2626; font-size:1.3rem;" aria-hidden="true"></i>
-                        <div class="pdf-info">
-                            <div class="pdf-name">Manuel Technique SIMA</div>
-                            <div class="pdf-desc">Guide complet d'utilisation et maintenance</div>
-                        </div>
-                        <i class="fas fa-external-link-alt" style="color:var(--text-muted); font-size:0.8rem;" aria-hidden="true"></i>
-                    </a>
-                    <a href="schema_electrique.pdf" target="_blank" class="pdf-link" rel="noopener">
-                        <i class="fas fa-file-pdf" style="color:#dc2626; font-size:1.3rem;" aria-hidden="true"></i>
-                        <div class="pdf-info">
-                            <div class="pdf-name">Schémas Électriques Ligne C</div>
-                            <div class="pdf-desc">Câblage, bornier, tableaux électriques</div>
-                        </div>
-                        <i class="fas fa-external-link-alt" style="color:var(--text-muted); font-size:0.8rem;" aria-hidden="true"></i>
-                    </a>
+                <h2><i class="fas fa-boxes"></i> Catalogue des pièces</h2>
+                <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:14px;">Consultez et recherchez dans le catalogue complet chargé depuis <code>pieces.csv</code>.</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                    <input type="text" id="stock-search" placeholder="🔍 Rechercher par nom, référence ou emplacement..." oninput="filterStock(this.value)" style="flex:1;padding:9px 12px;font-size:.85rem;">
+                    <select id="stock-zone" onchange="filterStock(document.getElementById('stock-search').value)" style="flex:0 0 160px;padding:9px 10px;font-size:.85rem;">
+                        <option value="">Tous emplacements</option>
+                    </select>
                 </div>
+                <p id="stock-count" style="font-size:.76rem;color:var(--text-muted);margin-bottom:8px;"></p>
+                <div class="tc">
+                    <table>
+                        <thead><tr><th>Désignation</th><th>Référence</th><th>Stock</th><th>Emplacement</th></tr></thead>
+                        <tbody id="stock-tbody">
+                            <tr><td colspan="4" style="color:var(--text-muted);text-align:center;padding:20px;">Chargement du catalogue...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
-                <h3 style="margin-top: 25px;"><i class="fas fa-phone-alt" aria-hidden="true"></i> Contacts Maintenance</h3>
-                <div style="background: var(--light-bg); padding: 16px; border-radius: 10px; margin-top: 10px; display: grid; gap: 8px;">
+        <!-- ── SUPPORT ─────────────────────────────── -->
+        <section id="support" class="page">
+            <div class="card">
+                <h2><i class="fas fa-book-open"></i> Centre de Ressources</h2>
+                <p style="margin-bottom:18px;color:var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
+                <h3 style="margin-bottom:10px;font-size:.95rem;"><i class="fas fa-file-pdf"></i> Documents PDF</h3>
+                <a href="manuel_sima.pdf" target="_blank" class="pdf-link" rel="noopener">
+                    <i class="fas fa-file-pdf" style="color:#dc2626;font-size:1.25rem;"></i>
+                    <div class="pdf-info"><div class="pdf-name">Manuel Technique SIMA</div><div class="pdf-desc">Guide complet d'utilisation et maintenance</div></div>
+                    <i class="fas fa-external-link-alt" style="color:var(--text-muted);font-size:.78rem;"></i>
+                </a>
+                <a href="schema_electrique.pdf" target="_blank" class="pdf-link" rel="noopener">
+                    <i class="fas fa-file-pdf" style="color:#dc2626;font-size:1.25rem;"></i>
+                    <div class="pdf-info"><div class="pdf-name">Schémas Électriques Ligne C</div><div class="pdf-desc">Câblage, bornier, tableaux électriques</div></div>
+                    <i class="fas fa-external-link-alt" style="color:var(--text-muted);font-size:.78rem;"></i>
+                </a>
+                <h3 style="margin-top:22px;margin-bottom:10px;font-size:.95rem;"><i class="fas fa-phone-alt"></i> Contacts</h3>
+                <div style="background:var(--light-bg);padding:14px;border-radius:10px;display:grid;gap:7px;">
                     <p><strong>Poste interne :</strong> 405</p>
                     <p><strong>Responsable :</strong> M. Ahmed</p>
-                    <p><strong>Urgences :</strong> <a href="tel:+212600000000" style="color:var(--secondary-blue);">+212 6 00 00 00 00</a></p>
+                    <p><strong>Urgences :</strong> <a href="tel:+212600000000" style="color:var(--secondary);">+212 6 00 00 00 00</a></p>
                 </div>
             </div>
         </section>
@@ -733,585 +597,535 @@
     </main>
 </div>
 
-<!-- Toast notification -->
-<div id="toast" role="alert" aria-live="polite">
-    <i class="fas fa-check-circle" aria-hidden="true"></i>
-    <span id="toast-msg"></span>
-</div>
+<!-- Toast -->
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
-<!-- Modal confirmation suppression -->
-<div class="modal-overlay" id="confirm-delete-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+<!-- Modal suppression BT -->
+<div class="modal-bg" id="del-modal">
     <div class="modal">
-        <h3 id="modal-title"><i class="fas fa-trash" style="color:var(--danger)"></i> Confirmer la suppression</h3>
-        <p style="color:var(--text-muted); font-size:0.9rem;">Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce bon de travaux ?</p>
-        <div class="modal-actions">
-            <button class="btn-save btn-secondary" onclick="closeDeleteModal()">Annuler</button>
-            <button class="btn-delete-confirm" id="btn-confirm-delete" onclick="confirmerSuppression()">Supprimer</button>
+        <h3><i class="fas fa-trash" style="color:var(--danger)"></i> Confirmer la suppression</h3>
+        <p style="color:var(--text-muted);font-size:.88rem;">Cette action est irréversible.</p>
+        <div class="modal-btns">
+            <button class="btn btn-out" onclick="closeDelModal()">Annuler</button>
+            <button class="btn-del-confirm" onclick="doDelete()">Supprimer</button>
         </div>
     </div>
 </div>
 
 <script>
-// =====================================================================
-// CONFIGURATION — Identifiants (à remplacer par un vrai backend)
-// =====================================================================
-const USERS = {
-    'AIC-2026': 'aicha2026',
-    'admin':    'admin123'
-};
+'use strict';
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
+const USERS = { 'AIC-2026':'aicha2026', 'admin':'admin123' };
 
-// =====================================================================
-// ÉTAT GLOBAL
-// =====================================================================
-let currentUser = null;
-let btList = [];
-let planList = [{ date: '12/05/2026', machine: 'SIMA #01', action: 'Vérification courroies', responsable: 'M. Ahmed', statut: 'En attente' }];
-let btCounter = 0;
-let btASupprimer = null;
+// ═══════════════════════════════════════════════════
+// ÉTAT GLOBAL  (UN SEUL BLOC SCRIPT)
+// ═══════════════════════════════════════════════════
+let currentUser       = null;
+let btList            = [];
+let planList          = [{ date:'12/05/2026', machine:'SIMA #01', action:'Vérification courroies', responsable:'M. Ahmed', statut:'En attente' }];
+let btCounter         = 0;
+let toDeleteId        = null;
+let catalogue         = [];          // pièces CSV
+let piecesSel         = [];          // [{piece, qte}]
+let searchTmr         = null;
+let lastBtId          = null;        // pour activer PDF après enregistrement
 
-// =====================================================================
+// ═══════════════════════════════════════════════════
+// CSV — chargement et parsing
+// ═══════════════════════════════════════════════════
+async function loadCSV() {
+    var st = document.getElementById('p-status');
+    try {
+        var r = await fetch('pieces.csv');
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        var txt = await r.text();
+        catalogue = parseCSV(txt);
+        st.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success)"></i> ' + catalogue.length + ' pièces';
+        setTimeout(function(){ st.style.display='none'; }, 3500);
+        buildStockZones();
+        renderStock('', '');
+    } catch(e) {
+        st.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i> pieces.csv introuvable';
+        console.warn('CSV:', e.message);
+    }
+}
+
+function parseCSV(txt) {
+    txt = txt.replace(/^\uFEFF/, '');
+    var lines = txt.split('\n'), out = [];
+    for (var i = 1; i < lines.length; i++) {
+        var l = lines[i].trim();
+        if (!l) continue;
+        var c = l.split(';');
+        var des = clean(c[0]), ref = clean(c[1]), qty = clean(c[2]), loc = clean(c[3]);
+        if (des) out.push({ des:des, ref:ref, qty:qty, loc:loc });
+    }
+    return out;
+}
+
+function clean(v) { return v ? v.trim().replace(/^"+|"+$/g,'') : ''; }
+
+// ═══════════════════════════════════════════════════
+// RECHERCHE PIÈCES (BT form)
+// ═══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('p-input').addEventListener('input', function() {
+        searchPieces(this.value);
+    });
+    document.addEventListener('click', function(e) {
+        var drop = document.getElementById('p-drop');
+        var inp  = document.getElementById('p-input');
+        if (!drop.contains(e.target) && e.target !== inp) drop.style.display='none';
+    });
+});
+
+function searchPieces(q) {
+    clearTimeout(searchTmr);
+    var drop = document.getElementById('p-drop');
+    if (!q || q.trim().length < 2) { drop.style.display='none'; return; }
+    searchTmr = setTimeout(function() {
+        var lq = q.toLowerCase().trim();
+        var res = catalogue.filter(function(p) {
+            return p.des.toLowerCase().includes(lq) || p.ref.toLowerCase().includes(lq) || p.loc.toLowerCase().includes(lq);
+        }).slice(0, 30);
+        if (!res.length) {
+            drop.innerHTML = '<div class="p-none"><i class="fas fa-search"></i> Aucune pièce pour "' + esc(q) + '"</div>';
+        } else {
+            drop.innerHTML = res.map(function(p) {
+                var idx = catalogue.indexOf(p);
+                return '<div class="p-item" onmousedown="event.preventDefault();addPiece(' + idx + ')">'
+                    + '<div class="pn">' + highlight(p.des, lq) + '</div>'
+                    + '<div class="pm"><span class="pr"><i class="fas fa-barcode"></i> ' + esc(p.ref||'—') + '</span>'
+                    + '<span><i class="fas fa-map-marker-alt"></i> ' + esc(p.loc||'—') + '</span>'
+                    + '<span><i class="fas fa-cubes"></i> ' + esc(p.qty||'—') + '</span></div></div>';
+            }).join('');
+        }
+        drop.style.display = 'block';
+    }, 180);
+}
+
+function highlight(txt, q) {
+    var i = txt.toLowerCase().indexOf(q);
+    if (i < 0) return esc(txt);
+    return esc(txt.slice(0,i)) + '<mark style="background:#bfdbfe;border-radius:2px;padding:0 1px;">' + esc(txt.slice(i,i+q.length)) + '</mark>' + esc(txt.slice(i+q.length));
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function addPiece(idx) {
+    var p = catalogue[idx];
+    if (!p) return;
+    if (piecesSel.some(function(x){ return x.piece===p; })) { toast('Pièce déjà dans la liste.','err'); return; }
+    piecesSel.push({ piece:p, qte:1 });
+    document.getElementById('p-input').value = '';
+    document.getElementById('p-drop').style.display = 'none';
+    renderPiecesSel();
+    toast('Pièce ajoutée : ' + p.des, 'ok');
+}
+
+function renderPiecesSel() {
+    var sec = document.getElementById('p-selected');
+    var tb  = document.getElementById('p-tbody');
+    if (!piecesSel.length) { sec.style.display='none'; return; }
+    sec.style.display = 'block';
+    tb.innerHTML = piecesSel.map(function(ps,i) {
+        return '<tr>'
+            + '<td>' + esc(ps.piece.des) + '</td>'
+            + '<td style="color:var(--secondary);font-weight:500">' + esc(ps.piece.ref||'—') + '</td>'
+            + '<td>' + esc(ps.piece.loc||'—') + '</td>'
+            + '<td>' + esc(ps.piece.qty||'—') + '</td>'
+            + '<td><input type="number" class="qty-in" min="1" value="' + ps.qte + '" onchange="setQty(' + i + ',this.value)"></td>'
+            + '<td><button type="button" class="btn-del" onclick="remPiece(' + i + ')"><i class="fas fa-times"></i></button></td>'
+            + '</tr>';
+    }).join('');
+}
+
+function setQty(i,v) { var n=parseInt(v); piecesSel[i].qte=(isNaN(n)||n<1)?1:n; }
+function remPiece(i) { piecesSel.splice(i,1); renderPiecesSel(); }
+
+// ═══════════════════════════════════════════════════
+// PAGE STOCK
+// ═══════════════════════════════════════════════════
+function buildStockZones() {
+    var zones = {};
+    catalogue.forEach(function(p){ if(p.loc) zones[p.loc]=1; });
+    var sel = document.getElementById('stock-zone');
+    Object.keys(zones).sort().forEach(function(z) {
+        var o = document.createElement('option'); o.value=z; o.textContent=z; sel.appendChild(o);
+    });
+}
+
+function filterStock(q) {
+    var zone = document.getElementById('stock-zone').value;
+    var lq   = (q||'').toLowerCase().trim();
+    var res  = catalogue.filter(function(p) {
+        var matchQ = !lq || p.des.toLowerCase().includes(lq) || p.ref.toLowerCase().includes(lq) || p.loc.toLowerCase().includes(lq);
+        var matchZ = !zone || p.loc === zone;
+        return matchQ && matchZ;
+    });
+    renderStock(q, zone, res);
+}
+
+function renderStock(q, zone, res) {
+    if (!res) res = catalogue;
+    var tb   = document.getElementById('stock-tbody');
+    var cnt  = document.getElementById('stock-count');
+    var lq   = (q||'').toLowerCase().trim();
+    cnt.textContent = res.length + ' pièce(s) affichée(s) sur ' + catalogue.length;
+    if (!res.length) {
+        tb.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">Aucune pièce trouvée</td></tr>';
+        return;
+    }
+    // affichage limité à 200 lignes pour la performance
+    var show = res.slice(0, 200);
+    tb.innerHTML = show.map(function(p) {
+        var qtyNum = parseInt(p.qty);
+        var qtyBadge = isNaN(qtyNum) ? '<span class="badge b-info">' + esc(p.qty||'—') + '</span>'
+            : qtyNum === 0 ? '<span class="badge b-danger">0</span>'
+            : qtyNum <= 2  ? '<span class="badge b-warning">' + qtyNum + '</span>'
+            : '<span class="badge b-success">' + qtyNum + '</span>';
+        return '<tr><td>' + esc(p.des) + '</td><td style="color:var(--secondary)">' + esc(p.ref||'—') + '</td><td>' + qtyBadge + '</td><td>' + esc(p.loc||'—') + '</td></tr>';
+    }).join('');
+    if (res.length > 200) {
+        tb.innerHTML += '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);font-size:.8rem;padding:10px;">… ' + (res.length-200) + ' résultats supplémentaires — affinez la recherche</td></tr>';
+    }
+}
+
+// ═══════════════════════════════════════════════════
 // CONNEXION
-// =====================================================================
+// ═══════════════════════════════════════════════════
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    const errDiv   = document.getElementById('login-error');
-    const errMsg   = document.getElementById('login-error-msg');
-    const btn      = document.getElementById('btn-login');
-
-    // Validation champs vides
-    let valid = true;
-    if (!username) { document.getElementById('group-username').classList.add('invalid'); valid = false; }
-    else { document.getElementById('group-username').classList.remove('invalid'); }
-    if (!password) { document.getElementById('group-password').classList.add('invalid'); valid = false; }
-    else { document.getElementById('group-password').classList.remove('invalid'); }
-    if (!valid) return;
-
-    // Vérification identifiants
+    var user = document.getElementById('f-user').value.trim();
+    var pass = document.getElementById('f-pass').value;
+    var alert = document.getElementById('login-alert');
+    var btn   = document.getElementById('btn-login');
+    var ok    = true;
+    if (!user) { document.getElementById('grp-user').classList.add('bad'); ok=false; } else document.getElementById('grp-user').classList.remove('bad');
+    if (!pass) { document.getElementById('grp-pass').classList.add('bad'); ok=false; } else document.getElementById('grp-pass').classList.remove('bad');
+    if (!ok) return;
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
-
-    setTimeout(() => {
-        if (USERS[username] && USERS[username] === password) {
-            currentUser = username;
-            errDiv.style.display = 'none';
-            chargerDonnees();
-            afficherInterface();
-            document.getElementById('sidebar-username').textContent = username;
-            document.getElementById('hero-date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    setTimeout(function() {
+        if (USERS[user] && USERS[user] === pass) {
+            currentUser = user;
+            alert.style.display = 'none';
+            loadData();
+            loadCSV();
+            document.getElementById('sb-user').textContent = user;
+            document.getElementById('hero-date').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+            document.getElementById('login-page').style.transform = 'translateY(-100%)';
+            setTimeout(function() {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('app').style.display = 'flex';
+                document.body.style.overflow = 'auto';
+                updateStats(); renderRecent();
+            }, 600);
         } else {
-            errMsg.textContent = 'Identifiant ou code d\'accès incorrect.';
-            errDiv.style.display = 'flex';
-            errDiv.style.alignItems = 'center';
-            errDiv.style.gap = '8px';
+            document.getElementById('login-alert-msg').textContent = 'Identifiant ou code incorrect.';
+            alert.style.display = 'flex';
             btn.disabled = false;
             btn.innerHTML = 'Se connecter';
-            document.getElementById('password').value = '';
-            document.getElementById('password').focus();
+            document.getElementById('f-pass').value = '';
+            document.getElementById('f-pass').focus();
         }
-    }, 600); // légère pause pour effet de feedback
+    }, 600);
 });
 
-function afficherInterface() {
-    const loginPage = document.getElementById('login-page');
-    loginPage.style.transform = 'translateY(-100%)';
-    setTimeout(() => {
-        loginPage.style.display = 'none';
-        const dash = document.getElementById('main-dashboard');
-        dash.style.display = 'flex';
-        document.body.style.overflow = 'auto';
-        mettreAJourStats();
-        afficherRecentsBT();
-    }, 600);
-}
-
-function deconnexion() {
+function logout() {
     if (!confirm('Confirmer la déconnexion ?')) return;
-    sauvegarderDonnees();
-    location.reload();
+    saveData(); location.reload();
 }
 
-// =====================================================================
-// PERSISTANCE localStorage
-// =====================================================================
-function sauvegarderDonnees() {
-    localStorage.setItem('aicha_bt', JSON.stringify(btList));
+// ═══════════════════════════════════════════════════
+// PERSISTANCE
+// ═══════════════════════════════════════════════════
+function saveData() {
+    localStorage.setItem('aicha_bt',   JSON.stringify(btList));
     localStorage.setItem('aicha_plan', JSON.stringify(planList));
-    localStorage.setItem('aicha_bt_counter', btCounter);
+    localStorage.setItem('aicha_ctr',  btCounter);
+}
+function loadData() {
+    var b=localStorage.getItem('aicha_bt'), p=localStorage.getItem('aicha_plan'), c=localStorage.getItem('aicha_ctr');
+    if(b) btList   = JSON.parse(b);
+    if(p) planList = JSON.parse(p);
+    if(c) btCounter= parseInt(c);
+    renderBT(); renderPlan();
 }
 
-function chargerDonnees() {
-    const savedBT = localStorage.getItem('aicha_bt');
-    const savedPlan = localStorage.getItem('aicha_plan');
-    const savedCounter = localStorage.getItem('aicha_bt_counter');
-    if (savedBT)      btList    = JSON.parse(savedBT);
-    if (savedPlan)    planList  = JSON.parse(savedPlan);
-    if (savedCounter) btCounter = parseInt(savedCounter);
-    afficherBTs();
-    afficherPlannings();
+// ═══════════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════════
+function toggleSb() {
+    var sb=document.getElementById('sidebar'), ov=document.getElementById('overlay'), hb=document.getElementById('hamburger');
+    if (sb.classList.contains('open')) { closeSb(); return; }
+    sb.classList.add('open'); ov.style.display='block'; ov.offsetHeight; ov.classList.add('on');
+    hb.setAttribute('aria-expanded','true'); hb.querySelector('i').className='fas fa-times';
+}
+function closeSb() {
+    var sb=document.getElementById('sidebar'), ov=document.getElementById('overlay'), hb=document.getElementById('hamburger');
+    sb.classList.remove('open'); ov.classList.remove('on');
+    hb.setAttribute('aria-expanded','false'); hb.querySelector('i').className='fas fa-bars';
+    setTimeout(function(){ if(!ov.classList.contains('on')) ov.style.display='none'; }, 320);
 }
 
-// =====================================================================
-// SIDEBAR RÉTRACTABLE (mobile)
-// =====================================================================
-function toggleSidebar() {
-    const sidebar   = document.getElementById('sidebar');
-    const overlay   = document.getElementById('sidebar-overlay');
-    const hamburger = document.getElementById('hamburger');
-    const isOpen    = sidebar.classList.contains('open');
-    if (isOpen) {
-        closeSidebar();
-    } else {
-        sidebar.classList.add('open');
-        overlay.style.display = 'block';
-        // forcer le reflow pour que la transition opacity fonctionne
-        overlay.offsetHeight;
-        overlay.classList.add('visible');
-        hamburger.setAttribute('aria-expanded', 'true');
-        hamburger.querySelector('i').className = 'fas fa-times';
-    }
-}
-
-function closeSidebar() {
-    const sidebar   = document.getElementById('sidebar');
-    const overlay   = document.getElementById('sidebar-overlay');
-    const hamburger = document.getElementById('hamburger');
-    sidebar.classList.remove('open');
-    overlay.classList.remove('visible');
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.querySelector('i').className = 'fas fa-bars';
-    // Masquer complètement l'overlay après la transition pour libérer les clics
-    setTimeout(() => {
-        if (!overlay.classList.contains('visible')) {
-            overlay.style.display = 'none';
-        }
-    }, 320);
-}
-
-// =====================================================================
+// ═══════════════════════════════════════════════════
 // NAVIGATION
-// =====================================================================
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-    const menuEl = document.getElementById('menu-' + pageId);
-    if (menuEl) menuEl.classList.add('active');
-    document.getElementById('main-content').scrollTop = 0;
-    // Fermer la sidebar sur mobile après navigation
-    if (window.innerWidth <= 768) closeSidebar();
+// ═══════════════════════════════════════════════════
+function goPage(id) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.sidebar li').forEach(function(li){ li.classList.remove('active'); });
+    var m=document.getElementById('m-'+id); if(m) m.classList.add('active');
+    document.getElementById('main').scrollTop = 0;
+    if (window.innerWidth <= 768) closeSb();
 }
 
-function showSubPage(subId) {
-    document.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
-    document.getElementById('sub-' + subId).classList.add('active');
-    document.querySelectorAll('.sub-nav button').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-    });
-    const btn = document.getElementById('btn-sub-' + subId);
-    if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
+function goSub(id) {
+    // détecter tous les sous-contenus dans la même section
+    var active = document.querySelector('.page.active');
+    if (!active) return;
+    active.querySelectorAll('.sub').forEach(function(s){ s.classList.remove('active'); });
+    active.querySelectorAll('.sub-nav button').forEach(function(b){ b.classList.remove('active'); });
+    var sub = document.getElementById('sub-'+id); if(sub) sub.classList.add('active');
+    var btn = document.getElementById('btn-sub-'+id); if(btn) btn.classList.add('active');
 }
 
-// =====================================================================
+// ═══════════════════════════════════════════════════
 // BONS DE TRAVAUX
-// =====================================================================
+// ═══════════════════════════════════════════════════
 document.getElementById('bt-form').addEventListener('submit', function(e) {
     e.preventDefault();
-
-    const equipement  = document.getElementById('bt-equipement').value;
-    const type        = document.getElementById('bt-type').value;
-    const priorite    = document.getElementById('bt-priorite').value;
-    const description = document.getElementById('bt-description').value.trim();
-    const technicien  = document.getElementById('bt-technicien').value.trim();
-    const pieceChoisie = document.getElementById('search-piece').value.trim();
-
-    // Validation
-    if (!equipement || !type || !priorite || !description) {
-        showToast('Veuillez remplir tous les champs obligatoires.', 'error');
-        return;
-    }
-    if (description.length < 10) {
-        showToast('La description doit comporter au moins 10 caractères.', 'error');
-        return;
-    }
-
+    var equip = document.getElementById('bt-equip').value;
+    var type  = document.getElementById('bt-type').value;
+    var prio  = document.getElementById('bt-prio').value;
+    var desc  = document.getElementById('bt-desc').value.trim();
+    var tech  = document.getElementById('bt-tech').value.trim();
+    if (!equip||!type||!prio||!desc) { toast('Remplissez tous les champs obligatoires.','err'); return; }
+    if (desc.length < 10) { toast('Description trop courte (min 10 caractères).','err'); return; }
     btCounter++;
-    const bt = {
+    var bt = {
         id: btCounter,
-        numero: 'BT-' + String(btCounter).padStart(4, '0'),
-        equipement: pieceChoisie ? equipement + " (" + pieceChoisie + ")" : equipement, type, priorite, description, technicien,
+        numero: 'BT-' + String(btCounter).padStart(4,'0'),
+        equip:equip, type:type, prio:prio, desc:desc, tech:tech,
         date: new Date().toLocaleDateString('fr-FR'),
-        statut: 'Ouvert'
+        statut: 'Ouvert',
+        pieces: piecesSel.map(function(ps){ return {des:ps.piece.des,ref:ps.piece.ref,loc:ps.piece.loc,qty:ps.piece.qty,qte:ps.qte}; })
     };
-
     btList.unshift(bt);
-    sauvegarderDonnees();
-    afficherBTs();
-    afficherRecentsBT();
-    mettreAJourStats();
-
-    // Activer le bouton PDF avec les données du BT
+    saveData(); renderBT(); renderRecent(); updateStats();
+    lastBtId = bt.id;
     document.getElementById('btn-pdf').disabled = false;
-    document.getElementById('btn-pdf').dataset.btId = bt.id;
-    showToast('Bon de travaux ' + bt.numero + ' enregistré !', 'success');
+    document.getElementById('btn-pdf').dataset.id = bt.id;
+    toast('Bon ' + bt.numero + ' enregistré !', 'ok');
     this.reset();
-    viderRecherche();
-    document.getElementById('desc-count').textContent = '0';
+    document.getElementById('desc-c').textContent = '0';
+    piecesSel = []; renderPiecesSel();
 });
 
-function afficherBTs() {
-    const tbody = document.getElementById('bt-tbody');
-    const emptyRow = document.getElementById('bt-empty-row');
-    if (btList.length === 0) {
-        tbody.innerHTML = '<tr id="bt-empty-row"><td colspan="7" style="color:var(--text-muted);text-align:center;padding:20px;">Aucun bon enregistré</td></tr>';
+function renderBT(list) {
+    if (!list) list = btList;
+    var tb = document.getElementById('bt-tbody');
+    if (!list.length) {
+        tb.innerHTML = '<tr><td colspan="8" style="color:var(--text-muted);text-align:center;padding:20px;">Aucun bon enregistré</td></tr>';
+        document.getElementById('bt-count').textContent = '';
         return;
     }
-    tbody.innerHTML = btList.map(bt => `
-        <tr>
-            <td><strong>${bt.numero}</strong></td>
-            <td>${bt.equipement}</td>
-            <td>${bt.type}</td>
-            <td>${badgePriorite(bt.priorite)}</td>
-            <td>${bt.date}</td>
-            <td>${badgeStatut(bt.statut)}</td>
-            <td>
-                <button class="btn-danger-sm" onclick="ouvrirDeleteModal(${bt.id})" 
-                        aria-label="Supprimer ${bt.numero}" title="Supprimer">
-                    <i class="fas fa-trash" aria-hidden="true"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('');
+    tb.innerHTML = list.map(function(bt) {
+        return '<tr>'
+            + '<td><strong>' + bt.numero + '</strong></td>'
+            + '<td>' + esc(bt.equip) + '</td>'
+            + '<td>' + esc(bt.type) + '</td>'
+            + '<td>' + badgePrio(bt.prio) + '</td>'
+            + '<td>' + bt.date + '</td>'
+            + '<td>'
+                + '<select class="statut-sel" onchange="changeStatut(' + bt.id + ',this.value)">'
+                + ['Ouvert','En cours','Clôturé'].map(function(s){ return '<option' + (bt.statut===s?' selected':'') + '>' + s + '</option>'; }).join('')
+                + '</select>'
+            + '</td>'
+            + '<td><button type="button" class="btn-del" onclick="pdfFromList(' + bt.id + ')" title="PDF"><i class="fas fa-file-pdf" style="color:#dc2626"></i></button></td>'
+            + '<td><button type="button" class="btn-del" onclick="openDel(' + bt.id + ')" title="Supprimer"><i class="fas fa-trash"></i></button></td>'
+            + '</tr>';
+    }).join('');
+    document.getElementById('bt-count').textContent = list.length + ' bon(s) affiché(s)';
 }
 
-function afficherRecentsBT() {
-    const tbody = document.getElementById('recent-bt-tbody');
-    const recent = btList.slice(0, 5);
-    if (recent.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px;">Aucun bon enregistré</td></tr>';
-        return;
-    }
-    tbody.innerHTML = recent.map(bt => `
-        <tr>
-            <td><strong>${bt.numero}</strong></td>
-            <td>${bt.equipement}</td>
-            <td>${badgePriorite(bt.priorite)}</td>
-            <td>${bt.date}</td>
-            <td>${badgeStatut(bt.statut)}</td>
-        </tr>
-    `).join('');
+function filterBT() {
+    var statut = document.getElementById('f-statut').value;
+    var prio   = document.getElementById('f-prio').value;
+    var q      = document.getElementById('f-search').value.toLowerCase().trim();
+    var res = btList.filter(function(bt) {
+        return (!statut || bt.statut===statut)
+            && (!prio   || bt.prio===prio)
+            && (!q      || bt.numero.toLowerCase().includes(q) || bt.equip.toLowerCase().includes(q) || bt.desc.toLowerCase().includes(q));
+    });
+    renderBT(res);
 }
 
-function badgePriorite(p) {
-    const map = { 'Urgente': 'danger', 'Haute': 'warning', 'Normale': 'info', 'Basse': 'success' };
-    return `<span class="badge badge-${map[p] || 'info'}">${p}</span>`;
+function renderRecent() {
+    var tb = document.getElementById('recent-tbody');
+    var r  = btList.slice(0,5);
+    if (!r.length) { tb.innerHTML='<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:18px;">Aucun bon enregistré</td></tr>'; return; }
+    tb.innerHTML = r.map(function(bt) {
+        return '<tr><td><strong>' + bt.numero + '</strong></td><td>' + esc(bt.equip) + '</td><td>' + badgePrio(bt.prio) + '</td><td>' + bt.date + '</td><td>' + badgeStat(bt.statut) + '</td></tr>';
+    }).join('');
 }
 
-function badgeStatut(s) {
-    const map = { 'Ouvert': 'info', 'En cours': 'warning', 'Clôturé': 'success' };
-    return `<span class="badge badge-${map[s] || 'info'}">${s}</span>`;
+function changeStatut(id, val) {
+    var bt = btList.find(function(b){ return b.id===id; });
+    if (bt) { bt.statut=val; saveData(); renderRecent(); updateStats(); }
 }
 
-// Suppression
-function ouvrirDeleteModal(id) {
-    btASupprimer = id;
-    document.getElementById('confirm-delete-modal').classList.add('open');
+function badgePrio(p) { var m={'Urgente':'danger','Haute':'warning','Normale':'info','Basse':'success'}; return '<span class="badge b-'+(m[p]||'info')+'">'+p+'</span>'; }
+function badgeStat(s) { var m={'Ouvert':'info','En cours':'warning','Clôturé':'success'}; return '<span class="badge b-'+(m[s]||'info')+'">'+s+'</span>'; }
+
+// ═══════════════════════════════════════════════════
+// SUPPRESSION
+// ═══════════════════════════════════════════════════
+function openDel(id) { toDeleteId=id; document.getElementById('del-modal').classList.add('open'); }
+function closeDelModal() { toDeleteId=null; document.getElementById('del-modal').classList.remove('open'); }
+function doDelete() {
+    btList = btList.filter(function(b){ return b.id!==toDeleteId; });
+    saveData(); renderBT(); renderRecent(); updateStats();
+    closeDelModal(); toast('Bon supprimé.','ok');
 }
+document.getElementById('del-modal').addEventListener('click', function(e){ if(e.target===this) closeDelModal(); });
 
-function closeDeleteModal() {
-    btASupprimer = null;
-    document.getElementById('confirm-delete-modal').classList.remove('open');
-}
-
-function confirmerSuppression() {
-    btList = btList.filter(bt => bt.id !== btASupprimer);
-    sauvegarderDonnees();
-    afficherBTs();
-    afficherRecentsBT();
-    mettreAJourStats();
-    closeDeleteModal();
-    showToast('Bon supprimé.', 'success');
-}
-
-document.getElementById('confirm-delete-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeDeleteModal();
-});
-
-// =====================================================================
+// ═══════════════════════════════════════════════════
 // PLANNING
-// =====================================================================
+// ═══════════════════════════════════════════════════
 document.getElementById('plan-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const date        = document.getElementById('plan-date').value;
-    const machine     = document.getElementById('plan-machine').value;
-    const action      = document.getElementById('plan-action').value.trim();
-    const responsable = document.getElementById('plan-responsable').value.trim();
-
-    if (!date || !machine || !action) {
-        showToast('Veuillez remplir les champs obligatoires.', 'error');
-        return;
-    }
-
-    const entry = {
-        date: new Date(date).toLocaleDateString('fr-FR'),
-        machine, action,
-        responsable: responsable || '—',
-        statut: 'En attente'
-    };
-
-    planList.push(entry);
-    sauvegarderDonnees();
-    afficherPlannings();
-    mettreAJourStats();
-    this.reset();
-    showSubPage('calendrier');
-    showToast('Tâche ajoutée au planning !', 'success');
+    var date = document.getElementById('pl-date').value;
+    var mach = document.getElementById('pl-machine').value;
+    var act  = document.getElementById('pl-action').value.trim();
+    var resp = document.getElementById('pl-resp').value.trim();
+    if (!date||!mach||!act) { toast('Remplissez les champs obligatoires.','err'); return; }
+    planList.push({ date:new Date(date).toLocaleDateString('fr-FR'), machine:mach, action:act, responsable:resp||'—', statut:'En attente' });
+    saveData(); renderPlan(); updateStats();
+    this.reset(); goSub('cal'); toast('Tâche ajoutée !','ok');
 });
 
-function afficherPlannings() {
-    const tbody = document.getElementById('plan-tbody');
-    if (planList.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:20px;">Aucune tâche planifiée</td></tr>';
-        return;
-    }
-    tbody.innerHTML = planList.map((p, i) => `
-        <tr>
-            <td>${p.date}</td>
-            <td>${p.machine}</td>
-            <td>${p.action}</td>
-            <td>${p.responsable}</td>
-            <td><span class="badge badge-${p.statut === 'En attente' ? 'warning' : 'success'}">${p.statut}</span></td>
-            <td>
-                <button class="btn-danger-sm" onclick="supprimerPlan(${i})" aria-label="Supprimer tâche" title="Supprimer">
-                    <i class="fas fa-trash" aria-hidden="true"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('');
+function renderPlan() {
+    var tb = document.getElementById('plan-tbody');
+    if (!planList.length) { tb.innerHTML='<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:18px;">Aucune tâche planifiée</td></tr>'; return; }
+    tb.innerHTML = planList.map(function(p,i) {
+        return '<tr><td>'+p.date+'</td><td>'+p.machine+'</td><td>'+p.action+'</td><td>'+p.responsable+'</td>'
+            +'<td><span class="badge '+(p.statut==='En attente'?'b-warning':'b-success')+'">'+p.statut+'</span></td>'
+            +'<td><button class="btn-del" onclick="delPlan('+i+')"><i class="fas fa-trash"></i></button></td></tr>';
+    }).join('');
 }
 
-function supprimerPlan(idx) {
-    if (!confirm('Supprimer cette tâche du planning ?')) return;
-    planList.splice(idx, 1);
-    sauvegarderDonnees();
-    afficherPlannings();
-    mettreAJourStats();
-    showToast('Tâche supprimée.', 'success');
+function delPlan(i) {
+    if (!confirm('Supprimer cette tâche ?')) return;
+    planList.splice(i,1); saveData(); renderPlan(); updateStats(); toast('Tâche supprimée.','ok');
 }
 
-// =====================================================================
+// ═══════════════════════════════════════════════════
 // STATS
-// =====================================================================
-function mettreAJourStats() {
-    document.getElementById('stat-bt').textContent = btList.length;
-    document.getElementById('stat-plannings').textContent = planList.length;
+// ═══════════════════════════════════════════════════
+function updateStats() {
+    document.getElementById('s-bt').textContent   = btList.length;
+    document.getElementById('s-open').textContent = btList.filter(function(b){ return b.statut==='Ouvert'; }).length;
+    document.getElementById('s-plan').textContent = planList.length;
 }
 
-// =====================================================================
-// GÉNÉRATION PDF (jsPDF pur, sans html2canvas)
-// =====================================================================
-function genererPDF() {
-    const btId = document.getElementById('btn-pdf').dataset.btId;
-    const bt   = btList.find(b => b.id == btId);
-    if (!bt) { showToast('Aucun bon sélectionné.', 'error'); return; }
+// ═══════════════════════════════════════════════════
+// PDF — génération jsPDF propre
+// ═══════════════════════════════════════════════════
+function pdfFromList(id) {
+    document.getElementById('btn-pdf').dataset.id = id;
+    genPDF();
+}
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const W = doc.internal.pageSize.getWidth();
-    const margin = 20;
+function genPDF() {
+    var id = document.getElementById('btn-pdf').dataset.id;
+    var bt = btList.find(function(b){ return b.id==id; });
+    if (!bt) { toast('Aucun bon sélectionné.','err'); return; }
+
+    var doc = new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    var W=doc.internal.pageSize.getWidth(), mg=18;
 
     // En-tête
-    doc.setFillColor(30, 58, 138);
-    doc.rect(0, 0, W, 35, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(18);
-    doc.setFont('helvetica', 'bold');
-    doc.text('AÏCHA MAINTENANCE', margin, 15);
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Bon de Travaux — ' + bt.numero, margin, 24);
-    doc.text('Généré le ' + new Date().toLocaleDateString('fr-FR'), W - margin, 24, { align: 'right' });
+    doc.setFillColor(30,58,138); doc.rect(0,0,W,33,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold'); doc.setFontSize(17);
+    doc.text('AÏCHA MAINTENANCE', mg, 14);
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    doc.text('Bon de Travaux — ' + bt.numero, mg, 23);
+    doc.text('Généré le ' + new Date().toLocaleDateString('fr-FR'), W-mg, 23, {align:'right'});
 
-    // Corps
-    doc.setTextColor(30, 41, 59);
-    let y = 50;
-
-    const champs = [
-        ['Numéro',     bt.numero],
-        ['Équipement', bt.equipement],
-        ['Type',       bt.type],
-        ['Priorité',   bt.priorite],
-        ['Technicien', bt.technicien || '—'],
-        ['Date',       bt.date],
-        ['Statut',     bt.statut],
-    ];
-
-    champs.forEach(([label, valeur]) => {
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
-        doc.text(label + ' :', margin, y);
-        doc.setFont('helvetica', 'normal');
-        doc.text(valeur, margin + 40, y);
-        y += 9;
+    // Fiche
+    doc.setTextColor(30,41,59);
+    var y=44;
+    [['Numéro',bt.numero],['Équipement',bt.equip],['Type',bt.type],
+     ['Priorité',bt.prio],['Technicien',bt.tech||'—'],['Date',bt.date],['Statut',bt.statut]
+    ].forEach(function(row) {
+        doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text(row[0]+' :', mg, y);
+        doc.setFont('helvetica','normal'); doc.text(String(row[1]), mg+38, y); y+=8.5;
     });
 
     // Description
-    y += 5;
-    doc.setFillColor(241, 245, 249);
-    doc.roundedRect(margin, y, W - margin * 2, 50, 3, 3, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.text('Description :', margin + 4, y + 10);
-    doc.setFont('helvetica', 'normal');
-    const lignes = doc.splitTextToSize(bt.description, W - margin * 2 - 10);
-    doc.text(lignes, margin + 4, y + 18);
+    y+=4;
+    doc.setFillColor(241,245,249); doc.roundedRect(mg,y,W-mg*2,42,3,3,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text('Description :', mg+3, y+8);
+    doc.setFont('helvetica','normal');
+    doc.text(doc.splitTextToSize(bt.desc, W-mg*2-8), mg+3, y+16);
+    y+=49;
 
-    // Signature
-    y += 70;
-    doc.setDrawColor(200, 200, 200);
-    doc.line(margin, y, margin + 60, y);
-    doc.line(W - margin - 60, y, W - margin, y);
-    doc.setFontSize(9);
-    doc.setTextColor(100, 116, 139);
-    doc.text('Signature Technicien', margin, y + 6);
-    doc.text('Signature Responsable', W - margin, y + 6, { align: 'right' });
+    // Pièces
+    if (bt.pieces && bt.pieces.length) {
+        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(30,58,138);
+        doc.text('Pièces utilisées :', mg, y); y+=6;
+        doc.setFillColor(30,58,138); doc.rect(mg,y,W-mg*2,7,'F');
+        doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont('helvetica','bold');
+        doc.text('Désignation',mg+2,y+5); doc.text('Référence',mg+88,y+5); doc.text('Empl.',mg+130,y+5); doc.text('Qté',mg+158,y+5); y+=7;
+        doc.setFont('helvetica','normal'); doc.setTextColor(30,41,59);
+        bt.pieces.forEach(function(p,i) {
+            if (i%2===0){ doc.setFillColor(247,250,252); doc.rect(mg,y,W-mg*2,6.5,'F'); }
+            doc.setFontSize(8);
+            doc.text((p.des.length>44?p.des.slice(0,42)+'…':p.des),mg+2,y+4.5);
+            doc.text((p.ref||'—').slice(0,18),mg+88,y+4.5);
+            doc.text(p.loc||'—',mg+130,y+4.5);
+            doc.text(String(p.qte),mg+158,y+4.5);
+            y+=6.5;
+        });
+        y+=4;
+    }
+
+    // Signatures
+    doc.setDrawColor(200,200,200);
+    doc.line(mg,y,mg+55,y); doc.line(W-mg-55,y,W-mg,y);
+    doc.setFontSize(8.5); doc.setTextColor(100,116,139);
+    doc.text('Signature Technicien',mg,y+5);
+    doc.text('Signature Responsable',W-mg,y+5,{align:'right'});
 
     // Pied de page
-    doc.setFillColor(30, 58, 138);
-    doc.rect(0, 285, W, 12, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(8);
-    doc.text('Aïcha Maintenance — Document généré automatiquement', W / 2, 292, { align: 'center' });
+    doc.setFillColor(30,58,138); doc.rect(0,284,W,13,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(7.5);
+    doc.text('Aïcha Maintenance — Document généré automatiquement',W/2,291,{align:'center'});
 
-    doc.save('BT_' + bt.numero + '.pdf');
-    showToast('PDF généré : ' + bt.numero, 'success');
+    doc.save('BT_'+bt.numero+'.pdf');
+    toast('PDF généré : '+bt.numero,'ok');
 }
 
-// =====================================================================
+// ═══════════════════════════════════════════════════
 // UTILITAIRES
-// =====================================================================
-function updateCharCount(textarea, countId) {
-    document.getElementById(countId).textContent = textarea.value.length;
+// ═══════════════════════════════════════════════════
+function updateCount(el,id) { document.getElementById(id).textContent = el.value.length; }
+
+function toast(msg, type) {
+    var t=document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.className = 'show ' + (type||'ok');
+    t.querySelector('i').className = (type==='ok'||!type) ? 'fas fa-check-circle' : type==='warn' ? 'fas fa-exclamation-triangle' : 'fas fa-exclamation-circle';
+    clearTimeout(t._t);
+    t._t = setTimeout(function(){ t.className=''; }, 3500);
 }
 
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('toast');
-    const icon  = toast.querySelector('i');
-    document.getElementById('toast-msg').textContent = message;
-    toast.className = 'show ' + type;
-    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-    clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(() => { toast.className = ''; }, 3500);
-}
-
-// Service Worker
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-}
-</script>
-<script>
-    // 1. Déclarations des variables globales
-    let inventaireCSV = [];
-
-    // 2. Fonctions de chargement
-    async function initialiserCatalogue() {
-        try {
-            const res = await fetch('pieces.csv');
-            const text = await res.text();
-            
-            // On sépare les lignes du fichier
-            const lignes = text.split('\n');
-            
-            // On ignore la première ligne (en-tête) et on traite les autres
-            inventaireCSV = lignes.slice(1).map(l => {
-    if (!l.trim()) return null;
-    
-    // On coupe par point-virgule
-    const c = l.split(';'); 
-    
-    if(c.length >= 2) {
-        return { 
-            // D'après ton image :
-            id: c[1] ? c[1].trim() : 'Sans Réf', // Références est en 2ème position
-            nom: c[0] ? c[0].trim() : 'Inconnu', // Désignations est en 1ère position
-            zone: c[3] ? c[3].trim() : 'N/A',    // Emplacement est en 4ème position
-            stock: c[2] ? c[2].trim() : '0'      // Quantité est en 3ème position
-        };
-    }
-    return null;
-}).filter(p => p !== null);
-            
-            console.log("Catalogue chargé : " + inventaireCSV.length + " pièces.");
-        } catch (err) { 
-            console.error("Erreur de chargement du CSV :", err); 
-        }
-    }
-
-    // 3. Écouteurs d'événements pour la recherche
-    document.getElementById('search-piece').addEventListener('input', function() {
-        const saisie = this.value.toLowerCase();
-        const liste = document.getElementById('results-dropdown');
-        liste.innerHTML = ''; // On vide les anciens résultats
-        
-        // On commence à chercher à partir de 2 caractères
-        if (saisie.length < 2) {
-            liste.style.display = 'none';
-            return;
-        }
-
-        // On filtre dans notre tableau inventaireCSV
-        const filtres = inventaireCSV.filter(p => 
-            p.nom.toLowerCase().includes(saisie) || 
-            p.id.toLowerCase().includes(saisie)
-        ).slice(0, 5); // On limite à 5 résultats pour l'écran mobile
-
-if (filtres.length > 0) {
-            filtres.forEach(p => {
-                const div = document.createElement('div');
-                div.style.padding = '12px';
-                div.style.borderBottom = '1px solid #eee';
-                div.style.cursor = 'pointer';
-                div.style.backgroundColor = 'white';
-                
-                div.innerHTML = `<strong>${p.nom}</strong> <br> <small>${p.id} | ${p.zone}</small>`;
-                
-                // Utilisation de mousedown pour capturer le clic avant que le champ ne se ferme
-                div.onmousedown = function(e) {
-                    e.preventDefault(); // TRÈS IMPORTANT : empêche le bug du clic mobile
-                    
-                    // On remplit les champs avec les données de la pièce choisie
-                    document.getElementById('search-piece').value = p.nom;
-                    document.getElementById('selected-piece-id').value = p.id;
-                    
-                    // On ferme la liste
-                    document.getElementById('results-dropdown').style.display = 'none';
-                    
-                    // Petit retour visuel pour confirmer à l'utilisateur
-                    document.getElementById('search-piece').style.borderColor = "#28a745";
-                    console.log("Sélection réussie :", p.id);
-                };
-                
-                liste.appendChild(div);
-            });
-            liste.style.display = 'block';
-        } else {
-            liste.style.display = 'none';
-        }
-    });
-
-    // Fonction pour vider la recherche (bouton X)
-    function viderRecherche() {
-        document.getElementById('search-piece').value = '';
-        document.getElementById('selected-piece-id').value = '';
-        document.getElementById('results-dropdown').style.display = 'none';
-    }
-
-    // 4. Lancement au chargement du DOM
-    document.addEventListener('DOMContentLoaded', () => {
-        initialiserCatalogue();
-    });
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function(){}); }
 </script>
 </body>
 </html>
