@@ -925,6 +925,7 @@ document.getElementById('bt-form').addEventListener('submit', function(e) {
     const priorite    = document.getElementById('bt-priorite').value;
     const description = document.getElementById('bt-description').value.trim();
     const technicien  = document.getElementById('bt-technicien').value.trim();
+    const pieceChoisie = document.getElementById('search-piece').value.trim();
 
     // Validation
     if (!equipement || !type || !priorite || !description) {
@@ -940,7 +941,7 @@ document.getElementById('bt-form').addEventListener('submit', function(e) {
     const bt = {
         id: btCounter,
         numero: 'BT-' + String(btCounter).padStart(4, '0'),
-        equipement, type, priorite, description, technicien,
+        equipement: pieceChoisie ? equipement + " (" + pieceChoisie + ")" : equipement, type, priorite, description, technicien,
         date: new Date().toLocaleDateString('fr-FR'),
         statut: 'Ouvert'
     };
@@ -954,9 +955,9 @@ document.getElementById('bt-form').addEventListener('submit', function(e) {
     // Activer le bouton PDF avec les données du BT
     document.getElementById('btn-pdf').disabled = false;
     document.getElementById('btn-pdf').dataset.btId = bt.id;
-
     showToast('Bon de travaux ' + bt.numero + ' enregistré !', 'success');
     this.reset();
+    viderRecherche();
     document.getElementById('desc-count').textContent = '0';
 });
 
