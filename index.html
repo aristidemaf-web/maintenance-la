@@ -7,9 +7,13 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="theme-color" content="#1e3a8a">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Font Awesome 6 chargé depuis jsDelivr (plus fiable que cdnjs) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        /* ── ICON FALLBACK : si FA ne charge pas, affiche un texte lisible ── */
+        .fa, .fas, .far, .fab { font-style: normal; }
+
         :root {
             --primary:    #1e3a8a;
             --secondary:  #3b82f6;
@@ -23,7 +27,7 @@
             --border:     #e2e8f0;
             --radius:     12px;
         }
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
         body { background:var(--light-bg); min-height:100vh; overflow-x:hidden; }
 
         /* ── LOGIN ───────────────────────────────── */
@@ -40,7 +44,7 @@
         .logo-aicha { max-width:140px; margin-bottom:12px; background:#fff; padding:8px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,.1); }
         .input-group { margin-bottom:14px; position:relative; text-align:left; }
         .input-group label { display:block; margin-bottom:6px; color:var(--primary); font-weight:600; font-size:.85rem; }
-        .input-group .fi { position:absolute; left:14px; top:37px; color:#94a3b8; pointer-events:none; }
+        .input-group .fi { position:absolute; left:14px; top:37px; color:#94a3b8; pointer-events:none; font-size:14px; }
         .input-group .err { font-size:.75rem; color:var(--danger); margin-top:4px; display:none; }
         .input-group.bad input { border-color:var(--danger); }
         .input-group.bad .err { display:block; }
@@ -65,7 +69,7 @@
         #hamburger {
             display:none; position:fixed; top:13px; left:13px; z-index:300;
             background:var(--primary); color:#fff; border:none; border-radius:10px;
-            width:42px; height:42px; font-size:1.1rem; cursor:pointer;
+            width:42px; height:42px; font-size:1.3rem; cursor:pointer;
             align-items:center; justify-content:center;
             box-shadow:0 3px 10px rgba(0,0,0,.25);
         }
@@ -98,10 +102,11 @@
         .sidebar ul li a {
             color:#fff; text-decoration:none; display:flex; align-items:center;
             padding:11px; border-radius:8px; transition:background .2s; margin-bottom:4px;
+            font-size:.93rem;
         }
         .sidebar ul li a:hover { background:rgba(255,255,255,.15); }
         .sidebar ul li.active a { background:var(--secondary); }
-        .sidebar i { margin-right:13px; width:18px; }
+        .sb-icon { margin-right:13px; width:20px; text-align:center; font-size:15px; }
         .sb-user { border-top:1px solid rgba(255,255,255,.18); padding-top:14px; font-size:.8rem; color:rgba(255,255,255,.7); }
         .sb-user strong { display:block; color:#fff; margin-bottom:2px; }
 
@@ -178,7 +183,7 @@
         .btn-out:hover { background:var(--light-bg); }
         .btn-row  { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
         .btn-row .btn { margin-top:0; flex:1; justify-content:center; }
-        .btn-del  { background:none; border:none; color:var(--danger); cursor:pointer; padding:5px 8px; border-radius:6px; transition:background .2s; }
+        .btn-del  { background:none; border:none; color:var(--danger); cursor:pointer; padding:5px 8px; border-radius:6px; transition:background .2s; font-size:14px; }
         .btn-del:hover { background:#fee2e2; }
 
         /* ── PIÈCES ──────────────────────────────── */
@@ -186,12 +191,10 @@
         .pieces-wrap h3 { color:var(--primary); margin-bottom:8px; font-size:.97rem; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
         #p-status { font-size:.76rem; color:var(--text-muted); display:inline-flex; align-items:center; gap:5px; }
 
-        /* barre de recherche pièce */
         .p-search-box { position:relative; margin-bottom:6px; }
-        .p-search-box .ico { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none; }
+        .p-search-box .ico { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none; font-size:14px; }
         #p-input { padding-left:40px !important; }
 
-        /* dropdown résultats */
         #p-drop {
             display:none; background:#fff; border:1px solid var(--border);
             border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.13);
@@ -207,7 +210,6 @@
         .p-item .pr { color:var(--secondary); font-weight:500; }
         .p-none { padding:16px; text-align:center; color:var(--text-muted); font-size:.86rem; }
 
-        /* pièces sélectionnées */
         #p-selected { display:none; margin-top:10px; }
         .p-sel-lbl { font-size:.76rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:7px; }
         .qty-in { width:54px !important; min-height:unset !important; padding:4px 6px !important; font-size:.83rem !important; text-align:center; }
@@ -254,7 +256,6 @@
         .pdf-name { font-weight:600; font-size:.88rem; }
         .pdf-desc { font-size:.76rem; color:var(--text-muted); }
 
-        /* ── STATUT BT (changement de statut inline) */
         .statut-sel { font-size:.8rem; border:1px solid var(--border); border-radius:6px; padding:3px 6px; background:#fff; cursor:pointer; }
 
         /* ── RESPONSIVE ──────────────────────────── */
@@ -274,6 +275,11 @@
             .btn-del { padding:7px 10px; }
         }
         @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ── ICÔNES SVG INLINE (fallback garanti) ── */
+        .icon { display:inline-block; vertical-align:middle; width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+        .icon-lg { width:20px; height:20px; }
+        .icon-sm { width:14px; height:14px; }
     </style>
 </head>
 <body>
@@ -281,20 +287,24 @@
 <!-- ══════════════ LOGIN ══════════════ -->
 <div id="login-page">
     <div class="login-box">
-        <img src="logo.png" alt="Logo Aïcha" class="logo-aicha">
+        <img src="logo.png" alt="Logo Aïcha" class="logo-aicha"
+             onerror="this.style.display='none'">
         <h1 style="color:var(--primary);font-size:1.35rem;margin-bottom:5px;">ESPACE MAINTENANCE</h1>
         <p style="color:var(--text-muted);font-size:.83rem;margin-bottom:20px;">Connectez-vous pour accéder au système</p>
-        <div id="login-alert"><i class="fas fa-exclamation-circle"></i><span id="login-alert-msg"></span></div>
+        <div id="login-alert">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span id="login-alert-msg"></span>
+        </div>
         <form id="login-form" novalidate>
             <div class="input-group" id="grp-user">
                 <label for="f-user">Identifiant</label>
-                <i class="fas fa-user fi"></i>
+                <svg class="icon fi" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
                 <input type="text" id="f-user" class="has-icon" placeholder="Ex: AIC-2026" autocomplete="username" required>
                 <span class="err">Identifiant requis.</span>
             </div>
             <div class="input-group" id="grp-pass">
                 <label for="f-pass">Code d'accès</label>
-                <i class="fas fa-lock fi"></i>
+                <svg class="icon fi" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                 <input type="password" id="f-pass" class="has-icon" placeholder="••••••••" autocomplete="current-password" required>
                 <span class="err">Code requis.</span>
             </div>
@@ -309,32 +319,55 @@
 <!-- ══════════════ APP ══════════════ -->
 <div id="app">
     <button id="hamburger" onclick="toggleSb()" aria-label="Menu" aria-expanded="false">
-        <i class="fas fa-bars"></i>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
     <div id="overlay" onclick="closeSb()"></div>
 
     <aside class="sidebar" id="sidebar">
-        <button class="sb-close" onclick="closeSb()"><i class="fas fa-times"></i></button>
-        <div class="sb-logo"><img src="logo.png" alt="Logo Aïcha"></div>
+        <button class="sb-close" onclick="closeSb()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        <div class="sb-logo">
+            <img src="logo.png" alt="Logo Aïcha" style="max-width:95px"
+                 onerror="this.outerHTML='<span style=\'color:var(--primary);font-weight:700;font-size:1.1rem\'>AÏCHA</span>'">
+        </div>
         <nav>
             <ul>
                 <li class="active" id="m-accueil">
-                    <a href="#" onclick="goPage('accueil');return false;"><i class="fas fa-tachometer-alt"></i><span>Accueil</span></a>
+                    <a href="#" onclick="goPage('accueil');return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <span>Accueil</span>
+                    </a>
                 </li>
                 <li id="m-bt">
-                    <a href="#" onclick="goPage('bt');return false;"><i class="fas fa-file-invoice"></i><span>Bons</span></a>
+                    <a href="#" onclick="goPage('bt');return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+                        <span>Bons de travaux</span>
+                    </a>
                 </li>
                 <li id="m-plan">
-                    <a href="#" onclick="goPage('plan');return false;"><i class="fas fa-calendar-check"></i><span>Planning</span></a>
+                    <a href="#" onclick="goPage('plan');return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                        <span>Planning</span>
+                    </a>
                 </li>
                 <li id="m-stock">
-                    <a href="#" onclick="goPage('stock');return false;"><i class="fas fa-boxes"></i><span>Stock pièces</span></a>
+                    <a href="#" onclick="goPage('stock');return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-8 9c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zM3 6h18V4H3v2z"/></svg>
+                        <span>Stock pièces</span>
+                    </a>
                 </li>
                 <li id="m-support">
-                    <a href="#" onclick="goPage('support');return false;"><i class="fas fa-headset"></i><span>Support</span></a>
+                    <a href="#" onclick="goPage('support');return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                        <span>Support</span>
+                    </a>
                 </li>
                 <li>
-                    <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i><span>Quitter</span></a>
+                    <a href="#" onclick="logout();return false;">
+                        <svg class="sb-icon icon-lg" viewBox="0 0 24 24" fill="white"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                        <span>Quitter</span>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -356,7 +389,10 @@
                 <div class="stat"><div class="stat-val" style="color:var(--success)">✓</div><div class="stat-lbl">Système OK</div></div>
             </div>
             <div class="card">
-                <h2><i class="fas fa-history"></i> Derniers bons</h2>
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                    Derniers bons
+                </h2>
                 <div class="tc">
                     <table>
                         <thead><tr><th>N°</th><th>Équipement</th><th>Priorité</th><th>Date</th><th>Statut</th></tr></thead>
@@ -371,24 +407,33 @@
         <!-- ── BONS DE TRAVAUX ─────────────────────── -->
         <section id="bt" class="page">
             <div class="sub-nav">
-                <button id="btn-sub-new-bt" class="active" onclick="goSub('new-bt')"><i class="fas fa-plus"></i> Nouveau bon</button>
-                <button id="btn-sub-list-bt" onclick="goSub('list-bt')"><i class="fas fa-list"></i> Liste des bons</button>
+                <button id="btn-sub-new-bt" class="active" onclick="goSub('new-bt')">➕ Nouveau bon</button>
+                <button id="btn-sub-list-bt" onclick="goSub('list-bt')">📋 Liste des bons</button>
             </div>
 
-            <!-- Nouveau BT -->
             <div id="sub-new-bt" class="sub active">
                 <div class="card">
-                    <h2><i class="fas fa-tools"></i> Nouveau Bon de Travaux</h2>
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+                        Nouveau Bon de Travaux
+                    </h2>
                     <form id="bt-form" novalidate>
                         <div class="fg">
                             <div>
                                 <label for="bt-equip">Équipement *</label>
                                 <select id="bt-equip" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option>Sertisseuse SIMA #01</option>
-                                    <option>Compresseur Ligne A</option>
-                                    <option>Convoyeur Ligne B</option>
-                                    <option>Chaudière Centrale</option>
+                                    <option>Convoyeur Trituration TTT-01</option>
+                                    <option>Convoyeur Trituration TTT-02</option>
+                                    <option>Passoire BFR PSR-01</option>
+                                    <option>Passoire BFR PSR-02</option>
+                                    <option>Concentrateur BFR COL-02</option>
+                                    <option>Pompe jus tomate PJU-01</option>
+                                    <option>Circuit pompage CP-01</option>
+                                    <option>Sertisseuse SIMA CD-59</option>
+                                    <option>Chaudière industrielle</option>
+                                    <option>Autoclave stérilisation</option>
+                                    <option>Préchauffeur PRE-01</option>
                                     <option>Autre</option>
                                 </select>
                             </div>
@@ -425,11 +470,15 @@
                         <!-- SECTION PIÈCES -->
                         <div class="pieces-wrap">
                             <h3>
-                                <i class="fas fa-boxes"></i> Pièces de rechange
-                                <span id="p-status"><i class="fas fa-spinner fa-spin"></i> Chargement...</span>
+                                <svg class="icon" viewBox="0 0 24 24"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-8 9c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zM3 6h18V4H3v2z"/></svg>
+                                Pièces de rechange
+                                <span id="p-status">
+                                    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                    Chargement...
+                                </span>
                             </h3>
                             <div class="p-search-box">
-                                <i class="fas fa-search ico"></i>
+                                <svg class="icon ico" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                                 <input type="text" id="p-input" placeholder="Tapez un nom ou une référence..." autocomplete="off">
                             </div>
                             <div id="p-drop"></div>
@@ -445,8 +494,14 @@
                         </div>
 
                         <div class="btn-row">
-                            <button type="submit" class="btn"><i class="fas fa-save"></i> Enregistrer</button>
-                            <button type="button" class="btn btn-red" id="btn-pdf" disabled onclick="genPDF()"><i class="fas fa-file-pdf"></i> Exporter PDF</button>
+                            <button type="submit" class="btn">
+                                <svg class="icon" viewBox="0 0 24 24" fill="white"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+                                Enregistrer
+                            </button>
+                            <button type="button" class="btn btn-red" id="btn-pdf" disabled onclick="genPDF()">
+                                <svg class="icon" viewBox="0 0 24 24" fill="white"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+                                Exporter PDF
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -455,8 +510,10 @@
             <!-- Liste BT -->
             <div id="sub-list-bt" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-list"></i> Bons de Travaux enregistrés</h2>
-                    <!-- Filtres -->
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                        Bons de Travaux enregistrés
+                    </h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
                         <select id="f-statut" onchange="filterBT()" style="flex:1;min-width:120px;padding:8px 10px;font-size:.85rem;">
                             <option value="">Tous statuts</option>
@@ -487,19 +544,22 @@
         <!-- ── PLANNING ────────────────────────────── -->
         <section id="plan" class="page">
             <div class="sub-nav">
-                <button id="btn-sub-cal" class="active" onclick="goSub('cal')">Calendrier</button>
-                <button id="btn-sub-equip" onclick="goSub('equip')">Équipements</button>
-                <button id="btn-sub-add-plan" onclick="goSub('add-plan')">+ Ajouter</button>
+                <button id="btn-sub-cal" class="active" onclick="goSub('cal')">📅 Calendrier</button>
+                <button id="btn-sub-equip" onclick="goSub('equip')">⚙️ Équipements</button>
+                <button id="btn-sub-add-plan" onclick="goSub('add-plan')">➕ Ajouter</button>
             </div>
 
             <div id="sub-cal" class="sub active">
                 <div class="card">
-                    <h2><i class="fas fa-calendar-alt"></i> Planning Préventif</h2>
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                        Planning Préventif
+                    </h2>
                     <div class="tc">
                         <table>
                             <thead><tr><th>Date</th><th>Machine</th><th>Action</th><th>Responsable</th><th>Statut</th><th></th></tr></thead>
                             <tbody id="plan-tbody">
-                                <tr><td>12/05/2026</td><td>SIMA #01</td><td>Vérification courroies</td><td>M. Ahmed</td><td><span class="badge b-warning">En attente</span></td><td>—</td></tr>
+                                <tr><td>12/05/2026</td><td>SIMA CD-59</td><td>Vérification molettes sertissage</td><td>M. Ahmed</td><td><span class="badge b-warning">En attente</span></td><td>—</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -508,14 +568,19 @@
 
             <div id="sub-equip" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-cogs"></i> Inventaire Équipements</h2>
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                        Inventaire Équipements
+                    </h2>
                     <div class="tc">
                         <table>
-                            <thead><tr><th>Code</th><th>Nom</th><th>Zone</th><th>État</th></tr></thead>
+                            <thead><tr><th>Code</th><th>Nom</th><th>Zone</th><th>Criticité AMDEC</th><th>État</th></tr></thead>
                             <tbody>
-                                <tr><td>SIMA-01</td><td>Sertisseuse SIMA</td><td>Ligne A</td><td><span class="badge b-success">Opérationnel</span></td></tr>
-                                <tr><td>COMP-01</td><td>Compresseur Ligne A</td><td>Ligne A</td><td><span class="badge b-success">Opérationnel</span></td></tr>
-                                <tr><td>CONV-01</td><td>Convoyeur Ligne B</td><td>Ligne B</td><td><span class="badge b-warning">Maintenance</span></td></tr>
+                                <tr><td>COL-02</td><td>Concentrateur BFR</td><td>Ligne Tomate</td><td><span class="badge b-danger">IPR 48</span></td><td><span class="badge b-success">Opérationnel</span></td></tr>
+                                <tr><td>PSR-01</td><td>Passoire BFR N°1</td><td>Ligne Tomate</td><td><span class="badge b-danger">IPR 48</span></td><td><span class="badge b-success">Opérationnel</span></td></tr>
+                                <tr><td>PJU-01</td><td>Pompe jus tomate</td><td>Ligne Tomate</td><td><span class="badge b-warning">IPR 24</span></td><td><span class="badge b-warning">Surveillance</span></td></tr>
+                                <tr><td>TTT-01</td><td>Convoyeur Trituration</td><td>Ligne Tomate</td><td><span class="badge b-info">IPR 12</span></td><td><span class="badge b-success">Opérationnel</span></td></tr>
+                                <tr><td>CD-59</td><td>Sertisseuse SIMA-CFT</td><td>Conditionnement</td><td><span class="badge b-warning">IPR 27</span></td><td><span class="badge b-warning">Maintenance</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -524,7 +589,10 @@
 
             <div id="sub-add-plan" class="sub">
                 <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> Nouvelle tâche préventive</h2>
+                    <h2>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                        Nouvelle tâche préventive
+                    </h2>
                     <form id="plan-form" novalidate>
                         <div class="fg">
                             <div><label for="pl-date">Date prévue *</label><input type="date" id="pl-date" required></div>
@@ -532,25 +600,37 @@
                                 <label for="pl-machine">Machine *</label>
                                 <select id="pl-machine" required>
                                     <option value="">— Sélectionner —</option>
-                                    <option>SIMA #01</option>
-                                    <option>Compresseur Ligne A</option>
-                                    <option>Convoyeur Ligne B</option>
+                                    <option>Concentrateur BFR COL-02</option>
+                                    <option>Passoire BFR PSR-01</option>
+                                    <option>Pompe jus tomate PJU-01</option>
+                                    <option>Convoyeur TTT-01</option>
+                                    <option>Sertisseuse SIMA CD-59</option>
+                                    <option>Chaudière industrielle</option>
+                                    <option>Autoclave stérilisation</option>
                                 </select>
                             </div>
-                            <div><label for="pl-action">Action à réaliser *</label><input type="text" id="pl-action" placeholder="Ex: Remplacement filtre" required></div>
-                            <div><label for="pl-resp">Responsable</label><input type="text" id="pl-resp" placeholder="Nom"></div>
+                            <div><label for="pl-action">Action à réaliser *</label><input type="text" id="pl-action" placeholder="Ex: Remplacement garniture mécanique" required></div>
+                            <div><label for="pl-resp">Responsable</label><input type="text" id="pl-resp" placeholder="Nom du technicien"></div>
                         </div>
-                        <button type="submit" class="btn"><i class="fas fa-plus"></i> Ajouter au planning</button>
+                        <button type="submit" class="btn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="white"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                            Ajouter au planning
+                        </button>
                     </form>
                 </div>
             </div>
         </section>
 
-        <!-- ── STOCK PIÈCES (nouvelle page) ──────────── -->
+        <!-- ── STOCK PIÈCES ──────────── -->
         <section id="stock" class="page">
             <div class="card">
-                <h2><i class="fas fa-boxes"></i> Catalogue des pièces</h2>
-                <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:14px;">Consultez et recherchez dans le catalogue complet chargé depuis <code>pieces.csv</code>.</p>
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-8 9c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zM3 6h18V4H3v2z"/></svg>
+                    Catalogue des pièces
+                </h2>
+                <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:14px;">
+                    Consultez et recherchez dans le catalogue complet chargé depuis <code>pieces.csv</code>.
+                </p>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
                     <input type="text" id="stock-search" placeholder="🔍 Rechercher par nom, référence ou emplacement..." oninput="filterStock(this.value)" style="flex:1;padding:9px 12px;font-size:.85rem;">
                     <select id="stock-zone" onchange="filterStock(document.getElementById('stock-search').value)" style="flex:0 0 160px;padding:9px 10px;font-size:.85rem;">
@@ -572,24 +652,33 @@
         <!-- ── SUPPORT ─────────────────────────────── -->
         <section id="support" class="page">
             <div class="card">
-                <h2><i class="fas fa-book-open"></i> Centre de Ressources</h2>
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                    Centre de Ressources
+                </h2>
                 <p style="margin-bottom:18px;color:var(--text-muted);">Accédez aux manuels et schémas techniques en un clic.</p>
-                <h3 style="margin-bottom:10px;font-size:.95rem;"><i class="fas fa-file-pdf"></i> Documents PDF</h3>
+                <h3 style="margin-bottom:10px;font-size:.95rem;display:flex;align-items:center;gap:8px;">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+                    Documents PDF
+                </h3>
                 <a href="manuel_sima.pdf" target="_blank" class="pdf-link" rel="noopener">
-                    <i class="fas fa-file-pdf" style="color:#dc2626;font-size:1.25rem;"></i>
-                    <div class="pdf-info"><div class="pdf-name">Manuel Technique SIMA</div><div class="pdf-desc">Guide complet d'utilisation et maintenance</div></div>
-                    <i class="fas fa-external-link-alt" style="color:var(--text-muted);font-size:.78rem;"></i>
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="#dc2626"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+                    <div class="pdf-info"><div class="pdf-name">Manuel Technique SIMA-CFT</div><div class="pdf-desc">Guide complet d'utilisation et maintenance sertisseuse</div></div>
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
                 </a>
                 <a href="schema_electrique.pdf" target="_blank" class="pdf-link" rel="noopener">
-                    <i class="fas fa-file-pdf" style="color:#dc2626;font-size:1.25rem;"></i>
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="#dc2626"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
                     <div class="pdf-info"><div class="pdf-name">Schémas Électriques Ligne C</div><div class="pdf-desc">Câblage, bornier, tableaux électriques</div></div>
-                    <i class="fas fa-external-link-alt" style="color:var(--text-muted);font-size:.78rem;"></i>
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
                 </a>
-                <h3 style="margin-top:22px;margin-bottom:10px;font-size:.95rem;"><i class="fas fa-phone-alt"></i> Contacts</h3>
-                <div style="background:var(--light-bg);padding:14px;border-radius:10px;display:grid;gap:7px;">
-                    <p><strong>Poste interne :</strong> 405</p>
-                    <p><strong>Responsable :</strong> M. Ahmed</p>
-                    <p><strong>Urgences :</strong> <a href="tel:+212600000000" style="color:var(--secondary);">+212 6 00 00 00 00</a></p>
+                <h3 style="margin-top:22px;margin-bottom:10px;font-size:.95rem;display:flex;align-items:center;gap:8px;">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    Contacts
+                </h3>
+                <div style="background:var(--light-bg);padding:14px;border-radius:10px;display:grid;gap:7px;font-size:.88rem;">
+                    <p>📞 <strong>Poste interne :</strong> 405</p>
+                    <p>👤 <strong>Responsable :</strong> M. Ahmed</p>
+                    <p>🚨 <strong>Urgences :</strong> <a href="tel:+212600000000" style="color:var(--secondary);">+212 6 00 00 00 00</a></p>
                 </div>
             </div>
         </section>
@@ -598,13 +687,19 @@
 </div>
 
 <!-- Toast -->
-<div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
+<div id="toast">
+    <svg class="icon" viewBox="0 0 24 24" fill="white" id="toast-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+    <span id="toast-msg"></span>
+</div>
 
 <!-- Modal suppression BT -->
 <div class="modal-bg" id="del-modal">
     <div class="modal">
-        <h3><i class="fas fa-trash" style="color:var(--danger)"></i> Confirmer la suppression</h3>
-        <p style="color:var(--text-muted);font-size:.88rem;">Cette action est irréversible.</p>
+        <h3 style="display:flex;align-items:center;gap:8px;">
+            <svg class="icon" viewBox="0 0 24 24" fill="#ef4444"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            Confirmer la suppression
+        </h3>
+        <p style="color:var(--text-muted);font-size:.88rem;">Cette action est irréversible. Le bon de travaux sera définitivement supprimé.</p>
         <div class="modal-btns">
             <button class="btn btn-out" onclick="closeDelModal()">Annuler</button>
             <button class="btn-del-confirm" onclick="doDelete()">Supprimer</button>
@@ -614,27 +709,19 @@
 
 <script>
 'use strict';
-// ═══════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════
 const USERS = { 'AIC-2026':'aicha2026', 'admin':'admin123' };
 
-// ═══════════════════════════════════════════════════
-// ÉTAT GLOBAL  (UN SEUL BLOC SCRIPT)
-// ═══════════════════════════════════════════════════
-let currentUser       = null;
-let btList            = [];
-let planList          = [{ date:'12/05/2026', machine:'SIMA #01', action:'Vérification courroies', responsable:'M. Ahmed', statut:'En attente' }];
-let btCounter         = 0;
-let toDeleteId        = null;
-let catalogue         = [];          // pièces CSV
-let piecesSel         = [];          // [{piece, qte}]
-let searchTmr         = null;
-let lastBtId          = null;        // pour activer PDF après enregistrement
+let currentUser = null;
+let btList      = [];
+let planList    = [{ date:'12/05/2026', machine:'SIMA CD-59', action:'Vérification molettes sertissage', responsable:'M. Ahmed', statut:'En attente' }];
+let btCounter   = 0;
+let toDeleteId  = null;
+let catalogue   = [];
+let piecesSel   = [];
+let searchTmr   = null;
+let lastBtId    = null;
 
-// ═══════════════════════════════════════════════════
-// CSV — chargement et parsing
-// ═══════════════════════════════════════════════════
+// ── CSV ──────────────────────────────────────────
 async function loadCSV() {
     var st = document.getElementById('p-status');
     try {
@@ -642,12 +729,12 @@ async function loadCSV() {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         var txt = await r.text();
         catalogue = parseCSV(txt);
-        st.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success)"></i> ' + catalogue.length + ' pièces';
+        st.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24" style="color:var(--success)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> ' + catalogue.length + ' pièces';
         setTimeout(function(){ st.style.display='none'; }, 3500);
         buildStockZones();
         renderStock('', '');
     } catch(e) {
-        st.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i> pieces.csv introuvable';
+        st.innerHTML = '⚠️ pieces.csv introuvable';
         console.warn('CSV:', e.message);
     }
 }
@@ -664,16 +751,11 @@ function parseCSV(txt) {
     }
     return out;
 }
-
 function clean(v) { return v ? v.trim().replace(/^"+|"+$/g,'') : ''; }
 
-// ═══════════════════════════════════════════════════
-// RECHERCHE PIÈCES (BT form)
-// ═══════════════════════════════════════════════════
+// ── RECHERCHE PIÈCES ─────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('p-input').addEventListener('input', function() {
-        searchPieces(this.value);
-    });
+    document.getElementById('p-input').addEventListener('input', function() { searchPieces(this.value); });
     document.addEventListener('click', function(e) {
         var drop = document.getElementById('p-drop');
         var inp  = document.getElementById('p-input');
@@ -691,15 +773,17 @@ function searchPieces(q) {
             return p.des.toLowerCase().includes(lq) || p.ref.toLowerCase().includes(lq) || p.loc.toLowerCase().includes(lq);
         }).slice(0, 30);
         if (!res.length) {
-            drop.innerHTML = '<div class="p-none"><i class="fas fa-search"></i> Aucune pièce pour "' + esc(q) + '"</div>';
+            drop.innerHTML = '<div class="p-none">🔍 Aucune pièce pour "' + esc(q) + '"</div>';
         } else {
             drop.innerHTML = res.map(function(p) {
                 var idx = catalogue.indexOf(p);
                 return '<div class="p-item" onmousedown="event.preventDefault();addPiece(' + idx + ')">'
                     + '<div class="pn">' + highlight(p.des, lq) + '</div>'
-                    + '<div class="pm"><span class="pr"><i class="fas fa-barcode"></i> ' + esc(p.ref||'—') + '</span>'
-                    + '<span><i class="fas fa-map-marker-alt"></i> ' + esc(p.loc||'—') + '</span>'
-                    + '<span><i class="fas fa-cubes"></i> ' + esc(p.qty||'—') + '</span></div></div>';
+                    + '<div class="pm">'
+                    + '<span class="pr">📦 ' + esc(p.ref||'—') + '</span>'
+                    + '<span>📍 ' + esc(p.loc||'—') + '</span>'
+                    + '<span>🔢 ' + esc(p.qty||'—') + '</span>'
+                    + '</div></div>';
             }).join('');
         }
         drop.style.display = 'block';
@@ -711,7 +795,6 @@ function highlight(txt, q) {
     if (i < 0) return esc(txt);
     return esc(txt.slice(0,i)) + '<mark style="background:#bfdbfe;border-radius:2px;padding:0 1px;">' + esc(txt.slice(i,i+q.length)) + '</mark>' + esc(txt.slice(i+q.length));
 }
-
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function addPiece(idx) {
@@ -722,7 +805,7 @@ function addPiece(idx) {
     document.getElementById('p-input').value = '';
     document.getElementById('p-drop').style.display = 'none';
     renderPiecesSel();
-    toast('Pièce ajoutée : ' + p.des, 'ok');
+    toast('✅ Pièce ajoutée : ' + p.des, 'ok');
 }
 
 function renderPiecesSel() {
@@ -737,7 +820,7 @@ function renderPiecesSel() {
             + '<td>' + esc(ps.piece.loc||'—') + '</td>'
             + '<td>' + esc(ps.piece.qty||'—') + '</td>'
             + '<td><input type="number" class="qty-in" min="1" value="' + ps.qte + '" onchange="setQty(' + i + ',this.value)"></td>'
-            + '<td><button type="button" class="btn-del" onclick="remPiece(' + i + ')"><i class="fas fa-times"></i></button></td>'
+            + '<td><button type="button" class="btn-del" onclick="remPiece(' + i + ')" title="Retirer">✕</button></td>'
             + '</tr>';
     }).join('');
 }
@@ -745,9 +828,7 @@ function renderPiecesSel() {
 function setQty(i,v) { var n=parseInt(v); piecesSel[i].qte=(isNaN(n)||n<1)?1:n; }
 function remPiece(i) { piecesSel.splice(i,1); renderPiecesSel(); }
 
-// ═══════════════════════════════════════════════════
-// PAGE STOCK
-// ═══════════════════════════════════════════════════
+// ── PAGE STOCK ───────────────────────────────────
 function buildStockZones() {
     var zones = {};
     catalogue.forEach(function(p){ if(p.loc) zones[p.loc]=1; });
@@ -770,36 +851,32 @@ function filterStock(q) {
 
 function renderStock(q, zone, res) {
     if (!res) res = catalogue;
-    var tb   = document.getElementById('stock-tbody');
-    var cnt  = document.getElementById('stock-count');
-    var lq   = (q||'').toLowerCase().trim();
+    var tb  = document.getElementById('stock-tbody');
+    var cnt = document.getElementById('stock-count');
     cnt.textContent = res.length + ' pièce(s) affichée(s) sur ' + catalogue.length;
     if (!res.length) {
         tb.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">Aucune pièce trouvée</td></tr>';
         return;
     }
-    // affichage limité à 200 lignes pour la performance
     var show = res.slice(0, 200);
     tb.innerHTML = show.map(function(p) {
         var qtyNum = parseInt(p.qty);
         var qtyBadge = isNaN(qtyNum) ? '<span class="badge b-info">' + esc(p.qty||'—') + '</span>'
-            : qtyNum === 0 ? '<span class="badge b-danger">0</span>'
-            : qtyNum <= 2  ? '<span class="badge b-warning">' + qtyNum + '</span>'
+            : qtyNum === 0 ? '<span class="badge b-danger">0 — Rupture</span>'
+            : qtyNum <= 2  ? '<span class="badge b-warning">' + qtyNum + ' — Faible</span>'
             : '<span class="badge b-success">' + qtyNum + '</span>';
-        return '<tr><td>' + esc(p.des) + '</td><td style="color:var(--secondary)">' + esc(p.ref||'—') + '</td><td>' + qtyBadge + '</td><td>' + esc(p.loc||'—') + '</td></tr>';
+        return '<tr><td>' + esc(p.des) + '</td><td style="color:var(--secondary);font-weight:500">' + esc(p.ref||'—') + '</td><td>' + qtyBadge + '</td><td>' + esc(p.loc||'—') + '</td></tr>';
     }).join('');
     if (res.length > 200) {
         tb.innerHTML += '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);font-size:.8rem;padding:10px;">… ' + (res.length-200) + ' résultats supplémentaires — affinez la recherche</td></tr>';
     }
 }
 
-// ═══════════════════════════════════════════════════
-// CONNEXION
-// ═══════════════════════════════════════════════════
+// ── CONNEXION ────────────────────────────────────
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    var user = document.getElementById('f-user').value.trim();
-    var pass = document.getElementById('f-pass').value;
+    var user  = document.getElementById('f-user').value.trim();
+    var pass  = document.getElementById('f-pass').value;
     var alert = document.getElementById('login-alert');
     var btn   = document.getElementById('btn-login');
     var ok    = true;
@@ -807,13 +884,12 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     if (!pass) { document.getElementById('grp-pass').classList.add('bad'); ok=false; } else document.getElementById('grp-pass').classList.remove('bad');
     if (!ok) return;
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+    btn.textContent = 'Connexion...';
     setTimeout(function() {
         if (USERS[user] && USERS[user] === pass) {
             currentUser = user;
             alert.style.display = 'none';
-            loadData();
-            loadCSV();
+            loadData(); loadCSV();
             document.getElementById('sb-user').textContent = user;
             document.getElementById('hero-date').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
             document.getElementById('login-page').style.transform = 'translateY(-100%)';
@@ -827,7 +903,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
             document.getElementById('login-alert-msg').textContent = 'Identifiant ou code incorrect.';
             alert.style.display = 'flex';
             btn.disabled = false;
-            btn.innerHTML = 'Se connecter';
+            btn.textContent = 'Se connecter';
             document.getElementById('f-pass').value = '';
             document.getElementById('f-pass').focus();
         }
@@ -839,9 +915,7 @@ function logout() {
     saveData(); location.reload();
 }
 
-// ═══════════════════════════════════════════════════
-// PERSISTANCE
-// ═══════════════════════════════════════════════════
+// ── PERSISTANCE ──────────────────────────────────
 function saveData() {
     localStorage.setItem('aicha_bt',   JSON.stringify(btList));
     localStorage.setItem('aicha_plan', JSON.stringify(planList));
@@ -855,25 +929,21 @@ function loadData() {
     renderBT(); renderPlan();
 }
 
-// ═══════════════════════════════════════════════════
-// SIDEBAR
-// ═══════════════════════════════════════════════════
+// ── SIDEBAR ──────────────────────────────────────
 function toggleSb() {
     var sb=document.getElementById('sidebar'), ov=document.getElementById('overlay'), hb=document.getElementById('hamburger');
     if (sb.classList.contains('open')) { closeSb(); return; }
     sb.classList.add('open'); ov.style.display='block'; ov.offsetHeight; ov.classList.add('on');
-    hb.setAttribute('aria-expanded','true'); hb.querySelector('i').className='fas fa-times';
+    hb.setAttribute('aria-expanded','true');
 }
 function closeSb() {
     var sb=document.getElementById('sidebar'), ov=document.getElementById('overlay'), hb=document.getElementById('hamburger');
     sb.classList.remove('open'); ov.classList.remove('on');
-    hb.setAttribute('aria-expanded','false'); hb.querySelector('i').className='fas fa-bars';
+    hb.setAttribute('aria-expanded','false');
     setTimeout(function(){ if(!ov.classList.contains('on')) ov.style.display='none'; }, 320);
 }
 
-// ═══════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════
+// ── NAVIGATION ───────────────────────────────────
 function goPage(id) {
     document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
@@ -882,9 +952,7 @@ function goPage(id) {
     document.getElementById('main').scrollTop = 0;
     if (window.innerWidth <= 768) closeSb();
 }
-
 function goSub(id) {
-    // détecter tous les sous-contenus dans la même section
     var active = document.querySelector('.page.active');
     if (!active) return;
     active.querySelectorAll('.sub').forEach(function(s){ s.classList.remove('active'); });
@@ -893,9 +961,7 @@ function goSub(id) {
     var btn = document.getElementById('btn-sub-'+id); if(btn) btn.classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════
-// BONS DE TRAVAUX
-// ═══════════════════════════════════════════════════
+// ── BONS DE TRAVAUX ──────────────────────────────
 document.getElementById('bt-form').addEventListener('submit', function(e) {
     e.preventDefault();
     var equip = document.getElementById('bt-equip').value;
@@ -919,7 +985,7 @@ document.getElementById('bt-form').addEventListener('submit', function(e) {
     lastBtId = bt.id;
     document.getElementById('btn-pdf').disabled = false;
     document.getElementById('btn-pdf').dataset.id = bt.id;
-    toast('Bon ' + bt.numero + ' enregistré !', 'ok');
+    toast('✅ Bon ' + bt.numero + ' enregistré !', 'ok');
     this.reset();
     document.getElementById('desc-c').textContent = '0';
     piecesSel = []; renderPiecesSel();
@@ -940,13 +1006,11 @@ function renderBT(list) {
             + '<td>' + esc(bt.type) + '</td>'
             + '<td>' + badgePrio(bt.prio) + '</td>'
             + '<td>' + bt.date + '</td>'
-            + '<td>'
-                + '<select class="statut-sel" onchange="changeStatut(' + bt.id + ',this.value)">'
+            + '<td><select class="statut-sel" onchange="changeStatut(' + bt.id + ',this.value)">'
                 + ['Ouvert','En cours','Clôturé'].map(function(s){ return '<option' + (bt.statut===s?' selected':'') + '>' + s + '</option>'; }).join('')
-                + '</select>'
-            + '</td>'
-            + '<td><button type="button" class="btn-del" onclick="pdfFromList(' + bt.id + ')" title="PDF"><i class="fas fa-file-pdf" style="color:#dc2626"></i></button></td>'
-            + '<td><button type="button" class="btn-del" onclick="openDel(' + bt.id + ')" title="Supprimer"><i class="fas fa-trash"></i></button></td>'
+            + '</select></td>'
+            + '<td><button type="button" class="btn-del" onclick="pdfFromList(' + bt.id + ')" title="Générer PDF">📄</button></td>'
+            + '<td><button type="button" class="btn-del" onclick="openDel(' + bt.id + ')" title="Supprimer">🗑️</button></td>'
             + '</tr>';
     }).join('');
     document.getElementById('bt-count').textContent = list.length + ' bon(s) affiché(s)';
@@ -981,9 +1045,7 @@ function changeStatut(id, val) {
 function badgePrio(p) { var m={'Urgente':'danger','Haute':'warning','Normale':'info','Basse':'success'}; return '<span class="badge b-'+(m[p]||'info')+'">'+p+'</span>'; }
 function badgeStat(s) { var m={'Ouvert':'info','En cours':'warning','Clôturé':'success'}; return '<span class="badge b-'+(m[s]||'info')+'">'+s+'</span>'; }
 
-// ═══════════════════════════════════════════════════
-// SUPPRESSION
-// ═══════════════════════════════════════════════════
+// ── SUPPRESSION ──────────────────────────────────
 function openDel(id) { toDeleteId=id; document.getElementById('del-modal').classList.add('open'); }
 function closeDelModal() { toDeleteId=null; document.getElementById('del-modal').classList.remove('open'); }
 function doDelete() {
@@ -993,9 +1055,7 @@ function doDelete() {
 }
 document.getElementById('del-modal').addEventListener('click', function(e){ if(e.target===this) closeDelModal(); });
 
-// ═══════════════════════════════════════════════════
-// PLANNING
-// ═══════════════════════════════════════════════════
+// ── PLANNING ─────────────────────────────────────
 document.getElementById('plan-form').addEventListener('submit', function(e) {
     e.preventDefault();
     var date = document.getElementById('pl-date').value;
@@ -1005,7 +1065,7 @@ document.getElementById('plan-form').addEventListener('submit', function(e) {
     if (!date||!mach||!act) { toast('Remplissez les champs obligatoires.','err'); return; }
     planList.push({ date:new Date(date).toLocaleDateString('fr-FR'), machine:mach, action:act, responsable:resp||'—', statut:'En attente' });
     saveData(); renderPlan(); updateStats();
-    this.reset(); goSub('cal'); toast('Tâche ajoutée !','ok');
+    this.reset(); goSub('cal'); toast('✅ Tâche ajoutée !','ok');
 });
 
 function renderPlan() {
@@ -1014,7 +1074,7 @@ function renderPlan() {
     tb.innerHTML = planList.map(function(p,i) {
         return '<tr><td>'+p.date+'</td><td>'+p.machine+'</td><td>'+p.action+'</td><td>'+p.responsable+'</td>'
             +'<td><span class="badge '+(p.statut==='En attente'?'b-warning':'b-success')+'">'+p.statut+'</span></td>'
-            +'<td><button class="btn-del" onclick="delPlan('+i+')"><i class="fas fa-trash"></i></button></td></tr>';
+            +'<td><button class="btn-del" onclick="delPlan('+i+')" title="Supprimer">🗑️</button></td></tr>';
     }).join('');
 }
 
@@ -1023,32 +1083,22 @@ function delPlan(i) {
     planList.splice(i,1); saveData(); renderPlan(); updateStats(); toast('Tâche supprimée.','ok');
 }
 
-// ═══════════════════════════════════════════════════
-// STATS
-// ═══════════════════════════════════════════════════
+// ── STATS ─────────────────────────────────────────
 function updateStats() {
     document.getElementById('s-bt').textContent   = btList.length;
     document.getElementById('s-open').textContent = btList.filter(function(b){ return b.statut==='Ouvert'; }).length;
     document.getElementById('s-plan').textContent = planList.length;
 }
 
-// ═══════════════════════════════════════════════════
-// PDF — génération jsPDF propre
-// ═══════════════════════════════════════════════════
-function pdfFromList(id) {
-    document.getElementById('btn-pdf').dataset.id = id;
-    genPDF();
-}
+// ── PDF ───────────────────────────────────────────
+function pdfFromList(id) { document.getElementById('btn-pdf').dataset.id = id; genPDF(); }
 
 function genPDF() {
     var id = document.getElementById('btn-pdf').dataset.id;
     var bt = btList.find(function(b){ return b.id==id; });
     if (!bt) { toast('Aucun bon sélectionné.','err'); return; }
-
     var doc = new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
     var W=doc.internal.pageSize.getWidth(), mg=18;
-
-    // En-tête
     doc.setFillColor(30,58,138); doc.rect(0,0,W,33,'F');
     doc.setTextColor(255,255,255);
     doc.setFont('helvetica','bold'); doc.setFontSize(17);
@@ -1056,8 +1106,6 @@ function genPDF() {
     doc.setFont('helvetica','normal'); doc.setFontSize(10);
     doc.text('Bon de Travaux — ' + bt.numero, mg, 23);
     doc.text('Généré le ' + new Date().toLocaleDateString('fr-FR'), W-mg, 23, {align:'right'});
-
-    // Fiche
     doc.setTextColor(30,41,59);
     var y=44;
     [['Numéro',bt.numero],['Équipement',bt.equip],['Type',bt.type],
@@ -1066,16 +1114,12 @@ function genPDF() {
         doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text(row[0]+' :', mg, y);
         doc.setFont('helvetica','normal'); doc.text(String(row[1]), mg+38, y); y+=8.5;
     });
-
-    // Description
     y+=4;
     doc.setFillColor(241,245,249); doc.roundedRect(mg,y,W-mg*2,42,3,3,'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text('Description :', mg+3, y+8);
     doc.setFont('helvetica','normal');
     doc.text(doc.splitTextToSize(bt.desc, W-mg*2-8), mg+3, y+16);
     y+=49;
-
-    // Pièces
     if (bt.pieces && bt.pieces.length) {
         doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(30,58,138);
         doc.text('Pièces utilisées :', mg, y); y+=6;
@@ -1094,33 +1138,29 @@ function genPDF() {
         });
         y+=4;
     }
-
-    // Signatures
     doc.setDrawColor(200,200,200);
     doc.line(mg,y,mg+55,y); doc.line(W-mg-55,y,W-mg,y);
     doc.setFontSize(8.5); doc.setTextColor(100,116,139);
     doc.text('Signature Technicien',mg,y+5);
     doc.text('Signature Responsable',W-mg,y+5,{align:'right'});
-
-    // Pied de page
     doc.setFillColor(30,58,138); doc.rect(0,284,W,13,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(7.5);
-    doc.text('Aïcha Maintenance — Document généré automatiquement',W/2,291,{align:'center'});
-
+    doc.text('Aïcha Maintenance — Document généré automatiquement — ' + new Date().toLocaleDateString('fr-FR'),W/2,291,{align:'center'});
     doc.save('BT_'+bt.numero+'.pdf');
-    toast('PDF généré : '+bt.numero,'ok');
+    toast('✅ PDF généré : '+bt.numero,'ok');
 }
 
-// ═══════════════════════════════════════════════════
-// UTILITAIRES
-// ═══════════════════════════════════════════════════
+// ── UTILITAIRES ───────────────────────────────────
 function updateCount(el,id) { document.getElementById(id).textContent = el.value.length; }
 
 function toast(msg, type) {
-    var t=document.getElementById('toast');
+    var t   = document.getElementById('toast');
+    var ico = document.getElementById('toast-icon');
     document.getElementById('toast-msg').textContent = msg;
     t.className = 'show ' + (type||'ok');
-    t.querySelector('i').className = (type==='ok'||!type) ? 'fas fa-check-circle' : type==='warn' ? 'fas fa-exclamation-triangle' : 'fas fa-exclamation-circle';
+    if(type==='ok'||!type) ico.innerHTML='<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>';
+    else if(type==='warn') ico.innerHTML='<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>';
+    else ico.innerHTML='<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>';
     clearTimeout(t._t);
     t._t = setTimeout(function(){ t.className=''; }, 3500);
 }
@@ -1129,4 +1169,5 @@ if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').ca
 </script>
 </body>
 </html>
+
 
